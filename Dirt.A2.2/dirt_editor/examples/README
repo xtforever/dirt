@@ -1,0 +1,32 @@
+/* $Xukc: README,v 1.3 90/11/04 16:47:34 rlh2 Rel $ */
+
+		Dirt UI builder example applications
+
+Release: Alpha
+Author: Richard Hesketh (rlh2@ukc.ac.uk)
+
+This directory contains example Dirt generated user interfaces and a single
+minimal application driving program.
+
+These examples are built during the toplevel "make World" and can be remade
+using just "make" in this directory.  To run any of these examples you
+should set on of the following environment variables to the absolute pathname
+of this directory, e.g.:
+
+	% setenv XAPPLRESDIR `pwd`
+or
+	% setenv XUSERFILESEARCHPATH `pwd`
+
+then just type the example name.
+
+The "templates" directory contains example templates for Dirt to use.
+To use these templates you must use the "-templates" flag to dirt, e.g.:
+
+	% dirt -templates examples/templates
+
+To load in any of the example dirt specification files you can use:
+
+	% dirt -specFile [ perly | resource | ... ]
+
+Be careful about saving changes to these files, they are set to read-only
+in the distribution.

@@ -1,0 +1,53 @@
+The two changes I had to make to the Motif 1.1 source are described
+here, they relate to a problem in the Base Class object and one in the Virtual
+Keys support.  I am not saying that these fixes are 100% correct but they do
+seem to fix the problems seen with Dirt and you should be able to run it
+with these fixes in place.  Descriptions follow and context diffs are at the
+end of this file.
+
+In Xm/BaseClass.c in the InitializeRootWrapper() routine there is a check on
+the parent of a new widget.  This check looks to see that new widget instance
+has a non-NULL parent and that the parent is a constraint class widget.
+If both these tests are true it goes on to replace the constraint class
+initialize method of the parent.  This is wrong if the child is infact a
+shell class because its real parent is not the given one in the child's
+instance structure but the root window.  Thus the check needs to be extended
+to include a test that the child is not a shell.  Therefore insert
+"&& !XtIsShell(new)" in an appropriate place in the "if" check.
+
+In Xm/VirtKeys.c in the CreateVirtualBindingsData() routine there is a "for"
+loop that traverses up the object instance tree to find the nearest instance
+of an ApplicationShellWidgetClass.  If however the object instance tree does
+not contain an instance of this class a NULL is de-referenced and core
+dumps.  The temporary fix is therefore to make a check that the widget that
+is to be tested to see if it is an instance of the ApplicationShellWidgetClass
+is non-NULL and to drop out of the "for" loop if it is NULL.
+
+
+--------- Apply by hand or using patch ---------
+
+*** /s/X11/Motif1.1/lib/Xm/BaseClass.c	Wed Aug 15 18:33:08 1990
+--- BaseClass.c	Wed Feb 20 09:26:40 1991
+***************
+*** 602,604 ****
+  
+! 		if (XtParent(new) && XtIsConstraint(XtParent(new)))
+  		  {
+--- 602,605 ----
+  
+! 		if (XtParent(new) && XtIsConstraint(XtParent(new))
+! 		    && !XtIsShell(new))
+  		  {
+
+*** /s/X11/Motif1.1/lib/Xm/VirtKeys.c	Wed Aug 15 18:53:42 1990
+--- VirtKeys.c	Wed Feb 20 09:26:40 1991
+***************
+*** 718,720 ****
+  
+!     for(; !XtIsApplicationShell(shell); shell = XtParent(shell)) {};
+      /*
+--- 718,721 ----
+  
+!     for(; !XtIsApplicationShell(shell) && XtParent(shell) != NULL;)
+! 		shell = XtParent(shell);
+      /*

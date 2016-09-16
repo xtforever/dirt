@@ -1,0 +1,147 @@
+.\" $Xukc: UKCMenuPane.man,v 1.2 90/09/22 17:32:22 rlh2 Rel $
+.\"
+.\" Add simple keeps to MAN macros so .TS/.TE will work
+.\"
+.de KS	\"	Keep start
+.br
+.in 0
+.di KP
+..
+.de KE	\" 	Keep end
+.br
+.di
+.ne \\n(dnu
+.nr fI \\n(.u
+.nf
+.KP
+.if \\n(fI .fi
+.in
+..
+.TH "UKCMENUPANE" "LOCAL X"
+.na
+.nh
+.SH NAME
+UKCMenuPaneWidgetClass \- An X Widget for creating menu panes.
+.SH SYNOPSIS
+\fB
+.B #include <X11/StringDefs.h>
+.br
+.B #include <X11/Intrinsic.h>
+.br
+.br
+\fB#include <X11/Xukc/MenuPane.h>
+\fR
+.SH CLASSES
+A subclass of Core, Composite and ConstraintClass.
+.P
+The widget class to use when creating a 
+.I UKCMenuPane\^
+widget is \fBukcMenuPaneWidgetClass\fP.
+.P
+The class name of 
+.I UKCMenuPane\^
+is "UKCMenuPane".
+.SH DESCRIPTION
+The \fIUKCMenuPane\fP provides a convenient method for creating menus. The
+\fIUKCMenuPane\fP looks after its children in either a horizontal or vertical
+arrangement and resizes its managed children proportionally to the change
+in its size. A \fIUKCMenuPane\fP will only control children who are in its
+currently managed set. When a child is managed or unmanaged and the
+\fIUKCMenuPane\fP has been realized, its siblings are resized to make room for
+the new child or to take up the child's space. The \fIUKCMenuPane\fP never
+makes requests to its parent for a change in its geometry and is content
+with whatever geometry it is given. \fIUKCMenuPane\fP widgets can be nested
+to allow for a combination of vertical and horizontal menu layouts in
+a parent menu. Children of a \fIUKCMenuPane\fP are normally of the \fICommand\fP
+subclass, however any class of widget is accepted by a \fIUKCMenuPane\fP.
+Children of a vertical \fIUKCMenuPane\fP are laid out from top to bottom with
+their borders overlapping. Children of a horizontal \fIUKCMenuPane\fP are
+laid out
+from side to side with their borders overlapping. Children are laid out in
+the order that they were created (by calls to XtCreateWidget). Therefore
+if a child becomes managed it is placed immeadiately below/to the side of
+the sibling that was created before it. The size of a \fIUKCMenuPane\fP
+defaults to the size of its parent.
+.SH "NEW RESOURCES"
+To specify any of these resources within a resource defaults file,
+simply drop the \fIXtN\fP prefix from the resource name.
+.I UKCMenuPane\^
+defines the following new resources:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+UKCMenuPane Resource Set
+Name	Class	Type	Default
+_
+XtNvertPane	XtCVertpane	Boolean	TRUE
+XtNaskChild	XtCAskchild	Boolean	TRUE
+.TE
+.KE
+.sp 1
+.IP \fBXtNvertPane\fP
+Indicates whether the pane is considered vertical (TRUE) or horizontal
+(FALSE). Vertical panes position their children so that their widths
+are the same as the pane's width. A child's height is not initially decided by
+the pane. Children are laid out top to bottom.
+Horizontal panes position their children so that their heights are the same
+as the pane's height. A child's width is not initially decided by the pane.
+Children are laid out side by side.
+The pane does however control resizing of its children.
+.IP \fBXtNaskChild\fP
+If TRUE the pane will ask its children their preferred size (using
+XtQueryGeometry) whenever a child becomes managed or unmanaged.
+If FALSE the pane will assume the childs current size is preferred.
+.SH "CONSTRAINT RESOURCES"
+No public constraint resources are added by the \fIUKCMenuPane\fP class.
+.bp
+.SH "INHERITED RESOURCES"
+The following resources are inherited from the named superclasses:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Core Resource Set -- CORE(3X)
+Name	Class	Type	Default
+_
+XtNscreen	XtCScreen	XScreen *	0
+XtNcolormap	XtCColormap	Pointer	NULL
+XtNancestorSensitive	XtCAncestorSenstitive	Boolean	TRUE
+XtNx	XtCX	int	0
+XtNy	XtCY	int	0
+XtNwidth	XtCWidth	int	10
+XtNheight	XtCHeight	int	10
+XtNdepth	XtCDepth	int	0
+XtNbackground	XtCBackground	Pixel	White
+XtNborderWidth	XtCBorderWidth	int	0
+XtNborder	XtCBorder	Pixel	Black
+XtNsensitive	XtCSensitive	Boolean	TRUE
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	TRUE
+XtNdestroyCallback	XtCCallback	Pointer	NULL
+.TE
+.KE
+.sp 1
+.SH "TRANSLATIONS"
+There are no default translations in the \fIUKCMenuPane\fP class.
+.SH "ACTIONS"
+There are no actions added by the \fIUKCMenuPane\fP class.
+.SH AUTHOR
+Richard Hesketh.
+.br
+rlh2@ukc.ac.uk		..!mcvax!ukc!rlh2
+.br
+Computing Lab., University of Kent at Canterbury, UK.
+.SH SEE ALSO
+\fIpanetest\fP - example test program using \fIUKCMenuPane\fP's
+.br
+\fIX Toolkit Widgets - C Language X Interface\fP,
+.br
+\fIX Toolkit Intrinsics - C Language X Interface\fP,
+.br
+\fIXlib - C Language Interface, Protocol Version 11\fP.

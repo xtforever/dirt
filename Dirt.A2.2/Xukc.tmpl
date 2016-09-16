@@ -1,0 +1,160 @@
+#ifndef XCOMM
+#define XCOMM /**/
+#endif
+
+XCOMM# SCCSID: @(#)Xukc.tmpl	1.3 (UKC) 5/17/92
+XCOMM#
+XCOMM# Template file for Xukc/Dirt release
+XCOMM#
+
+  RELEASE = Alpha.2
+
+  PWD = /bin/pwd
+  CD = cd
+  ABSOLUTE_TOP = `$(CD) $(TOP); $(PWD)`
+  ALLINCLUDES = $(INCLUDES) $(EXTRA_INCLUDES) $(TOP_INCLUDES) $(STD_INCLUDES)
+
+XCOMM# These are the defaults for building Xukc/Dirt in this directory
+XCOMM# hierarchy.  They are overridden by the install part of the Dirt
+XCOMM# Imakefile.
+RESOURCES_PATH = -DFILE_SEARCH_PATH=\"XUSERFILESEARCHPATH=`$(PWD)`/%N\"
+BITMAP_PATH = -DBITMAP_SEARCH_PATH=\"$(ABSOLUTE_TOP)/X11/Xukc/bitmaps\"
+
+XCOMM# By default we just support the Athena and Xukc Widget Sets.
+#define UseAthenaWidgetSet YES
+#define UseUKCWidgetSet YES
+
+  DEPHPLIB = -lXw
+  HPLIB = LoaderLibPrefix $(DEPHPLIB)
+
+  DEPMOTIFLIB = -lXm
+  MOTIFLIB = LoaderLibPrefix $(DEPMOTIFLIB)
+
+  EXTRALIB = LoaderLibPrefix $(DEPEXTRALIB)
+
+  UKC_INCLUDES = $(MOTIF_INCLUDES)
+
+#ifdef UseInstalled
+  MKDIRHIER = BourneShell $(BINDIR)/mkdirhier
+#endif /* UseInstalled */
+
+XCOMM#  Override anything in this template file in the site.def file 
+#include "./dirt_site.def"
+
+#ifndef XukcLibrary
+#define XukcLibrary -lXukc
+#endif
+
+#ifndef WcLibrary
+#define WcLibrary -lWc
+#endif
+
+#if defined(UseInstalledXukc) && UseInstalledXukc == YES
+  DEPXUKCLIB =
+  XUKCLIB = LoaderLibPrefix XukcLibrary -L$(USRLIBDIR)
+#else
+  DEPXUKCLIB = $(TOP)/lib/Xukc/libXukc.a
+#if defined(HasSunOSSharedLibraries) && HasSunOSSharedLibraries == YES
+  XUKCLIB = LoaderLibPrefix -L$(TOP)/lib/Xukc -lXukc
+#else
+  XUKCLIB = LoaderLibPrefix $(DEPXUKCLIB)
+#endif
+#endif
+
+#if defined(UseInstalledWcl) && UseInstalledWcl == YES
+  DEPWCLIB = 
+  WCLIB = LoaderLibPrefix WcLibrary -L$(USRLIBDIR)
+#else
+  DEPWCLIB = $(TOP)/lib/Wc/libWc.a
+#if defined(HasSunOSSharedLibraries) && HasSunOSSharedLibraries == YES
+  WCLIB = LoaderLibPrefix -L$(TOP)/lib/Wc -lWc
+#else
+  WCLIB = LoaderLibPrefix $(DEPWCLIB) 
+#endif
+#endif
+
+#if UseAthenaWidgetSet
+USE_XAW = -DXAW
+#endif
+
+#if UseUKCWidgetSet
+USE_UKC = -DUKC_WIDGETS
+#endif
+
+#if UseHPWidgetSet
+USE_HP = -DHP_WIDGETS
+#else
+DEPHPLIB =
+#endif
+
+#if UseMotifWidgetSet
+USE_MOTIF = -DMOTIF_WIDGETS
+#else
+DEPMOTIFLIB =
+#endif
+
+DIRT_DEFINES = $(USE_XAW) $(USE_UKC) $(USE_HP) $(USE_MOTIF) $(EXTRA_WIDGETS)
+
+#ifndef XukcClientDepLibs
+#define XukcClientDepLibs $(DEPEXTRALIB) $(DEPXUKCLIB) $(DEPWCLIB)
+#endif
+
+#ifndef XukcClientLibs
+#define XukcClientLibs $(EXTRALIB) $(XUKCLIB) $(MOTIFLIB) $(HPLIB) $(WCLIB)
+#endif
+
+#if HasSunOSSharedLibraries
+#ifndef SharedXukcRev
+#define SharedXukcRev 1.1
+#endif
+#ifndef SharedLibXukc
+#define SharedLibXukc YES
+#endif
+#ifndef SharedWclRev
+#define SharedWclRev 1.6
+#endif
+#ifndef SharedLibWcl
+#define SharedLibWcl YES
+#endif
+#endif
+
+#ifndef SharedLibXukc
+#define SharedLibXukc NO
+#endif
+
+#ifndef DebugLibXukc
+#define DebugLibXukc NO
+#endif
+
+#ifndef ProfileLibXukc
+#define ProfileLibXukc NO
+#endif
+
+#ifndef SharedLibWcl
+#define SharedLibWcl NO
+#endif
+
+#ifndef DebugLibWcl
+#define DebugLibWcl NO
+#endif
+
+#ifndef ProfileLibWcl
+#define ProfileLibWcl NO
+#endif
+
+#ifndef UseGnuMalloc
+#define UseGnuMalloc NO
+#endif
+
+  UKCTOP = .
+  UKCLIBSRC = $(UKCTOP)/lib/Xukc
+  SOXUKCREV = SharedXukcRev
+  SOWCLREV = SharedLibWcl
+
+  DEFINES = AllocateLocalDefines $(DIRT_DEFINES) $(ARCHITECT_FLAGS)
+
+#ifndef XukcLibIncludes
+#define XukcLibIncludes -I$(UKCLIBSRC)
+#endif
+
+  UKCINCDIR = $(INCDIR)/Xukc

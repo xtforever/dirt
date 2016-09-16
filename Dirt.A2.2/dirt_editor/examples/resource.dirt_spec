@@ -1,0 +1,259 @@
+%%ID  DIRT! 1.4 (c)1990 rlh2@ukc.ac.uk : UI Specification file
+%%ID  Application = "resEd"
+%%ID  Created by rlh2 on Mon Dec 16 16:32:39 1991
+%%%
+%% DIRT! 1.2 (c)1989 rlh2@ukc.ac.uk : UI Specification file
+%% Application = "resEd"
+%% Created by rlh2 on Sat Jun 30 16:37:13 1990
+%A resEd
+%C ResEd
+%R x : 64
+%R y : 186
+%R width : 601
+%R height : 649
+%R borderWidth : 0
+%R geometry : 601x649+490+207
+%F
+%%%
+%N mainLayout
+%c ukcLayoutWidgetClass
+%p resEd
+%m true
+%o false
+%s x : 0
+%s y : 0
+%s width : 601
+%s height : 649
+%s borderWidth : 0
+%f
+%%%
+%N  mouseHole
+%c  ukcMouseWidgetClass
+%p  resEd.mainLayout
+%m  true
+%o  false
+%s  x : 442
+%s  y : 4
+%s  width : 153
+%s  height : 49
+%s  borderWidth : 1
+%z  horizFixed : true
+%z  vertFixed : true
+%f
+%%%
+%N  title
+%c  ukcLabelWidgetClass
+%p  resEd.mainLayout
+%m  true
+%o  false
+%s  x : 0
+%s  y : 0
+%s  width : 442
+%s  height : 20
+%s  borderWidth : 0
+%z  vertFixed : true
+%z  horizFixed : false
+%r  label : X Resource Editor
+%r  justify : left
+%r  font : -Adobe-New Century Schoolbook-Bold-R-Normal--18-180-75-75-P-113-ISO8859-1
+%r  verticalJustify : top
+%f
+%%%
+%N  mainMenu
+%c  ukcMed3MenuWidgetClass
+%p  resEd.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 28
+%s  width : 432
+%s  height : 25
+%s  borderWidth : 1
+%z  vertFixed : true
+%r  menuFile : /s/rlh2/toolkit/resource_editor/menu.c
+%f
+%%%
+%N  mainPane
+%c  panedWidgetClass
+%p  resEd.mainLayout
+%m  true
+%o  false
+%s  x : 0
+%s  y : 55
+%s  width : 601
+%s  height : 594
+%s  borderWidth : 0
+%s  orientation : horizontal
+%f
+%%%
+%N   horizPane1
+%c   panedWidgetClass
+%p   resEd.mainLayout.mainPane
+%m   true
+%o   false
+%s   x : 0
+%s   y : 0
+%s   width : 263
+%s   height : 594
+%s   borderWidth : 0
+%z   resizeToPreferred : true
+%z   skipAdjust : true
+%z   preferredPaneSize : 263
+%f
+%%%
+%N    vertLayoutH1
+%c    ukcLayoutWidgetClass
+%p    resEd.mainLayout.mainPane.horizPane1
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 263
+%s    height : 367
+%s    borderWidth : 0
+%z    resizeToPreferred : true
+%z    skipAdjust : true
+%z    preferredPaneSize : 367
+%z    min : 70
+%r    minHeight : 0
+%r    minWidth : 0
+%r    geomStatus : refuseall 
+%f
+%%%
+%N     resourceView4
+%c     ukcViewportWidgetClass
+%p     resEd.mainLayout.mainPane.horizPane1.vertLayoutH1
+%m     true
+%o     false
+%s     x : 5
+%s     y : 5
+%s     width : 250
+%s     height : 354
+%s     borderWidth : 1
+%s     allowHoriz : true
+%s     allowVert : true
+%s     forceBars : true
+%f
+%%%
+%N    vertLayoutH2
+%c    ukcLayoutWidgetClass
+%p    resEd.mainLayout.mainPane.horizPane1
+%m    true
+%o    false
+%s    x : 0
+%s    y : 368
+%s    width : 263
+%s    height : 226
+%s    borderWidth : 0
+%z    resizeToPreferred : true
+%z    skipAdjust : true
+%z    preferredPaneSize : 226
+%z    min : 100
+%r    minWidth : 0
+%r    minHeight : 100
+%r    geomStatus : refuseall 
+%f
+%%%
+%N     globalView2
+%c     ukcScaledWidgetClass
+%p     resEd.mainLayout.mainPane.horizPane1.vertLayoutH2
+%m     true
+%o     false
+%s     x : 5
+%s     y : 5
+%s     width : 250
+%s     height : 214
+%s     borderWidth : 1
+%r     backgroundPixmap : gray
+%f
+%%%
+%N   horizPane2
+%c   panedWidgetClass
+%p   resEd.mainLayout.mainPane
+%m   true
+%o   false
+%s   x : 264
+%s   y : 0
+%s   width : 337
+%s   height : 594
+%s   borderWidth : 0
+%z   resizeToPreferred : true
+%z   skipAdjust : true
+%z   preferredPaneSize : 337
+%f
+%%%
+%N    vertLayout1H
+%c    ukcLayoutWidgetClass
+%p    resEd.mainLayout.mainPane.horizPane2
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 337
+%s    height : 101
+%s    borderWidth : 0
+%z    resizeToPreferred : true
+%z    skipAdjust : true
+%z    preferredPaneSize : 101
+%f
+%%%
+%N     historyLog2
+%c     ukcLabelWidgetClass
+%p     resEd.mainLayout.mainPane.horizPane2.vertLayout1H
+%m     true
+%o     false
+%s     x : 5
+%s     y : 5
+%s     width : 326
+%s     height : 91
+%s     borderWidth : 1
+%s     justify : left
+%s     verticalJustify : bottom
+%r     label : This is the history view
+%f
+%%%
+%N    vertLayout2H
+%c    ukcLayoutWidgetClass
+%p    resEd.mainLayout.mainPane.horizPane2
+%m    true
+%o    false
+%s    x : 0
+%s    y : 102
+%s    width : 337
+%s    height : 492
+%s    borderWidth : 0
+%z    resizeToPreferred : true
+%z    skipAdjust : true
+%z    min : 100
+%z    preferredPaneSize : 492
+%r    geomStatus : refuseall 
+%f
+%%%
+%N     zoomView2
+%c     ukcScaledWidgetClass
+%p     resEd.mainLayout.mainPane.horizPane2.vertLayout2H
+%m     true
+%o     false
+%s     x : 5
+%s     y : 5
+%s     width : 327
+%s     height : 491
+%s     borderWidth : 2
+%f
+%L resEd.mainLayout ; resEd.mainLayout.title ; resEd.mainLayout ; vertical_above
+%L resEd.mainLayout ; resEd.mainLayout.title ; resEd.mainLayout ; horizontal_before
+%L resEd.mainLayout ; resEd.mainLayout.title ; resEd.mainLayout.mainMenu ; vertical_below
+%L resEd.mainLayout ; resEd.mainLayout.mainMenu ; resEd.mainLayout ; horizontal_before
+%L resEd.mainLayout ; resEd.mainLayout.mouseHole ; resEd.mainLayout ; vertical_above
+%L resEd.mainLayout ; resEd.mainLayout.mouseHole ; resEd.mainLayout.title ; horizontal_before
+%L resEd.mainLayout ; resEd.mainLayout.mainMenu ; resEd.mainLayout.mouseHole ; horizontal_after
+%L resEd.mainLayout ; resEd.mainLayout.mainMenu ; resEd.mainLayout.mainPane ; vertical_below
+%L resEd.mainLayout ; resEd.mainLayout.mouseHole ; resEd.mainLayout.mainPane ; vertical_below
+%L resEd.mainLayout.mainPane.horizPane2.vertLayout1H ; resEd.mainLayout.mainPane.horizPane2.vertLayout1H.historyLog2 ; resEd.mainLayout.mainPane.horizPane2.vertLayout1H ; horizontal_before
+%L resEd.mainLayout.mainPane.horizPane2.vertLayout1H ; resEd.mainLayout.mainPane.horizPane2.vertLayout1H ; resEd.mainLayout.mainPane.horizPane2.vertLayout1H.historyLog2 ; vertical_below
+%L resEd.mainLayout.mainPane.horizPane1.vertLayoutH1 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH1 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH1.resourceView4 ; horizontal_after
+%L resEd.mainLayout.mainPane.horizPane1.vertLayoutH1 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH1 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH1.resourceView4 ; vertical_below
+%L resEd.mainLayout.mainPane.horizPane1.vertLayoutH2 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH2 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH2.globalView2 ; vertical_below
+%L resEd.mainLayout.mainPane.horizPane2.vertLayout2H ; resEd.mainLayout.mainPane.horizPane2.vertLayout2H.zoomView2 ; resEd.mainLayout.mainPane.horizPane2.vertLayout2H ; horizontal_before
+%L resEd.mainLayout.mainPane.horizPane1.vertLayoutH2 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH2.globalView2 ; resEd.mainLayout.mainPane.horizPane1.vertLayoutH2 ; horizontal_before
+%L resEd.mainLayout.mainPane.horizPane2.vertLayout2H ; resEd.mainLayout.mainPane.horizPane2.vertLayout2H ; resEd.mainLayout.mainPane.horizPane2.vertLayout2H.zoomView2 ; vertical_below

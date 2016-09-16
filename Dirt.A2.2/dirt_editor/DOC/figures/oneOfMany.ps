@@ -1,0 +1,91 @@
+%!PS-Adobe-1.0
+%%BoundingBox: 0 0 311 40
+%%Creator: beech:rlh2 (R.L.Hesketh,cug451)
+%%Title: stdin (xwdump)
+%%CreationDate: Tue Jul  3 11:17:23 1990
+%%EndComments
+%%Pages: 1
+%%EndProlog
+%%Page: 1 1
+
+/bitgen
+	{
+		/nextpos 0 def
+		currentfile bufspace readhexstring pop % get a chunk of input
+		% interpret each byte of the input
+		{
+			flag { % if the previous byte was FF
+				/len exch def % this byte is a count
+				result
+				nextpos
+				FFstring 0 len getinterval % grap a chunk of FF's
+					putinterval % and stuff them into the result
+				/nextpos nextpos len add def
+				/flag false def
+			}{ % otherwise
+				dup 255 eq { % if this byte is FF
+					/flag true def % just set the flag
+					pop % and toss the FF
+				}{ % otherwise
+					% move this byte to the result
+					result nextpos
+						3 -1 roll % roll the current byte back to the top
+						put
+					/nextpos nextpos 1 add def
+				} ifelse
+			} ifelse
+		} forall
+		% trim unused space from end of result
+		result 0 nextpos getinterval
+	} def
+
+
+/bitdump % stk: width, height, iscale
+	% dump a bit image with lower left corner at current origin,
+	% scaling by iscale (iscale=1 means 1/300 inch per pixel)
+	{
+		% read arguments
+		/iscale exch def
+		/height exch def
+		/width exch def
+
+		% scale appropriately
+		width iscale mul height iscale mul scale
+
+		% data structures:
+
+		% allocate space for one line of input
+		/bufspace 36 string def
+
+		% string of FF's
+		/FFstring 256 string def
+		% for all i FFstring[i]=255
+		0 1 255 { FFstring exch 255 put } for
+
+		% 'escape' flag
+		/flag false def
+
+		% space for a chunk of generated bits
+		/result 1000 string def
+
+		% read and dump the image
+		width height 1 [width 0 0 height neg 0 height]
+			{ bitgen }
+			image
+	} def
+72 300 div dup scale
+216 28 6 bitdump
+ff1bff1bff1bff1bff1bff1bff1bff01f83fff06f07fff08c1ff07ff01e7cffe3fff019f
+7fff01cf9fff03fdff043e7fff01fdff01effbff01ff01d837ff01bfff016f7fff01b06f
+ff03fdff03fec1bfff01fdff01effbff01ff01d017ff01bfff017f7fff01afafff03fdff
+03febebfff03effbff01ff01a00bff01be1f7c1fff015fd7f878747074787ffd7f5fe8f1
+f168e0ff01ff01a00bff01bdec1f7fff015fd7f7b7b3bdf3b7bffd7f5fe77dee677bff01
+ff01a00bff01bdef7f7fff015fd7f7f7b7bdf7f7bffd7f5feffdef6f7bff01ff01a00bff
+01bc0f7f7fff015fd7f7f037bdf7f03ffd7f5feffdef6f7bff01ff01a00bff01bdff017f
+7fff015fd7f7f7f7bdf7f7ff01fd7f5feffdef6f7bff01ff01d017ff01bdef7f6fff01af
+aff7b7b7bdb7f7bffebebfeffdee6f7b7fff01d837ff01be1f7f9fff01b06ff87877be77
+f87ffec1bfeffdf16f7cff01ff01e7cfff06cf9fff083e7fff037fff02ff01f83fff06f0
+7fff08c1ff03ef7fff02ff17f0ff03ff1bff1bff1bff1bff1bff1bff1bbcdef012345678
+
+showpage
+%%Trailer

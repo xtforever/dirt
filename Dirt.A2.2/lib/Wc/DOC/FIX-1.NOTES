@@ -1,0 +1,54 @@
+RELEASE NOTES, Wcl 1.06-1
+-------------------------
+
+Summary of Wcl.1.06 changes included in Wcl.1.06.fix-1
+------------------------------------------------------
+Directory      Files             Changes
+
+Wcl            README            minor fixes
+               patchelevel.h     patch level 6 changed to 6-1
+               Wc.tmpl           consistently use USRLIBDIR, not LIBDIR
+               test_motif        changed to use new names in DemoMotif
+               Xmkmf.Wcl         removed (not part of distribution)
+               VMSWcl.com        new script to build Wcl on VMS
+
+Wcl/Doc        Wcl_0*            Renamed to fit into 14 char limit
+ 
+Wcl/Wc         WcCreate.h        Changed C++ reserved word class
+               WcCreate.c        Added VMS code replacing "index" call
+               WcCallb.c         fixed one more XtWarning
+                                 added checks for NULL from WcFullNameToWidget
+               WcConvert.c       conditionalized compilation of the code for
+                                 XmuNewCvtStringToWidget
+               WcName.c          fixed comment nesting 
+               PreR4Enum.c       fixed passing structure by value in XrmEnum.
+               testPreR4Enum.c   Renamed to t_PreR4Enum.c
+
+Wcl/Xp         Table.c           removed TblRequestResize from resize method
+Wcl/Xmp        Table.c           removed TblRequestResize from resize method
+Wcl/Cri        Imakefile         partial fix attempt
+Wcl/Xcp        Imakefile         partial fix attempt
+Wcl/DemosMotif XMailbox*         renamed to names shorter than 14 characters
+
+             
+
+Renamed files: (note patched test_motif uses new names in DemosMotif)
+
+mv DemosMotif/XMailbox.README_FIRST DemosMotif/XMB.README
+mv DemosMotif/XMailbox.beldar       DemosMotif/XMB.beldar
+mv DemosMotif/XMailbox.main.beldar  DemosMotif/XMB.m.beldar
+mv DemosMotif/XMailbox.main.mdove   DemosMotif/XMB.m.mdove
+mv DemosMotif/XMailbox.main.peeb    DemosMotif/XMB.m.peeb
+mv DemosMotif/XMailbox.mdove        DemosMotif/XMB.mdove
+mv DemosMotif/XMailbox.peeb         DemosMotif/XMB.peeb
+mv Wc/testPreR4Enum.c               Wc/t_PreR4Enum.c
+mv Doc/Wcl01_Introduction.doc       Doc/Wc1_Intro.doc
+mv Doc/Wcl02_Minimal.doc            Doc/Wc2_Minim.doc
+mv Doc/Wcl03_Creation.doc           Doc/Wc3_Create.doc
+mv Doc/Wcl04_Templates.doc          Doc/Wc4_Templ.doc
+mv Doc/Wcl05_Callbacks.doc          Doc/Wc5_Callb.doc
+mv Doc/Wcl06_Actions.doc            Doc/Wc6_Action.doc
+mv Doc/Wcl07_Functions.doc          Doc/Wc7_Funct.doc
+mv Doc/Wcl08_UserCallbacks.doc      Doc/Wc8_UsrCB.doc
+
+

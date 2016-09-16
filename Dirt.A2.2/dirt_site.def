@@ -1,0 +1,60 @@
+XCOMM# SCCSID: @(#)dirt_site.def	1.3 (UKC) 5/17/92
+XCOMM# All site definitions that override Xukc.tmpl should be placed here
+
+XCOMM# Common site definitions might be ..
+
+XCOMM# Produce a -g debug version of the Xukc or Wc library ..
+XCOMM#
+/* #define DebugLibXukc YES */
+/* #define DebugLibWcl YES */
+
+XCOMM# Produce a profiled version of the Xukc or Wc library ..
+XCOMM#
+/* #define ProfileLibXukc YES */
+/* #define ProfileLibWcl YES */
+
+XCOMM# Which widget sets to make available in Dirt is set $(DIRT_DEFINES)
+XCOMM# The default is just the Xukc and Athena widget sets.  The following
+XCOMM# includes all the currently supported widget sets ..
+XCOMM#
+XCOMM# #define UseAthenaWidgetSet YES	(or NO)
+XCOMM# #define UseUKCWidgetSet YES
+XCOMM# #define UseHPWidgetSet YES
+XCOMM# #define UseMotifWidgetSet YES
+
+#define UseAthenaWidgetSet YES
+#define UseUKCWidgetSet YES
+
+XCOMM# Uncomment the following line if you are X11R4.  This is for the
+XCOMM# Widget Creation Library to include some R5 functions not available
+XCOMM# in R4.
+XCOMM#
+#define PreR5 YES
+
+MOTIF_INCLUDES = -I/usr/local/include/X11
+CDEBUGFLAGS = -g
+
+XCOMM# Extra widget sets can be added by placing their unique defines in
+XCOMM#      EXTRA_WIDGETS = -Dsomething_unique
+XCOMM# and
+XCOMM#      DEPEXTRALIB = -lXblah
+
+XCOMM# Do you want to build shared libraries for Xukc and Wc under SunOS?
+XCOMM# If you *DONT* then *UNCOMMENT* the following line.
+/* #undef HasSunOSSharedLibraries */
+
+XCOMM# Uncomment the following if you want to install libraries and
+XCOMM# header files for Xukc and Wc?
+XCOMM#
+/* #define   InstallXukc 	YES  */
+/* #define   InstallWcl 	YES  */
+
+XCOMM# Uncomment the following if you want to use installed versions of
+XCOMM# Xukc and Wc libraries rather than the distribution versions.
+XCOMM# Using the installed versions means that the ones in the
+XCOMM# distribution will not be built.
+/* #define   UsedInstalledXukc	YES	*/
+/* #define   UsedInstalledWcl	YES	*/
+
+XCOMM# This line is generated automatically : DO NOT DELETE
+ARCHITECT_FLAGS=-DUNALIGNED

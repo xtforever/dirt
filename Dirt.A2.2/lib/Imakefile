@@ -1,0 +1,22 @@
+#include "../Xukc.tmpl"
+
+XCOMM# @(#)Imakefile	1.2 (UKC) 5/17/92
+XCOMM#
+XCOMM# Replacement Imakefile for Widget Creation Library
+XCOMM# so that it can work with the Dirt UI Builder
+
+#define IHaveSubdirs
+
+
+      SRC_SUBDIRS = Wc Xukc
+          SUBDIRS = $(SRC_SUBDIRS) bitmaps
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+MakeSubdirs($(SUBDIRS))
+
+#if defined(UseInstalledWcl) && UseInstalledWcl == YES && defined(UseInstalledXukc) && UseInstalledXukc == YES
+depend::
+#else
+DependSubdirs($(SRC_SUBDIRS))
+#endif

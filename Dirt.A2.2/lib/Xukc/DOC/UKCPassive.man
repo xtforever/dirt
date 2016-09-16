@@ -1,0 +1,141 @@
+.\" $Xukc: UKCPassive.man,v 1.2 90/09/22 17:32:24 rlh2 Rel $
+.\"
+.\" Add simple keeps to MAN macros so .TS/.TE will work
+.\"
+.de KS	\"	Keep start
+.br
+.in 0
+.di KP
+..
+.de KE	\" 	Keep end
+.br
+.di
+.ne \\n(dnu
+.nr fI \\n(.u
+.nf
+.KP
+.if \\n(fI .fi
+.in
+..
+.TH "UKCPassive" "LOCAL X"
+.na
+.nh
+.SH NAME
+ukcPassiveWidgetClass \- An X Widget which provides a simple parent with event
+callback lists.
+.SH SYNOPSIS
+\fB
+.B #include <X11/StringDefs.h>
+.br
+.B #include <X11/Intrinsic.h>
+.br
+.br
+\fB#include <X11/Xukc/Passive.h>
+\fR
+.SH CLASSES
+A subclass of Core and CompositeClass.
+.P
+The widget class to use when creating a 
+.I UKCPassive\^
+widget is \fBukcPassiveWidgetClass\fP.
+.P
+The class name of 
+.I UKCPassive\^
+is "UKCPassive".
+.SH DESCRIPTION
+The
+.I UKCPassive\^
+widget class provides a simple composite widget which contains two callback
+lists, one for expose events and one for resize events.  This can be used for
+applications which need to know when a parent widget changes size or is
+exposed.  The application places callback routines on the callback lists.
+These routines are then called whenever an exposure or resize event is sent
+to the widget.  This widget class is useful in conjunction with the
+\fBviewportWidgetClass\fP where it can be used as the clipped and scrolled
+child.  It can also be used as a super-class to sub-class new composite
+classes which require these callbacks.
+.SH "NEW RESOURCES"
+To specify any of these resources within a resource defaults file,
+simply drop the \fIXtN\fP prefix from the resource name.
+.I Passive\^
+defines the following new resources:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Passive Resource Set
+Name	Class	Type	Default
+_
+XtNexposeCallback	XtCCallback	Pointer	NULL
+XtNresizeCallback	XtCCallback	Pointer	NULL
+XtNforeground	XtCForeground	Pixel	XtDefaultForeground
+XtNcursor	XtCCursor	Cursor	None
+XtNuseBackingStore	XtCUseBackingStore	Boolean	TRUE
+.TE
+.KE
+.sp 1
+.IP \fBXtNexposeCallback\fP
+The routines placed on this callback list are invoked whenever an expose
+event is received by the widget.
+.IP \fBXtNresizeCallback\fP
+The routines placed on this callback list are invoked whenever a resize
+event is received by the widget.  Any resize actions done through the
+intrinsics (via \fIXtMakeResizeRequest(\|)\fP, etc) also cause the callback
+list to be invoked.
+.IP \fBXtNforeground\fP
+This is a spare foreground colour, useful for applications which want to use the
+\fIPassive\fP widget as a drawing window and want a colour resource.
+.IP \fBXtNcursor\fP
+This is the cursor to display when the pointer is inside the passive window.
+.IP \fBXtNuseBackingStore\fP
+This resource indicates whether the widget's window should be created with
+a hint (WhenMapped + SaveUnders) to the X Server to use backing store
+whenever it can.
+.SH "INHERITED RESOURCES"
+The following resources are inherited from the named superclasses:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Core Resource Set -- CORE(3X)
+Name	Class	Type	Default
+_
+XtNscreen	XtCScreen	XScreen *	0
+XtNcolormap	XtCColormap	Pointer	NULL
+XtNancestorSensitive	XtCAncestorSenstitive	Boolean	TRUE
+XtNx	XtCX	Position	0
+XtNy	XtCY	Position	0
+XtNwidth	XtCWidth	Dimension	0
+XtNheight	XtCHeight	Dimension	0
+XtNdepth	XtCDepth	int	0
+XtNbackground	XtCBackground	Pixel	XtDefaultBackground
+XtNborderWidth	XtCBorderWidth	Dimension	0
+XtNborder	XtCBorder	Pixel	XtDefaultForeground
+XtNsensitive	XtCSensitive	Boolean	TRUE
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	TRUE
+XtNdestroyCallback	XtCCallback	Pointer	NULL
+.TE
+.KE
+.sp 1
+.SH "TRANSLATIONS"
+There are no default translations in the \fIUKCPassive\fP class.
+.SH "ACTIONS"
+There are no actions added by the \fIUKCPassive\fP class.
+.SH AUTHOR
+Richard Hesketh.
+.br
+rlh2@ukc.ac.uk		@nsfnet-relay.ac.uk:rlh2@ukc.ac.uk
+.br
+Computing Lab., University of Kent at Canterbury, UK.
+.SH SEE ALSO
+\fIAthena Widget Set \- C Language X Interface\fP,
+.br
+\fIX Toolkit Intrinsics - C Language X Interface\fP,
+.br
+\fIXlib - C Language Interface, Protocol Version 11\fP.

@@ -1,0 +1,48 @@
+This is an *excerpt* from the README in the Wcl 1.06 distribution
+which can be found at many X archive sites including export.lcs.mit.edu
+[18.24.0.12] under /contrib/Wcl/*
+
+Only those files Wcl required by Dirt have been included here for
+reasons of space!
+
+Richard Hesketh,  December 1991
+
+======================================================================
+
+Widget Creation Library Version 1.06 Distribution
+-------------------------------------------------
+Martin Brunecky, Auto-trol Technology Corporation, Denver, CO
+marbru@auto-trol.com (303)252-2499
+*******************************************************************************
+* Copyright 1990,91 by Auto-trol Technology Corporation, Denver, Colorado.
+*
+*                        All Rights Reserved
+*
+* Permission to use, copy, modify, and distribute this software and its
+* documentation for any purpose and without fee is hereby granted, provided
+* that the above copyright notice appears on all copies and that both the
+* copyright and this permission notice appear in supporting documentation
+* and that the name of Auto-trol not be used in advertising or publicity
+* pertaining to distribution of the software without specific, prior written
+* permission.
+*
+* Auto-trol disclaims all warranties with regard to this software, including
+* all implied warranties of merchantability and fitness, in no event shall
+* Auto-trol be liable for any special, indirect or consequential damages or
+* any damages whatsoever resulting from loss of use, data or profits, whether
+* in an action of contract, negligence or other tortious action, arising out
+* of or in connection with the use or performance of this software.
+*******************************************************************************
+
+Widget Creation Library is a simple package allowing to define the
+X toolkit widget hierarchies and their binding to the application
+using X resource files. Several convenience callbacks and action
+procedures are provided to support the basic widget tree dynamics.
+
+Widget Creation Library (Wcl) 1.06 is a re-packaged version of David
+Smyth's Wcl 1.05. The major functionality change is the addition of
+template instancing and support for OLIT and Cornell University
+widget sets. Minor changes are due to several bug fixes.
+For details, please refer to RELEASE.NOTES in the Doc/ subdirectory.
+
+======================================================================

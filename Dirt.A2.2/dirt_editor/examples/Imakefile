@@ -1,0 +1,48 @@
+/**/# $Xukc: Imakefile,v 1.8 92/05/09 13:57:17 rlh2 Exp $
+/**/#
+/**/##################################################################
+/**/#                                                                #
+/**/#              Dirt User Interface Builder Examples              #
+/**/#                                                                #
+/**/##################################################################
+
+#include "../../Xukc.tmpl"
+
+        INCLUDES = -I$(TOP) XukcLibIncludes $(UKC_INCLUDES)
+         DEPLIBS = XukcClientDepLibs XawClientDepLibs
+ LOCAL_LIBRARIES = XukcClientLibs XawClientLibs -lm
+#if SystemV == YES
+   LDOPTIONS = -L $(USRLIBDIR)
+#else
+   LDOPTIONS = -L$(USRLIBDIR)
+#endif /* SystemV */
+
+
+       PERLY_SRCS = minimal.c perly_create.c
+       PERLY_OBJS = minimal.o perly_create.o
+
+NormalProgramTarget(perly_example,$(PERLY_OBJS),$(DEPLIBS),$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+   RESOURCE_SRCS = minimal.c resource_create.c
+   RESOURCE_OBJS = minimal.o resource_create.o
+
+NormalProgramTarget(resource_example,$(RESOURCE_OBJS),$(DEPLIBS),$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+   XSCAN_SRCS = minimal.c xscan_create.c
+   XSCAN_OBJS = minimal.o xscan_create.o
+
+NormalProgramTarget(xscan_example,$(XSCAN_OBJS),$(DEPLIBS),$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+   GSPREVIEW_SRCS = minimal.c gspreview_create.c
+   GSPREVIEW_OBJS = minimal.o gspreview_create.o
+
+NormalProgramTarget(gspreview_example,$(GSPREVIEW_OBJS),$(DEPLIBS),$(LOCAL_LIBRARIES),$(SYSLIBS))
+
+all:: perly_example resource_example xscan_example gspreview_example
+
+/**/# list of all different source files in this directory
+/**/#
+    SRCS = minimal.c perly_create.c resource_create.c xscan_create.c \
+	   gspreview_create.c
+
+DependTarget()

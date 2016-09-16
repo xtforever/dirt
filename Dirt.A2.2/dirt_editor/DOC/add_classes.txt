@@ -1,0 +1,175 @@
+
+			Adding New Widget Classes to Dirt
+
+Adding new widget classes to Dirt is a straightforward process and normally
+requires a change in only one source file, namely
+"./Dirt/dirt_editor/widget_classes.c".
+
+This file contains a table of all the supported widget classes, an entry per
+class.  Currently the Athena Widget Set, the 2-D HP Widget Set and the UKC
+Widget Set are supported (Support for both the Motif(TM) and OPEN LOOK(TM)
+Xt Widget Sets is currently being added and will hopefully be available in 
+future releases).
+
+Each entry in the table contains the following fields:
+
+	typedef struct widget_class_list {
+		WidgetClass     *widget_class;
+		ObjectClass     *acceptable_objects;
+		Cardinal        num_acceptable;
+		String          constructor_string;
+		Widget          (*constructor)();
+		String          header_dir;
+		String          header_file;
+		String          displayed_name;
+		String          class_name;
+		String          description;
+		ResDefsPtr      uneditable_resources;
+		Cardinal        num_uneditable;
+	} WidgetDefsRec;
+
+
+WidgetClass *widget_class;
+	This is the pointer to the widget class structure.
+
+ObjectClass *acceptable_objects;
+	This is a list of object class pointers that, instances of which, can
+	be accepted as children of an instance of this widget class.
+	Only these classes of objects (windowless widgets) can be placed inside
+	parents of this class.
+
+Cardinal num_acceptable;
+	The number of ObjectClass pointers in the above list.
+
+String constructor_string;
+	A string representation of a special constructor function that can be
+	used instead of XtCreateWidget() to create an instance of this class.
+
+Widget (*constructor)();
+	A pointer to a constructor function that will create an instance of
+	this class.
+
+String header_dir;
+	String prefix that defines where the widget class public include files
+	are situated (e.g. "X11/Xaw" for Athen Widget Set classes).
+
+String header_file;
+	Name of the widget class public include file (e.g. "Arrow.h")
+
+String displayed_name;
+	String name used in Dirt to *uniquely* identify this widget/object
+	class (e.g. "UKC Arrow Widget").
+
+String class_name;
+	This is a string representation of the widget class pointer variable
+	used in the XtCreateWidget() call, (e.g. "xukcArrowWidgetClass").
+
+String description;
+	A brief, one line, description of the widget class.  A full description
+	will be placed in the "DirtHelpDB" on-line help database (see
+	"help_db.txt").
+
+ResDefsPtr uneditable_resources;
+	This is a list of structures listing which resources defined in this
+	widget class (or in its superclasses) are not editable from within
+	Dirt or can only be edited before an instance of this resource is
+	created.  Each uneditable resource is defined using the following
+	structure:
+
+		typedef struct resource_definition {
+			String  name;
+			String  class;
+			String  type;
+			char    flags;
+		} ResDefsRec;
+
+	The name, class and type uniquely identify the resource and the flags
+	can be set to any combination of:
+
+		IGNORE		- Never allow editing of this resource
+		READ_ONLY	- Only display the non-editable current value
+		EDIT_ONLY	- Only allow editing after instance creation
+
+Cardinal num_uneditable;
+	Number of entries in the above list.
+
+
+   --------------------------------------------------------------------------
+
+
+		      Adding new Resource Types to Dirt
+
+When a new widget class is added to Dirt it may define new resource types.
+These new resource types must be made known to Dirt so that it can convert to
+and from a string representation of this type.  If the widget class you want
+to add to Dirt defines a new resource type you should do the following:
+
+1) Check that StringToType and TypeToString converters exist.  If a
+   TypeToString converter does not exist then you should add one to the list
+   in ./Dirt/lib/Xukc/Converters.c
+
+   Dirt has two universal StringToType and TypeToString converters that will
+   convert "flag" and "option" style enumerated resources to and from String
+   representations.  You should examine their use in
+   ./Dirt/lib/Xukc/Converters.c; they are namely "XukcCvtStringToFlagSettings"
+   and "XukcCvtStringToNamedValue" plus "XukcCvtNamedValueToString" and
+   "XukcCvtFlagSettingsToString".
+
+2) Make a new entry in the "rep_defaults[]" table in
+   ./Dirt/dirt_editor/conv_rep.h  This table is made up of entries of the
+   following structure:
+
+		typedef struct _rep_array {
+			XrmQuark quark;
+			String  type;
+			QIList enum_array;
+			Cardinal num_enums;
+			Widget (*display_proc)();
+		} RepArray;
+
+   XrmQuark quark;
+	This should be set to "(XrmQuark)0" and will be used to hold a quark
+	representation of the following resource type name.
+
+   String type;
+	The name of the resource type; e.g XtRBoolean
+
+   QIList enum_array;
+	This is an array of String and Value representations used by an
+	enumerated type; e.g. XtRBackingStore has the following QIList:
+
+	static QIListRec xmu_backing_store[] = {
+	 { (XrmQuark)NULL, XtEnotUseful, (int)NotUseful },
+	 { (XrmQuark)NULL, XtEwhenMapped, (int)WhenMapped },
+	 { (XrmQuark)NULL, XtEalways, (int)Always },
+	 { (XrmQuark)NULL, XtEdefault, (int)(Always + WhenMapped + NotUseful) },
+	};
+
+	This list defines the mapping between the symbolic name and the
+	internal value it represents.  The Quark field is used internally to
+	speed up the conversion process.
+
+   Cardinal num_enums;
+	Number of entries in the above enumerated list.
+
+   Widget (*display_proc)();
+	This is a pointer to a function returning a Widget instance that is an
+	editable representation of a resource of this type.  The following
+	functions are currently defined in ./Dirt/dirt_editor/convert.c:
+
+		static Widget display_callbacks();
+		static Widget display_string();
+		static Widget display_signed_value();
+		static Widget display_unsigned_value();
+		static Widget display_boolean();
+		static Widget display_enumerated();
+		static Widget display_translations();
+		static Widget display_widget();
+		static Widget display_widget_list();
+		static Widget display_font();
+		static Widget display_colour();
+		static Widget display_read_only();
+
+	These functions are known as the "resource display methods" and are
+	detailed in the Dirt user manual.  Their arguments are detailed in a
+	comment at the start of ./Dirt/dirt_editor/convert.c

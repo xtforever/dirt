@@ -1,0 +1,1712 @@
+%% $Xukc: dirt.tex,v 1.7 92/01/26 14:09:19 rlh2 Rel $
+%%
+%% Dirt! tutorial manual
+%%
+\documentstyle[11pt,adjusts,times]{article}
+\input{psfig}
+\begin{document}
+%\psdraft{}
+\title{The {\em Dirt} User Interface Builder}
+\author{Richard Hesketh\\
+Computing Laboratory\\
+University of Kent at Canterbury}
+\date{\today}
+\maketitle
+\bibliographystyle{alphathesis}
+\begin{abstract}
+The {\em Dirt}\footnote{
+Design In Real Time.
+}
+user interface builder provides an interactive editor for the
+rapid-prototyping and iterative development of user interfaces using the
+Xt Toolkit under the X Window System\footnote{
+The X Window System is a trademark of the Massachusetts Institute of
+Technology.\\
+\psfig{figure=figures/recycle.ps,height=0.2in} --- Please recycle this
+paper.
+}.  User interfaces are created interactively by the direct manipulation 
+of user interface objects (also called {\em Widgets}) such as push buttons,
+menus and scroll bars.  Each object contains attributes (or resources) that
+describe its look and feel; these attributes are also modified interactively.
+Whilst building a user interface using {\em Dirt} the designer can use
+objects are soon as he creates them.  This encourages exploration of the
+available objects.  {\em Dirt} generates all the source code required for
+the designed user interface and separates the user interface definition from the
+application code.  Collections of objects can be created as {\em Templates},
+allowing generic dialog boxes {etc.} to be developed and copied into
+interfaces.  This can be used to promote a consistent design style and
+allow design reuse.  This report describes how to build user interfaces using
+{\em Dirt} and how to link the application code into the resultant interface.
+A separate report describes the implementation of {\em Dirt} and how to add
+new objects to the system.  
+\end{abstract}
+
+\newpage{}
+\tableofcontents{}
+\listoffigures{}
+\newpage{}
+
+\section{Introduction}
+The development of graphical user interfaces for applications on a graphical
+workstation can be time-consuming and tedious.  To speed-up the development
+of graphical user interfaces under the X Window System~\cite{X,XBible} the Xt
+Toolkit was developed~\cite{XtBible}.  The Xt Toolkit provides the user
+interface developer (who may not be a programmer) with a set of user
+interface objects (also called {\em Widgets}) and a set of routines to create
+and manipulate them (called the {\em Intrinsics}).  These objects provide
+facilities such as push-buttons, scrollable windows, and editable text areas.
+However the interface designer is still required to program in a traditional
+programming language, C.
+
+The {\em Dirt} User Interface Builder separates the development of a
+graphical application into two interconnected areas; the user interface and
+the application's functionality.  The application's functionality is still
+developed in a traditional fashion in a programming language but the user
+interface is created interactively though the direct manipulation of user
+interface objects~\cite{direct-manipulation}.  {\em Dirt} allows
+non-programmers to design the layout and a lot of the operation (commonly
+termed the {\em look and feel}) of the user interface.
+
+Figure~\ref{fig:example} shows a typical dialog box in an user interface.  
+It is made up of seven distinct interface objects, shown in the exploded view of
+Figure~\ref{fig:example-hierarchy}.  Each object is an {\em instance} of a
+particular
+{\em class}.  The class defines the overall functions of the object and an
+instance is a customized copy of the class.  Each object instance has a set of
+attributes or {\em resources} which define its {\em look and feel}. 
+{\em Dirt} allows these resources to be modified interactively so that
+object instances can be produced quickly and later edited.
+
+Each object has a parent object.  This produces a hierarchy
+of objects with each parent controlling the layout and dimensions of its
+children.  Figure~\ref{fig:example-hierarchy} also shows the object
+hierarchy for the
+example dialog of Figure~\ref{fig:example}.  Different classes of parents
+control the size and positioning of objects placed inside them.  For example,
+a ``tree'' class object may layout its children in the form of an {\em n}-ary
+tree, while a ``row-column'' class may layout its children in a row and column
+configuration.  A ``shell'' class is a special class that is the root of the
+object hierarchy and is the window that is controlled by the window
+manager~\cite{XUsersGuideOReilly} of the workstation's display.
+
+The link between the user interface objects and the application's
+functionality is made via three toolkit facilities:\begin{itemize}
+\item{}
+Translation Table Actions --- call application procedures when certain X
+events happen.
+\item{}
+Callback Routines --- Objects call application procedures under certain
+circumstances.
+\item{}
+Interrogation of Objects by Application --- Application can control display
+of interface objects and implement user interface modes.
+\end{itemize}
+The Xt Toolkit uses an event-based model where the application is informed
+when certain external events happen.  Therefore the application reacts to the
+user pressing buttons and typing at the keyboard.  Translation tables and
+Callback lists form the basis of this communication between the interface and
+the application.  User interface objects can also be examined from within the
+application through the use of an identifier variable (automatically created
+by {\em Dirt}) and the Xt Intrinsic routines.  The application can therefore
+``Get'' or ``Set'' an object's resource values.
+
+{\em Dirt} creates all the necessary C code to implement the designed user
+interface and provides the necessary hooks to bind the interface to the
+application.  The definition of the interface is saved in a {\em resources
+file} (also called an application defaults file) which is read by the
+creation routines at run-time.  For minor modifications to the interface,
+such as changing object sizes, positions, colours etc.\ the application can
+simply be re-executed to test these new features. Major modifications, such as
+the addition of new dialog boxes may require recompilation of the application
+to include the new {\em Dirt} generated C code.
+
+{\em Dirt} includes a set of callback routines that implement useful
+functions (listed in Appendix~\ref{appendix:callbacks}).  These functions
+are executable from within {\em Dirt} and the
+final application, allowing some prototyping of the application's
+functionality from within {\em Dirt}.
+
+The Widget Creation Library~\cite{Wcl} is used to re-create the user
+interface at runtime from its definition in a resource file. This
+resource file is created by {\em Dirt}. The user interface is 
+therefore defined separately and only
+``bound'' to the application at runtime. Keeping the user interface
+separate to the application's functionality allows major modifications to
+be made to the user interface without the need to modify the application's
+functionality. The application can therefore be thought of as a
+collection of standalone and inter-operational functions that are woven
+together by the user interface. This therefore has a great impact on how
+the application should be written. The application is therefore reactive to
+the user's operations via actions and callbacks in the user interface.
+
+There are parts of the user interface that cannot be designed before
+runtime. For example, the display of a file-system browser cannot be
+created directly in {\em Dirt} as the information that is to displayed is
+dependent upon the external, ever changing, workstation environment. This
+information is gathered by the application's functionality which then
+converts it into a visual form. What {\em Dirt} can provide is support to
+generate prototypical displays. These displays contain the basic user
+interface objects with ``typical'' resource settings. This prototype part of
+the user interface is then used by the application to create runtime
+instances of the objects. The application ``fills in'' those parts of the
+prototype that it has computed at runtime. These prototypical objects are
+known as {\em deferred objects} and are described in
+Section~\ref{sec:deferred-creation}.
+
+\begin{figure}
+\centerline{\psfig{figure=figures/example.eps,width=4in}}
+\caption{Example dialog box}
+\label{fig:example}
+\end{figure}
+
+\begin{figure}
+\centerline{\psfig{figure=figures/exploded.eps,width=3in}
+\hspace{.75in}
+\psfig{figure=figures/hier.eps,height=2in}
+}
+\caption{The objects in the example dialog box and their hierarchy}
+\label{fig:example-hierarchy}
+\end{figure}
+
+\section{Using the Dirt Interface Builder}
+To run {\em Dirt} type:
+\begin{verbatim}
+      % dirt <cr>
+\end{verbatim}
+at the command prompt (for a complete list of command line options see the
+on-line manual page or Appendix~\ref{appendix:command-line-args}).
+After a short
+while the main {\em Dirt} window is displayed.  This window is shown in
+\begin{figure}
+\centerline{\psfig{figure=figures/main-window.ps,width=4.5in}}
+\caption{{\em Dirt} main window}
+\label{fig:main-window}
+\end{figure}
+Figure~\ref{fig:main-window} and contains the main menu,
+widget instance list and popup dialog box buttons.
+
+You can now create, edit or extend an application's interface or produce a
+reverse engineered interface for an existing application.  Object hierarchies
+can be grouped as ``Templates'' that can be copied into
+interfaces.  Templates allow general dialog boxes to be created and reused
+across different interfaces, reducing design time and allowing a
+consistent in-house style to be created.
+
+\subsection{Creating an Application Window}
+\label{sec:creating-app}
+Every user interface created by {\em Dirt} must have at least one application
+{\em top level} (or shell) window (whose parent is the display's {\em root
+window}).  This special user interface widget has its own popup dialog box
+which can be popped up by clicking on the ``Application Details'' button
+with the first mouse button.  The\begin{figure}
+\centerline{\psfig{figure=figures/app-dialog-box.ps,width=4.5in}}
+\caption{{\em Application Details} popup dialog}
+\label{fig:app-dialog-box}
+\end{figure}
+popped up dialog is shown in Figure~\ref{fig:app-dialog-box}.  Each
+application requires two names to identify it; an instance name and a class
+name.  The class name identifies a collection of related applications and the
+instance name identifies a particular application.
+
+The class and instance names should follow the Xt Toolkit resource naming
+conventions as described in Section~1.6.1 ``Widget Naming Conventions''
+in the Xt Intrinsics reference manual~\cite{XtIntrinsics}.
+Some valid application names are: {\em dirt}, {\em resourceEditor}
+and {\em xterm}.  Some valid class names are: {\em Dirt},
+{\em ResourceEditor} and {\em XTerm}.
+
+The application resources (shown in the lower part of the window in
+Figure~\ref{fig:app-dialog-box}) are for an
+{\em Application Shell Class} widget.
+For details of what each resource does see Chapter~4 ``Shell Widgets'' in the
+Xt Toolkit manual or use the on-line Help System (see
+Section~\ref{sec:help}).
+See Section~\ref{sec:editing-resources} for exact details of how to modify
+resources of a particular resource type.
+
+The two push buttons labelled {\tt Create} and {\tt Delete} are used to
+create or delete an application's interface.
+The four value entries
+below the class name box are used to specify the position and size (in screen
+pixels) of the application shell widget.  They can be used to change the
+application's size and position directly (rather than resizing or moving the
+window using a window manager).
+
+To create a new application shell the {\tt Create} button should be pressed
+after both the instance and class names have been set.  When the {\tt Create}
+button is pressed a prompt
+window appears in the top left corner of the display you are building the
+application on (by default this is the same display as {\em Dirt} but can be
+set to a different display to allow building of large user interfaces, see
+Appendix~\ref{appendix:command-line-args} for details).  The cursor changes to a
+right-angle shape.  The first mouse button is pressed and a window is created
+whose size and position has been specified using the four value entries below
+the class name box.  Otherwise, by pressing and holding down the second mouse
+button a
+rectangle can be dragged out to the required size of the application window.
+When the second button is released an application shell is created of the
+desired size and position.
+
+Next to each dimension or position value entry field is a ``lock'' icon.
+If a lock is set (i.e.\ closed) then the value associated with it will be
+output as part of the generated user interface.  If the lock is not set
+(open), the value is ignored and is computed at runtime by the object.
+The default case is to have all the locks unset. Here, the object will
+choose a size that is just big enough to hold all its contents. The locks
+should therefore be used to force objects to have a particular size
+and/or position. It should be noted however that parent objects may override
+these defaults (Section~\ref{sec:managed-parents}).
+
+The list of application resources are updated to reflect the newly created
+application shell.  The values of these resources can be changed and the effect
+on the application shell can be seen immediately.  If the application shell
+is manipulated by the window manager (e.g.\ using a title bar for resizing)
+the associated resource values are updated immediately.
+
+\section{Creating and using User Interface Objects}
+Once the main window of an interface has been created the rest of
+the interface can be built using combinations of pre-designed user interface
+objects or (widgets).  Whether an object is a scrollbar, push button or
+pull-down menu it must be placed in or connected to a parent object
+(see Section~\ref{sec:managed-parents} for the
+normal use of parent objects).  Thus a {\em Dirt} built user interface is a
+hierarchical collection of user interface objects whose individual appearance
+and functionality (commonly termed the {\em look and feel}) have been
+tailored by the designer from a given set of default values.
+
+The ``Create New Widget Instance'' popup dialog (see
+\begin{figure}
+\centerline{\psfig{figure=figures/new-dialog-box.ps,width=6.5in}}
+\caption{{\em Create New Widget Instance} popup dialog}
+\label{fig:new-dialog-box}
+\end{figure}
+Figure~\ref{fig:new-dialog-box}) allows us to create specific instances of
+objects taken from a collection of pre-designed object classes.  These
+objects can be placed in the interface being developed or in a template
+(see Section~\ref{sec:templates}).
+
+When the ``Create New Widget Instance'' dialog is popped up (by pressing the
+``Create New Widget Instance'' button in the main {\em Dirt} window), the
+designer is presented with a scrollable list of available object (or Widget)
+classes.  By clicking the first mouse button on an entry in this list we can
+see the resources which define the look and feel of the widget class.
+The resource list is similar to the application shell resource list and is
+used in the same way (see Section~\ref{sec:editing-resources}).
+
+\subsection{Choosing the Most Suitable User Interface Object}
+The biggest problem associated with building user interfaces using generic
+objects is knowing which objects to use.  The objects available in {\em Dirt}
+fall into two broad categories; {\em Simple} and {\em Composite} objects.
+A {\em Simple} object is, as the name implies, a very basic object with a
+defined function; examples of simple objects are scrollbars and push buttons.
+A {\em Composite} object is a more complex object and controls (or manages)
+the type and geometry of any child objects placed in it; examples of composite
+objects are layout, form or box objects.
+
+Some objects are hybrids, they are composite objects
+that contain instances of simple objects;
+An example of a hybrid object is a Viewport.  A viewport may contain
+horizontal and vertical scrollbars, a clipping window and a clipped child.
+Only the clipped child is not created by the viewport class when a viewport
+object is created.
+
+User interfaces in {\em Dirt} are therefore built up as a hierarchy of simple
+(or hybrid) objects inside composite object parents.  {\em Dirt} allows small
+hierarchies to be created as {\em templates} (Section~\ref{sec:templates}).
+These templates can be used to quickly create an interface from existing
+collections of objects.
+
+Appendix~\ref{appendix:objects} gives brief details of all the object classes
+currently supported by {\em Dirt}.  Each class is documented in a
+separate manual or on-line manual page.
+
+{\em Dirt} does not give advice on which objects are best to use, it simply
+allows any object to be chosen and used accordingly. However, what
+{\em Dirt} does allow is experimentation using objects.  All the
+resources defined by a particular object class can be modified interactively
+to explore their function.  The popup ``example'' dialogs contain typical
+example uses of objects in a particular {\em Widget Set} (see
+Section~\ref{sec:examples}).
+
+{\em Dirt} does give the designer context sensitive help concerning
+the resources of a
+particular object class.  This help is displayed whenever the designer
+presses any of the resource label buttons in a resource list.
+For full details of this help facility see Section~\ref{sec:help}.
+
+\subsubsection{Using Simple Objects}
+The choice of available objects in {\em Dirt} ranges from very basic objects
+such as text labels or push buttons to more complex, hybrid objects such
+as a scrollable list of items.  Each object class includes a set of resources
+that control the look and feel of instances of the class.  When an instance
+of the class is created it contains a copy of these resources initially set
+to default values specified in the object class. These class default
+values can be overriden before creation using the editable resource list
+in the ``Create New Widget Instance'' dialog box.
+
+\subsubsection{Using Composite Objects}
+\label{sec:geometry-management}
+Composite objects are objects specifically designed to contain child
+objects.  A composite object is normally used to control the layout and
+visual structure of a user interface.  They act as place holders for the
+actual interaction objects; the simple objects.
+
+The dialog window shown in Figure~\ref{fig:new-dialog-box} is an example of
+the most common use of composite parents.  The two push buttons near to the
+top of the dialog are children of a ``Layout'' parent.  This parent acts as a
+canvas upon which the buttons are placed.  Different composite parents have
+different sets of rules for {\em Geometry Management} (see Chapter~11
+``Geometry Management'' in~\cite{ProgrammingXt} for a detailed look at
+geometry management in the Xt Toolkit).  These rules are used by the parent
+to decide where to place newly created children and how to resize them if
+they make a request to change size or the parent changes size.
+
+These layout and resize rules are (normally) only applied to children
+that are currently in the parent's {\em managed set}.  A child can be
+added or removed from a parent's managed set by toggling the {\tt Managed}
+button in the ``Create New Widget Instance'' and ``Edit Widget Instance''
+dialogs.  By default the object will disappear (become unmapped) from
+inside the
+parent when it becomes unmanaged.  This can be changed by toggling the
+{\tt mappedWhenManaged} resource of the object.
+
+Many standard forms of layout such as list or row and column formatting are
+performed automatically by parents.  However more complex layout formatting
+requires some thought on behalf of the interface designer.  The composite
+parent may need more information before it can correctly apply its geometry
+management rules.  This information is given by setting resource values in
+both the parent and children.  Setting resources in the parent will control
+global (i.e.\ all children of the parent) aspects of geometry management.
+However, to make particular children appear in certain positions or resize in
+a certain way requires resources in the children to be set.  These resources
+are normally given to them by a subclass of the composite object class;
+known as constraint class parents.  These {\em constraint resources} only
+exist whilst the child is in the constraint parent.  If the child is moved to
+a new parent (Section~\ref{sec:reparenting}) these resources are removed from
+the child (possibly replaced by new constraints).
+Section~\ref{sec:editing-constraints} details how these resources are
+edited.
+
+\subsection{Picking Object Classes From Real Examples}
+\label{sec:examples}
+We can also examine different widget classes by picking widgets from popup
+dialogs containing examples of their use.  These example dialogs are displayed
+by pressing the first mouse button inside the ``Examples''
+menu button to reveal
+a list of available widget sets (a widget set being a collection of vendor
+or task related widget classes).
+\begin{figure}
+\centerline{\psfig{figure=figures/xaw-examples.ps,width=6.5in}}
+\caption{Athena Widget Set Examples Dialog}
+\label{fig:xaw-examples}
+\end{figure}
+Figure~\ref{fig:xaw-examples} shows the examples popup for the MIT Athena
+Widget Set~\cite{XawWidgets}.  Choosing one of these sets causes a dialog
+to be popped up.  These dialogs contain example instances of widget classes
+and how they may be used.  To select a particular widget class from an
+example dialog we must ``pick it up'' using the pointer.  To do this the
+cursor should be placed inside or on the boundary of the designated widget (the
+four corners of the widget are highlighted indicating the current choice) and
+double
+click the first mouse button whilst holding down the {\tt Shift} key.  The class
+name of this widget is also shown in the ``Widget Class:'' text label,
+highlighted in the list of ``Available Widget Classes'' and the resources for
+this class are displayed in the ``Resources'' list.
+
+To set both the new
+instance's parent and widget class, a copy of the example widget can be
+dragged into place in the interface. This is done by holding down the first
+mouse button and the {\tt Shift} key and moving the pointer
+(which is tracked by a
+rectangular dashed frame) into the interface.  Releasing the mouse button
+causes the class name, ``Available Widget Classes'' and ``Resources'' areas
+to be updated.  The parent entry is set to the object the frame was dragged
+and dropped over.
+
+The new object's parent can also be chosen by typing the parent's name into
+the ``Parent's Name:'' text entry area or {\tt Pick}ing it from the interface.
+To do this press the {\tt Pick} button next to the ``Parent's Name:'' text entry
+area (in {\em Dirt} the cursor is changed to a cross-hair target to indicate
+an object in the interface should be chosen).  Pressing a mouse button in
+a window that is not part of the developing interface causes the {\tt
+Pick}ing operation to be ignored.
+
+\subsection{Creating Objects}
+\label{sec:managed-parents}
+After you have chosen the class of object you
+wish to create and you have given it a name (and possibly a particular
+parent) and you have set any resources, you can now press the {\tt Create}
+button.  When the {\tt Create} button is pressed the cursor changes to a
+right-angle shape.  By pressing the first mouse button a window is created
+whose size and position is calculated by the object and its parent.
+If the object does cannot calculate a default size, the size/position is
+taken from the four value entries below
+the parent box.  By pressing and holding down the second mouse button a
+rectangle can be dragged out to the required size of the object.
+When the button is released an object is created.
+
+If the parent has not been chosen when the {\tt Create} button is pressed it is
+automatically inferred from the mouse pointer's position. If a
+rectangle was dragged out to indicate the size and position of the 
+object, then the parent chosen is the object which contains this 
+rectangle.\footnote{Or the object that contains most of the rectangle.}
+
+If the parent chosen is in the ``Template Building Area'' the object
+is created as part of the currently opened template.  Objects in templates
+are created and manipulated using the same functions as used for objects in
+interfaces.  However, all template objects are children of the ``Template
+Building Area'' and are listed in the ``Template Hierarchy'' rather than
+the ``Widget Instances'' list.  See Section~\ref{sec:templates} for more
+details on the use of templates.
+
+If the {\tt Managed} button was set to true (a tick),
+newly created objects are placed in their parent's managed set (and therefore
+under its geometry management).
+This managed status can be changed using the {\tt Managed} button in
+the ``Edit Widget Instance'' dialog.
+If the object class is a shell subclass the managed button has no effect as
+shells are controlled by the window manager and not the logical parent.
+
+The actual size and position of the created object is dependent upon
+the class of the parent object.  Two general types of parent object exist:
+\begin{description}
+\item{\em composite} --- Parent objects that control the placement and/or
+the size of child objects are know as composite objects.  When a child of a
+composite object is created its size and position may be controlled by the
+parent if the child is in the parent's {\em managed set}.  A child can be
+removed or added to the parent's {\em managed set} using the {\tt Managed}
+toggle button next to the ``Border Width'' value entry.
+
+Different composite objects use different techniques for the layout of
+managed children, some may tile children from left to right, top to bottom
+(as in the Athena Box Widget) and some may place the children in a list
+(possibly sorted).
+\item{\em constraint} --- A constraint parent controls managed children in
+just the same way a composite object would do except that it uses a set of
+constraint resources to work out their placement and size.  Each child is
+given a copy of these resources and by setting these resources (they are
+displayed in reverse video in the ``Editable Resources'' view of the ``Edit
+Widget Instance'' popup dialog; see Section~\ref{sec:editing-constraints})
+you can adjust the layout of the child.
+\end{description}
+
+\subsubsection{Naming Objects}
+Each object must be named ({\em Dirt} will not allow you to create an object
+without a name) using the same conventions as used for the instance
+name of the main application window (Section~\ref{sec:creating-app}).
+This name should be unique in relation
+to other objects, however {\em Dirt} will enforce uniqueness via a
+numbered suffix if required.
+
+This name is used to identify the object by both {\em Dirt} and the
+application.  {\em Dirt} generates a variable handle to the object which can
+be used by the application to manipulate the object.  The name of this
+variable is created directly from the object's name; for example if an object
+is named {\tt mainLayout} the associated variable {\em Dirt} will generate
+will be {\tt WI\_main\_layout}. When the application is executed the user
+interface is generated and the object ids are assigned to these 
+variables.
+
+\subsubsection{Deferred Runtime Creation Of Objects}
+In {\em Dirt} all objects are displayed as soon as they are created.
+Also by default, all objects defined in {\em Dirt} are also created at
+application runtime in one action.  However, the designer can defer creation
+of objects (thus deferring creation of all their children) so that they
+are not created in one go at runtime (i.e.\ when a call to
+{\tt XukcCreateUserInterface()} is made).  To set this the {\em Deferred}
+button in either the ``Create New Widget Instance'' or
+``Edit Widget Instance'' should be set to true (a tick is displayed).
+
+If an object is marked as {\em deferred}, it can be created later
+in the application
+via a call to {\tt WcCreateNamedChildren()}.  This facility is detailed in
+Section~\ref{sec:deferred-creation}.
+Deferring the runtime creation of objects provides:
+\begin{itemize}
+\item{}
+Decreased application startup time by only creating objects on demand.
+\item{}
+Allows multiple objects to be created using the same layout and definition
+(multiple objects with the same object name) under program control.
+\item{}
+Allows objects to be placed on different displays (or screens).
+\end{itemize}
+When {\tt XukcCreateUserInterface()} is called, it creates all the un-deferred
+objects, adds default callbacks and actions for all the actions and callbacks
+registered in {\em Dirt} (these are overridden using calls to
+{\tt WcRegisterActions()} and {\tt WcRegisterCallbacks()}) and then places
+all the created objects' ids in their associated {\tt Widget} variable.
+
+
+\section{Editing Objects}
+\label{sec:editing-objects}
+Any object can be edited after it has been created.  To edit an object it must
+first be selected.  This selection can be made by searching the scrollable
+``Widget Instances'' list and clicking on the required object's entry.  If
+the object you wish to edit is in the currently loaded template the
+``Template Hierarchy'' list should be searched.  The
+selection can also be made by {\tt Pick}ing an object in the user interface or
+the ``Template Building Area''.
+
+When the {\tt Pick} button (in the main menu) is pressed the cursor
+changes to a cross-hair target.
+When a mouse button is pressed the object that lies
+underneath the cursor position is selected. Only objects that are in the
+``Widget Instances'' or ``Template Hierarchy'' list can be selected;
+sub-objects that are contained within
+an object must be edited using the methods described
+in Section~\ref{sec:editing-subobjects}.
+
+When a valid object has been selected the current values of its resources are
+displayed in the ``Edit Widget Instance'' dialog. 
+If the application shell object is chosen the
+``Application Details'' dialog is popped up.
+
+\begin{figure}
+\centerline{\psfig{figure=figures/editing.ps,width=6.5in}}
+\caption{Editing a User Interface Object}
+\label{fig:editing}
+\end{figure}
+The selected object is also highlighted in the user interface with
+nine squares or {\em grips}, as can be seen in Figure~\ref{fig:editing}.
+These grips can be used to re-position and resize the object (provided the
+parent object allows the re-positioning).  Press the first mouse button in
+any of the grips and holding it down, drag the mouse to a position.  A
+``frame'' will follow the mouse showing the new position/size of the object.
+When the button is released the object is moved and resized (under the
+control of the parent). 
+
+Apart from resizing and re-positioning objects the following attributes of
+an object can be edited:\begin{description}
+\item{\em Resources} --- The look and feel of an object is defined by the
+values of its resources.  A resource is essentially a typed item of data
+which belongs to an object.  When the value of a resource is modified the
+object is notified so that it may refuse the modification (e.g.\ to disallow
+out of range or other illegal values) or adjust the values of other resources
+and data internal to the object that rely on the resource.
+Each resource is given a default value by the
+object class it is defined in.  These values can be modified before an object
+is created using the ``Create New Widget Instance'' dialog or after it has
+been created using the ``Edit Widget Instance'' dialog.  Typical resource
+types include colours, fonts, strings, boolean types and bitmaps.  A resource
+is classified as a 4-tuple; {\em (name, class, type, value)}.  Only the
+resource value can be modified.
+\item{\em Constraint Resources} --- Constraint resources are defined by
+constraint parents but are given to their children. The values of the
+constraint resources are used by the parent for geometry management
+(Section~\ref{sec:geometry-management}) of the child. If a child is moved or
+copied from one parent to another the constraint resources are not copied.
+\item{\em Translation Tables} --- A translation table is a special resource
+that is used to define ``Event to Action'' bindings. It is a text resource
+that allows the designer to specify actions (either in the application's
+functionality or in the interface) that are to be called when a certain
+sequence of events happen. For example, the following translation table
+might be set on a push button object:\begin{verbatim}
+       <Btn1Down>,<Btn1Up>: pushed()
+\end{verbatim}
+Here the action {\em pushed} is executed when the first mouse button is
+pressed and released (clicked) inside the push button object.  What the {\em
+pushed} action does is defined in either the button itself or in the
+application's functionality part.
+
+New actions can be accessed by registering their names with {\em Dirt}, see
+Section~\ref{sec:register-actions} for details.  The functionality of a new
+action is only seen, however, when the interface is linked into the other
+parts of the application.
+
+\item{\em Callback Lists} ---
+A callback list resource is a list of callback routines.  These routines are
+called in left to right order when this callback resource is executed (normally
+by the object in response to some external event).  The name of a callback
+routine can only be used in a callback list after it has been registered via
+the ``Application Callbacks'' dialog.
+
+\item{\em Sub-Object Resources} ---
+Some composite objects contain child objects created internally by them.  These
+parents have been termed {\em hybrid} objects.  The child or {\em sub-objects}
+contain resources that you may wish to modify directly.  {\em Dirt} allows
+designers to access and modify these resources using the same methods as
+described for ordinary resources.
+\end{description}
+Editing of these attribute types are discussed in the following sections.
+
+\subsection{Editing Resources}
+\label{sec:editing-resources}
+Apart from creating objects the other main function of {\em Dirt} is to allow
+the editing of these objects.  User interfaces are developed using an
+iterative cycle of design and evaluation (a complete definition of the tasks
+involved in interface design can be found in~\cite{newUITools}).  {\em Dirt}
+allows the designer to ``tinker'' with and modify a design whilst 
+creating it, thus allowing
+this design/evaluation cycle to be extremely fast.  {\em Dirt} achieves
+this by allowing the resources in objects to be interactively edited.  The
+results of the editing are seen immediately in the interface.
+
+Figure~\ref{fig:editing} shows a typical interface being developed using
+{\em Dirt}.  The designer has selected the {\tt exampleZoom12} object and
+the ``Edit Widget Instance'' dialog has been popped up displaying the objects'
+editable resources in a scrollable window.
+
+One resource is given on each line of the resource list.  The first part
+of the line contains the
+type and name of the resource, the second part contains the current value of
+the resource in an easily modifiable form.
+
+The type tells the designer what sort of values the resource can take, i.e.\ a
+{\tt Boolean} resource can be one of two values, TRUE or FALSE.  The name is
+the unique identifier of the resource in this class of object.  If the type
+and name of the resource is displayed in reverse video then the resource is a
+constraint, see the following section for how these resources differ.
+
+The current value of a resource is displayed in a form that allows easy
+editing for that type of resource.  For example the value of a Boolean
+resource is given as a toggling button of either a tick (for true) or a cross
+(for false).  Clicking the first mouse button toggles its value.
+
+When a resource is modified, the object in the interface is informed and
+updates itself internally, this is normally reflected in some visible change
+in the object on the screen.  {\em Dirt} also stores the value of this
+modified resource and saves this as part of the interfaces' specification.
+Therefore when the interface is saved and subsequently re-loaded for editing,
+the interface is re-created with these new resource values.
+
+The following is a complete list of the methods currently used by {\em Dirt}
+to allow interactive editing of resources:
+
+\begin{minipage}[t]{0.25in}
+\psfig{figure=figures/tick.ps,width=0.25in}
+\end{minipage}
+--- Toggle button for boolean values.
+
+\vspace{.1in}
+\begin{minipage}[t]{0.7in}
+\psfig{figure=figures/value.ps,width=0.7in}
+\end{minipage}
+--- An integer number
+whose value can be edited from the keyboard when the pointer is in the box.
+The two arrows allow increment and decrement of the value (with an
+auto-repeat facility) when they are pressed by the first mouse button.
+
+\vspace{.1in}
+\begin{minipage}[t]{2in}
+\psfig{figure=figures/oneOfMany.ps,width=2in}
+\end{minipage}
+--- ``one of many''
+radio buttons for enumerated types. Only one discrete value can be selected,
+cancelling the previous value. A button is selected by clicking the first
+mouse button inside it. The currently set value is indicated by the filled
+circle.
+
+\vspace{.1in}
+\begin{minipage}[t]{1.5in}
+\psfig{figure=figures/manyOfMany.ps,width=1.5in}
+\end{minipage}
+--- ``many of many''
+buttons for flag or option types.  Any combination of discrete values
+can be set.  A filled square indicates that the flag is currently set,
+clicking the first mouse button in the name will toggle the flag's current
+setting.
+
+\vspace{.1in}
+\begin{minipage}[t]{0.6in}
+\psfig{figure=figures/selection.ps,width=0.6in}
+\end{minipage}
+--- Externally
+selected value.  Used for setting values that can be specified using another
+X program; such as {\tt xfontsel}\footnote{
+{\tt xfontsel} is a standard X client that comes with the MIT distribution of
+X11 Release 4.
+}
+for selecting fonts, or {\tt xcoloredit}\footnote{
+{\tt xcoloredit} is an X client created by the author which was made
+available to the X community via the {\em comp.sources.x} USENET newsgroup.
+It should be available on some anonymous ftp servers.
+}
+for mixing colours.  Pressing the first mouse button pulls in the current
+value from one
+of these editors if they are currently being used.  This is done via the X11
+{\em selection mechanism}, refer to the manual pages for {\tt xfontsel} and
+{\tt xcoloredit} for details as to how to select values in these programs.
+The value can also be entered or edited directly using the second mouse
+button and the keyboard.
+
+\vspace{.1in}
+\begin{minipage}[t]{1in}
+\psfig{figure=figures/longName.ps,width=1in}
+\end{minipage}
+--- Edit a sub-object.
+Pressing the first mouse button causes a separate resource list to be
+popped up showing all the resources of this object
+(Section~\ref{sec:editing-subobjects}). Pressing the second mouse
+button reveals a vertical bar which can be positioned within the name and
+edited from the keyboard. Pressing the {\tt Return} key completes the
+editing and checks the new value. Pressing the {\tt Escape} key cancels the
+edit mode. Pressing the third mouse button changes the cursor to small
+cross-hair target. Now, the name of another object can be chosen by clicking
+the first mouse over the object. The current value is changed to this new
+object's name and the edit mode is entered.
+
+\vspace{.1in}
+\begin{minipage}[t]{1.3in}
+\psfig{figure=figures/string.ps,height=.28in}
+\end{minipage}
+--- The resource's current value is represented as a character string.  When
+the pointer is moved into the string the border is highlighted to show that
+the user can edit the string.  The carat insertion character shows where the
+next typed character will be placed.  This can be moved around using the
+pointer and the first mouse button.  Moving outside of the border causes this
+new value to be accepted.
+
+\vspace{.1in}
+\begin{minipage}[t]{1.2in}
+\psfig{figure=figures/pressToEdit.ps,width=1.2in}
+\end{minipage}
+--- Pressing this button causes a separate dialog to pop up containing an editor
+suitable for the resource type.  Currently the only use of this is for the
+translations editor (Section~\ref{sec:editing-translations}).
+
+\vspace{.1in}
+\begin{minipage}[t]{1in}
+\psfig{figure=figures/children.ps,width=1in}
+\end{minipage}
+--- This is a button list of children in a composite or constraint parent.
+Each button can be pressed to pop up a separate dialog containing the child's
+resources (Section~\ref{sec:editing-subobjects}).
+
+\subsection{Constraint Resources}
+\label{sec:editing-constraints}
+As mentioned in Section~\ref{sec:editing-objects} constraint resources are
+given to a child object by its constraint parent.  They are special resources
+that the parent uses to layout and resize its children on a per-child basis.
+As such they are highlighted in reverse video.  They are edited using the
+methods described in the previous section.  How constraint resources are
+used is dependent upon the parent object.
+
+\subsection{Callback Lists}
+\label{sec:editing-callbacks}
+A callback list resource is a list of application callback routines that are
+executed, in turn, when the callback list is executed.  In {\em Dirt}
+these lists are represented as a character string with commas separating
+routine names (with optional string parameters).  An example callback list
+is:\begin{verbatim}
+   outputMessage("Goodbye World!"), WcExitCB()
+\end{verbatim}
+which, when executed, calls the {\tt outputMessage} routine passing
+{\tt "Goodbye World!"} as a parameter string.  After this routine has
+completed the {\tt WcExitCB} routine is executed with no parameters passed.
+
+\subsection{Translation Tables}
+\label{sec:editing-translations}
+Translation tables are one of the two methods by which the user interface is
+linked to the underlying application (the other method being callback
+routines, described in Section~\ref{sec:callbacks}).
+\begin{figure}
+\centerline{\psfig{figure=figures/translations.ps,width=6.5in}}
+\caption{Translation Table Editor Dialog}
+\label{fig:translations}
+\end{figure}
+Translation tables are edited in a separate dialog (shown in
+Figure~\ref{fig:translations}).  This dialog contains three main areas: two
+scrollable lists of available events and callable actions and a main text
+area containing the current translations for the object.  A smaller pane
+below the text area may also appear; this contains any error messages
+reported by the translation table parsing mechanism.
+
+Each line of the translations table contains an event sequence followed by a
+list of actions to call when the event sequence is matched (separated by a
+single colon ``:'').  The full
+syntax of translation tables can be found in Appendix~B
+of~\cite{XtIntrinsics}.  When an entry in the scrollable {\tt Event List}
+is selected (by pressing the first mouse button) it is copied into the
+text area at the current insertion position (denoted by the carat character).
+The same selection can be made in the {\tt Action List} which copies the
+action name followed by open and closing brackets.  Parameters can be passed
+to action routines as comma separated strings inside these brackets.
+
+The action names and parameters provide a straightforward yet powerful means
+of binding the user interface to the application yet allowing each part to be
+separately developed.  New actions are added in {\em Dirt} by registering the
+action name in the ``Translation Actions'' pop up dialog, as shown in
+Figure~\ref{fig:action-dialog}.  When the name has been registered it will be
+added to the {\tt Action List} and can be used in any translation table
+resource.
+\begin{figure}
+\centerline{\psfig{figure=figures/action-dialog.ps,width=3.5in}}
+\caption{{\em Translation Actions} popup dialog}
+\label{fig:action-dialog}
+\end{figure}
+
+When the designer has finished setting the translations for a particular
+object they can be applied, to see how they work in the actual interface.
+When the {\tt Apply} button is pressed the translation table is parsed into
+an internal format and is checked for any errors.  These are reported in the
+``Warnings:'' message area which will popup just below the text area.
+
+If we have a look at the translation table given in
+Figure~\ref{fig:translations} we see that these are the translations of a
+button object.  They specify that when the first mouse button is clicked
+the {\tt notify} action is called.  No highlighting of the button is given
+and once the user presses the first mouse button he cannot cancel the
+operation.  To improve the look and feel of this button we can use the {\tt
+highlight} and {\tt unhighlight} actions built into the object's class.
+We can specify that if the user holds down the first mouse button and
+moves out of the button's border and releases the mouse button the operation
+can be cancelled.  The {\tt notify} action is only called when the
+mouse button is released inside the button's border.  Also, to inform the
+user when he has entered a button we can highlight its edges.  A new
+translation table for these features would be:
+\begin{verbatim}
+      ~Button1<EnterNotify>: highlight()
+      Button1<EnterNotify>: set() highlight()
+      ~Button1<LeaveNotify>: unhighlight()
+      Button1<LeaveNotify>: unset() unhighlight()
+      <Btn1Down>: set()
+      <Btn1Up>: notify() unset()
+\end{verbatim}
+
+{\em Dirt} includes a set of built-in actions (defined by the Widget
+Creation Library~\cite{Wcl}) which perform functions that
+may be useful to most user interfaces. These are listed in
+Appendix~\ref{appendix:actions}; full descriptions can be found in the
+Wcl documentation.
+
+\subsection{Sub-Object Resources}
+\label{sec:editing-subobjects}
+Some resources contain the identifiers to other objects.  These objects may be
+children of a parent object or may be sub-objects created by a hybrid object
+to implement a certain user interface technique; for example, a Viewport
+object may create a horizontal and vertical scrollbar to allow the user to
+scroll the viewport's contents.
+
+To allow the designer to adjust these sub-objects {\em Dirt} will display the
+resources of a sub-object when the sub-object button is pressed in the
+resource list.  This displays the resources of the sub-object in a similar
+resource list and allows the user to modify its resources in the same way.
+
+\section{Copying Objects}
+\label{sec:copying}
+In {\em Dirt} any interface object can be easily copied.  To make a copy of
+an object the designer must firstly select it.  This selection can be made
+by searching the scrollable
+``Widget Instances'' list and clicking on the required object's entry.  If
+the object you wish to edit is in the currently loaded template the
+``Template Hierarchy'' list should be searched.  The
+selection can also be made by {\tt Pick}ing an object in the user interface or
+the ``Template Building Area''.
+
+Once the object to be copied has been selected the {\tt Copy} button in the
+main menu should be pressed.  A sub-menu of two choices is popped up;
+{\tt Single} or {\tt Descendants}.  Choosing {\tt Single}, copies only the
+selected object. {\tt Descendants} copies both the selected object and any
+descendants.
+
+When one of these menu items is chosen the cursor is changed to a cross-hair
+target prompting the designer to pick a destination parent.  The designer 
+positions the cross-hair cursor inside the destination parent object
+(the copy is
+initially placed at this position but may be moved automatically by the
+parent) and clicks the first mouse button.
+
+A copy is now made of the selected object (and possibly its descendants) and
+placed as a child of the destination object.  The name of the newly copied
+object is changed if it clashes with the name of another sibling object.
+This function can be used to put a copy of a {\em template object}
+into an interface.
+
+When an object is copied all the resources that have been edited are also
+copied, with the following exceptions; constraint resources and sub-object
+resources. If any of these resources had been modified then they
+will also need to be modified in the the resultant copy.
+
+\section{Reparenting/Moving Objects}
+\label{sec:reparenting}
+To move an object (and its descendants) from one parent to another the
+{\tt Move} menu button can be used.  This function operates in the same way as
+the ``Copy Descendants'' function detailed in the previous section but the
+originally selected object is deleted.
+
+\section{Deleting Objects}
+\label{sec:deleting}
+To delete an object in {\em Dirt} the object should be first selected
+(see Section~\ref{sec:copying}) and then the {\tt Delete} button in the main
+menu is pressed.
+A dialog box is displayed which prompts the designer to confirm
+the deletion.  If the {\tt Yes} button is pressed the selected object and any
+descendants are deleted.  The ``Widget Instances List'' is also updated.
+
+\section{Commenting Objects and Adding Context Help}
+\label{sec:commenting}
+{\em Dirt} allows the designer to comment the interface whilst it is being
+developed.  These comments are added to individual objects and can be used to
+direct further design or to record problems and design decisions as they crop
+up.  In addition to comments, each object can have context help added to it
+to allow a help system to be created.  Comments and help text are added
+using the ``Comments and Help'' popup dialog, this is popped up by pressing
+the {\tt Comments} button in both the ``Application Details'' and
+``Edit Widget Instance'' dialogs.
+
+The designer is free to enter any comments or help text.  The comments
+and help text are saved in the {\em Dirt} specification file and the
+application resource file.  The help text is saved in the resource file
+as a special resource entry ({\tt .dirtContextHelp}) and can either be
+used directly by the application or through the use of a suitable
+object class that refers to this resource entry.
+
+The comments and help are added on a per-object basis.  Therefore they are
+added to the object currently being edited.
+
+\section{Creating and Using Templates}
+\label{sec:templates}
+\begin{figure}
+\centerline{\psfig{figure=figures/templates.ps,width=6.5in}}
+\caption{{\em Templates} dialog and {\em Template Building Area}}
+\label{fig:templates}
+\end{figure}
+{\em Dirt} allows the interface designer to create hierarchies of objects
+that are not part of any particular interface.  These hierarchies are called
+{\em Templates} and allows the designer to create a set of commonly used
+dialog boxes or other collections of object instances and re-use them in
+different interfaces.  Templates are created in a separate ``Template Building
+Area'' (see Figure~\ref{fig:templates}) and objects can then be copied (or
+moved) from this area into the interface being developed.
+
+The ``Templates'' button in the {\em Dirt} main window, when pressed, pops up
+the ``Templates'' and ``Template Building Area'' (See
+Figure~\ref{fig:templates}).  The templates dialog contains three areas whose
+individual sizes can be arranged by moving their ``panes'' around using the
+square grips to the right of the dividing line.  These areas contain:
+\begin{itemize}
+\item{}
+The textual ``Notes'' describing the template currently displayed in the
+building area.  The designer is free to use this as a general commenting area
+separate to the commenting of objects from the edit dialog.
+\item{}
+A list of the available templates.  These templates are found by searching
+the current directory and the (colon separated) directories given on the
+command line using the {\tt -templates} option.  When first started
+{\em Dirt} examines each {\tt .dirt\_template}
+suffixed file in the search directories and
+creates a list of their names.  Templates are automatically saved when a new
+one is created or an existing one is selected from the list.  New templates
+are saved in the first directory in the {\tt -templates} option or in the
+directory {\em Dirt} was started up from.
+\item{}
+A scrollable, hierarchical list of objects in the current template.  Objects
+in the template can be edited by selecting them from this list or by
+{\tt Pick}ing them.
+\end{itemize}
+Once selected, objects can be edited, deleted, copied or reparented.  All the
+template objects are children of the ``Template Building Area''.  Objects can
+be copied or moved in and out of the template and into the main interface.
+
+The ``Template Building Area'' is popped up whenever the ``Templates'' dialog
+is popped up.  It is popped up on the same display as the developing
+interface.  To pop this window down the {\tt Hide} button should be clicked.
+
+To create a new template the name of the template should be typed in the
+``New Template:'' text area.  Pressing the {\tt Create} button clears the
+``Template Building Area'' and creates a blank template file.
+
+\section{Getting Help}
+\label{sec:help}
+{\em Dirt} has a limited help facility that can give context help regarding
+the use of particular resources.  This help includes the description of a
+resource, what its type is and a description of the object class it is used
+in.  To receive this help, any of the resource names in the various ``Resource
+Lists'' can be pressed to reveal a popup ``Context Help'' dialog as shown in
+Figure~\ref{fig:help-dialog}.
+\begin{figure}
+\centerline{\psfig{figure=figures/help-dialog.ps,height=4in}}
+\caption{Context Help Popup Dialog}
+\label{fig:help-dialog}
+\end{figure}
+This dialog contains three areas:
+\begin{itemize}
+\item{}
+A description of the resource which includes what the resource does and how
+it is normally used.  References to relevant manuals are also given.
+\item{}
+A description of the resource's type.  This includes the legal values that a
+resource of this type can be set to. 
+\item{}
+A detailed description of the Object class that this resource is defined in.
+This description may include what actions this class defines and what
+callbacks are normally used.
+\end{itemize}
+
+\section{Saving the User Interface}
+\label{sec:saving}
+To save a user interface the {\tt File} button in the main menu should be
+pressed.  This reveals a sub-menu of choices, {\tt Save} should be
+chosen and the button released.  This brings up the
+``Save Interface Specification'' dialog box
+\begin{figure}
+\centerline{\psfig{figure=figures/save-dialog.ps,width=3.5in}}
+\caption{{\em Save Interface Specification} dialog box}
+\label{fig:save-dialog}
+\end{figure}
+as shown in Figure~\ref{fig:save-dialog}.  The two prefixes are used to
+create the filename of the specification and generated code files.
+These prefixes can contain forward slashes ``/'' denoting sub-directories.
+One of the five buttons should be pressed to initiate or cancel the save
+operation.
+
+The specification file contains all the information required by {\em Dirt} to
+re-edit the interface.  Its filename is ~``{\em prefix}{\tt .dirt\_spec}''.
+
+The generated code is saved in two C source code files and an
+{\em applications defaults} file.  The C code files are:\begin{description}
+\item{{\em prefix}{\tt \_create.c}} ---
+programmer routines called to create the user interface and bind the interface
+to the application.
+\item{{\em prefix}{\tt \_layout.h}} ---
+Definitions of the variables that hold object identifiers, these allow direct
+access to the user interface from the application.  The variable names are
+created from the object names.
+\end{description}
+The application's defaults file is saved in a file whose filename is the same
+as the interface's classname.  It contains the full definition of the
+interface as created under {\em Dirt} and is read by the creation routines at
+runtime.  {\em Dirt} currently uses the ``Wc --- Widget Creation Library''
+developed by David Smyth {(david@devvax.jpl.nasa.gov)} from work originally
+done by Martin Brunecky {(marbru@auto-trol.COM)}.  This library allows the
+creation of a user interface from a resources file, along with a set of
+callback and action binding routines.  The full specification of ``Wc'' is
+given in~\cite{Wcl}. 
+
+The runtime separation of interface from functionality allows the
+newly designed or edited interface to be executed for testing without having
+to re-compile the application.  Section~\ref{sec:minimal-app} gives a minimal
+application that allows the testing of an interface, it can also be used as
+the starting point for developing full applications.
+
+\section{Loading a Saved User Interface}
+\label{sec:loading}
+To edit a previously created interface the {\tt File} button in the main menu
+should be pressed.  This reveals a sub-menu of choices, {\tt Load} should be
+chosen and the button released.  A small dialog is popped up containing a
+file prefix text area and a {\tt Load} and {\tt Cancel} button.
+
+Pressing the {\tt Load} button will attempt to load a new interface.
+{\tt Cancel} will cancel the operation.  The file prefix area should contain
+the prefix of the {\em Dirt} specification
+file:~~{\em prefix}{\tt .dirt\_spec}.
+
+If an interface already exists in {\em Dirt} the
+``Save Interface Specification'' dialog is popped up to allow the interface
+to be saved in its current state.  If the save is cancelled the current
+interface will be lost when a new one is loaded.
+
+\section{Advanced Functions}
+\subsection{Reverse Engineering an User Interface}
+{\tt This section will described how Dirt can latch on to a running
+application (that has been linked against the UKC Widget Library) and
+create a copy of the applications user interface in Dirt.
+This allows an application to be converted to the Dirt approach to user
+interface design and thus allow any further changes in its user interface
+to be achieved via Dirt ... TO BE CONTINUED}
+
+\subsection{Graphical Layout Constraints}
+{\em Dirt} contains some extra facilities for enhancing the operation of
+{\tt UKCLayout} class Widgets.  These facilities are invoked from the
+{\tt Layout} menu button and its popup submenu.  
+
+{\tt This section will describe the use of layout constraints on the
+UKCLayout and in the future the UKCGlue (a latex like constraint parent)
+widget classes ... TO BE CONTINUED}
+
+\section{Linking the User Interface to the Application}
+\label{sec:linking-to-app}
+The user interface created by {\em Dirt} is linked to the application using
+three main techniques; translation table actions, callback routines and
+direct access to interface objects.  To implement these links {\em Dirt}
+provides a mechanism for the interface designer to register names of objects,
+callback routines and action routines.  These names, once registered, can be
+used from within {\em Dirt} to build translation tables, callback lists and
+connect objects together.  The C code generated by {\em Dirt} also includes a
+mechanism for the application's programmer to bind these names to real
+procedures in the application.  This is described in the following sections.
+The binding of names used in the designed interface to procedures in the
+application is performed at runtime.  Object names are automatically bound to
+variables in the application by the generated routines that create the user
+interface (see Section~\ref{sec:convenience}).
+
+Once a name has been registered in {\em Dirt} either as an action or a
+callback, it can then be used in translation tables or callback lists.  When a
+registered action or callback list is to be executed by the interface in
+{\em Dirt} a message is displayed giving details of what object called this
+routine and what parameters (if any) were passed.  In the final application
+these names must be bound to actual routines before the interface is
+created, see Sections~\ref{sec:bind-actions} and~\ref{sec:bind-callbacks}.
+
+\subsection{Registering New Actions}
+\label{sec:register-actions}
+Action names are registered in {\em Dirt} using the ``Translation Actions''
+dialog (see Figure~\ref{fig:action-dialog}).  This dialog is popped up by
+pressing the ``Translation Actions''
+button in the main window.  This dialog contains a text area to enter the new
+action name, a scrollable list of names already registered and a
+{\tt Register} button. When the register button is pressed the name given in
+the text area is added to the (alphabetically sorted) list.  The name can now
+be used within translation table resources.
+
+\subsection{Creating and Binding Action Routines in the Application}
+\label{sec:bind-actions}
+An action routine in the application is a C procedure defined as taking four
+parameters; the id of the calling object, the last event in the sequence
+which caused this action to be called, a list of parameters (given as
+character strings) and the number of parameters passed.  An example C
+definition is:\begin{verbatim}
+    void an_action(w, event, params, num_params)
+    Widget w;              /* object id. */
+    XEvent *event;         /* last event in translations sequence */
+    String *params;        /* array of parameter strings */
+    Cardinal *num_params;  /* number of parameters passed */
+    {
+        /* application code to implement the action's function */
+    }
+\end{verbatim}
+To register this action as {\tt anAction} the {\tt WcRegisterAction()}
+function should be used in the application:\begin{verbatim}
+    WcRegisterAction(app_context, "anAction", an_action);
+\end{verbatim}
+This routine performs the same function as the toolkit routine
+{\tt XtAppAddActions()}.
+This registration should be performed after the toolkit has been initialized
+and before the user interface has been created by the call to
+{\tt XukcCreateUserInterface()}.
+
+
+\subsection{Registering Callback Routines}
+\label{sec:callbacks}
+Registering callback routine names in {\em Dirt} is performed in an identical
+way as for action names but uses the ``Application Callbacks'' popup dialog.
+
+\subsection{Creating and Binding Callback Routines in the Application}
+\label{sec:bind-callbacks}
+A callback routine in the application is a C procedure defined as taking
+three parameters; the id of the calling object, a pointer to data 
+bound by either the application or interface ({\tt client\_data}) and 
+data passed by the object at execution time ({\tt call\_data}).  An 
+example C definition is:\begin{verbatim}
+    void a_callback(w, client_data, call_data)
+    Widget w;              /* object id. */
+    XtPointer client_data; /* pointer to application data */
+    XtPointer call_data;   /* data passed to object */
+    {
+        /* application code to implement the callback's function */
+    }
+\end{verbatim}
+To register this routine as {\tt aCallback} the {\tt WcRegisterCallback()}
+function should be used in the application:\begin{verbatim}
+    WcRegisterCallback(app_context, "aCallback", a_callback, NULL);
+\end{verbatim}
+This registration should be performed after the toolkit has been 
+initialized and before the user interface has been created by the call 
+to {\tt XukcCreateUserInterface()}.
+
+\subsection{Programmer Convenience Routines}
+\label{sec:convenience}
+{\em Dirt} generates a collection of C routines for creating the user
+interface from the generated resource file.  Through the use of these
+routines the interface developed using {\em Dirt} can be quickly created
+and bound to the application's functionality.  
+Section~\ref{sec:minimal-app} gives an example minimal program that 
+creates the user interface using the following routines:\begin{verbatim}
+Display *
+XukcToolkitInitialize(dpy_str, app_name, app_class, argc, argv,
+                      options, num_options, app_defaults)
+    String dpy_str, app_name, app_class;
+    int *argc;
+    char **argv;
+    XrmOptionDescRec options[];
+    Cardinal num_options;
+    String *app_defaults;
+\end{verbatim}
+This routine initializes the internals of the Xt Toolkit and opens a 
+display connection to an X Server, strips out command line options and 
+sets up any fallback resources for this display.  A pointer to the 
+opened display structure is returned.  This routine is normally used 
+from within the {\tt XukcDirtGO()} function.  The following parameters 
+are defined:\begin{description}
+\item{\tt String dpy\_str} --- A character string naming the display the
+application wishes to connect to.  If this value is
+{\tt (String)NULL} then the command line and user's environment is searched
+for the display name.
+\item{\tt String app\_name} --- The (instance) name of the application, which
+should have a lower-case first letter.
+\item{\tt String app\_class} --- The class name of the application, which
+should have an upper-case first letter.
+\item{\tt int *argc} --- A pointer to an integer containing the number of
+arguments in {\tt argv}.
+\item{\tt char **argv} --- An array of character strings representing the
+command line arguments passed to the application.
+\item{\tt XrmOptionDescRec options[]} --- An array of command line options.
+These options are searched for in {\tt argv}, any matching arguments are
+removed.  Values associated with matched options are placed in the resource
+database associated with this display connection.  They can be retrieved using
+the {\tt XtGetApplicationResources()} function.
+\item{\tt Cardinal num\_options} --- The number of options passed.
+\item{\tt String *app\_defaults} --- An array of character strings which
+contain resource database entries in the form of {\tt "*Background: blue"}.
+These are set as the application fallback resources. They are {\em only} used
+when an application resource file cannot be found.
+\end{description}
+
+\centerline{\rule{4in}{1mm}}
+
+\begin{verbatim}
+void
+XukcDirtRegisterApplicationDefaults(screen, defs, n_defs)
+    Screen *screen;
+    String *defs;
+    Cardinal n_defs;
+\end{verbatim}
+This routine merges valid resource entry strings into the resource database
+associated with the screen. It can be used to load default values for
+resources that can be overridden by an application resources file or by the
+user from the command line (or user resources file). It takes the following
+parameters:
+\begin{description}
+\item{\tt Screen *screen} --- A pointer to a screen structure for an open
+X connection.
+\item{\tt String *defs} --- An array of character strings which contain
+entries for a resource database.
+\item{\tt Cardinal n\_defs} --- The number of character strings.
+\end{description}
+
+\centerline{\rule{4in}{1mm}}
+
+\begin{verbatim}
+Widget
+XukcDirtGO(dpy_str, argc, argv, options, num_options, app_defaults)
+    String dpy_str;
+    int *argc;
+    char **argv;
+    XrmOptionDescRec options;
+    Cardinal num_options;
+    String *app_defaults;
+\end{verbatim}
+This routine initializes the toolkit, opens a connection to the display,
+creates the application's first shell window and strips any
+options from the given command line.  It returns the id of the created
+application object.  It takes the following parameters:\begin{description}
+\item{\tt String dpy\_str} --- A character string naming the display the
+application wishes to connect to.  If this value is
+{\tt (String)NULL} then the command line and user's environment is searched
+for the display name.
+\item{\tt int *argc} --- A pointer to an integer containing the number of
+arguments in {\tt argv}.
+\item{\tt char **argv} --- An array of character strings representing the
+command line arguments passed to the application.
+\item{\tt XrmOptionDescRec options[]} --- An array of command line options.
+These options are searched for in {\tt argv}, any matching arguments are
+removed.  Values associated with matched options are placed in the resource
+database associated with this display connection.  They can be retrieved using
+the {\tt XtGetApplicationResources()} function.
+\item{\tt Cardinal num\_options} --- The number of options passed.
+\item{\tt String *app\_defaults} --- An array of character strings which
+contain resource database entries in the form of {\tt "*Background: blue"}.
+These are set as the application fallback resources, only used when an
+application resource file cannot be found.
+\end{description}
+
+\centerline{\rule{4in}{1mm}}
+
+\begin{verbatim}
+void
+XukcCreateUserInterface(toplevel)
+    Widget toplevel;
+\end{verbatim}
+This routine creates the whole of the user interface as designed in {\em Dirt}.
+It does this by examining the resource file created by {\em Dirt} and
+creating objects that are described therein.  It also binds the created
+objects to the Widget id variables (given in the
+{\em prefix}{\tt \_layout.h} {\em Dirt} generated include file).  If the
+resources file cannot be found and no suitable fallback resources were set
+then this return causes the program to exit with an error message.
+It takes a single parameter:\begin{description}
+\item{\tt Widget toplevel} --- The id of the application's shell object.
+This is normally the Widget id returned by {\tt XukcDirtGO()}.
+\end{description}
+
+\subsection{Creating deferred objects in an application}
+\label{sec:deferred-creation}
+If an object was created or edited and has its {\tt Deferred} creation 
+mode set then neither it nor any descendants will be created when 
+the {\tt XukcCreateUserInterface()} call is made.  This facility can be 
+used to implement the following techniques:\begin{itemize}
+\item{}
+Decrease application startup time by only creating objects on demand. 
+\item{}
+Allow multiple objects to be created using the same layout and 
+definition (multiple objects with the same object name) under program 
+control.
+\item{}
+Allow objects to be placed on different displays (or screens).
+\end{itemize}
+When {\tt XukcCreateUserInterface()} is called it 
+creates all the un-deferred objects, adds default callbacks and actions 
+for all actions and callbacks registered in {\em Dirt} (these are 
+overridden using calls to {\tt WcRegisterActions()} and {\tt 
+WcRegisterCallbacks()}) and then places all the created objects' ids in 
+their associated {\tt Widget} variable.
+
+To create deferred objects the {\tt WcCreateNamedChildren()} call
+can be used.  It takes two arguments:\begin{itemize}
+\item{}
+A {\tt Widget} instance id which is the parent of the deferred children 
+to be created.
+\item{}
+A character string name of the deferred object that 
+is to be created, all non deferred children of this object are also 
+created. This name uses a wild-card naming scheme to allow specific 
+parts of the object hierarchy to be created.
+\end{itemize}
+An example use of this command is:\begin{verbatim}
+    Widget deferred;
+
+    WcCreateNamedChildren(a_parent, "aDeferredObjectName");
+\end{verbatim}
+To bind the created children to variable ids the Wc library function 
+{\tt WcFullNameToWidget()} should be used.  This function finds the 
+named object in the object hierarchy and returns its associated widget 
+id so that the object can be directly manipulated by the application.  
+So for the above example the {\tt Widget} variable {\tt deferred} can be 
+set using:\begin{verbatim}
+    deferred = WcFullNameToWidget(a_parent, ".aDeferredObjectName");
+\end{verbatim}
+
+\subsection{Example Minimal Application}
+\label{sec:minimal-app}
+The convenience routines described in the previous section are used to 
+create the user interface from the generated resources file.  What 
+follows is a minimal program which simply creates the user interface and 
+contains no application functionality.  It can be used as either a 
+program to test user interface designs before the application 
+functionality has been written or as a starting point to create the rest 
+of the application:\begin{verbatim}
+    #include <X11/Intrinsic.h>
+    #include <X11/StringDefs.h>
+
+    extern Widget XukcDirtGO();
+    extern void XukcCreateUserInterface();
+
+    main(argc, argv)
+    int argc;
+    char *argv[];
+    {
+        Widget tmp;
+
+        tmp = XukcDirtGO(NULL, &argc, argv, NULL, 0, NULL);
+
+        /* register any callback or action routines with Wc via
+         * WcRegisterCallback() and WcRegisterAction().
+         */
+
+        XukcCreateUserInterface(tmp);
+
+        /* binding of the user interface to the application done here */
+
+        XtRealizeWidget(tmp);
+        XtAppMainLoop(XtWidgetToApplicationContext(tmp));
+    }
+\end{verbatim}
+This program is compiled along with the ~{\em prefix}{\tt \_create.c} 
+file created by {\em Dirt}:\\
+\hspace{0.3in}{\tt cc -o app app.c {\em 
+prefix}\_create.c -lWc -lXaw -lXmu -lXt -lXext -lX11}\\
+The {\tt -lWc} 
+is the ``Widget Creation Library'' mentioned in Section~\ref{sec:saving} 
+and contains all the routines necessary to create the user interface 
+from the generated resource file.  If object classes from other Widget 
+sets are used in the interface their associated library should be also 
+be given on the compile line; for example the UKC Widget Set is 
+contained in the {\tt -lXukc} library.
+
+When {\tt app} is executed it creates the user interface from the 
+definition given in the resources file.  This file must therefore be 
+placed in a directory known to the Xt Toolkit.  Setting the {\bf 
+XENVIRONMENT} environment variable to the absolute pathname of the 
+directory containing the resource file can be used for testing purposes.  
+The finished application should be placed in a system-wide directory 
+known to the Xt Toolkit (e.g.\ /usr/lib/X11/app-defaults).
+
+The above the absolute minimum code necessary to get a {\em Dirt} 
+generated user interface up and running.  An application can be 
+developed by binding the user interface object's callbacks and actions 
+into the functions and procedures of the application.  This binding 
+should normally be done just before the created interface is displayed 
+(or realized) on the screen.
+
+\bibliography{database}
+
+\appendix
+\newpage{}
+\section{Dirt Command Line Options}
+\label{appendix:command-line-args}
+The following command line options can be given to {\em Dirt} when it is
+first started up.  They are in addition to the standard Xt Toolkit command
+line options such as setting which display to connect to:\begin{description}
+\item{{\tt -appDisplay} ~~\em display-name} \\
+The {\em display-name} argument is taken as the display to build the user
+interface on.  Use of this option allows {\em Dirt} to build user interfaces
+that cannot be easily accommodated on the same display as {\em Dirt}
+itself.
+
+\item{{\tt -outputFile} ~~\em file-prefix} \\
+This option specifies the default prefix for all the C source code generated by
+{\em Dirt}.  It would normally contain just the name of the application
+(the files then being generated in the directory {\em Dirt} was started up
+from).  The generated resources file is placed in the same directory as for the
+generated source code.  This prefix can be later modified when the user
+interface is being saved.
+
+\item{{\tt -specFile} ~~\em file-prefix} \\
+This option specifies the default prefix for the {\em Dirt} specification file.
+{\em Dirt} will try to load the specification from
+~``{\em file-prefix}{\tt .dirt\_spec}''.
+
+\item{{\tt -files} ~~\em file-prefix} \\
+This option sets the filename prefix for both the specification and generated
+code files.
+
+\item{\tt -pixels} \\
+This flag causes all positions and sizes of created objects to be saved in
+pixels (resolution dependent).
+
+\item{\tt -ruler} \\
+This flag causes all positions and sizes of created objects to be saved in
+units of measure form (resolution independent), either in millimetres or in
+inches.
+
+\item{\tt -metric} \\
+This flag sets the unit of measurement to be millimetres.
+
+\item{\tt -inches} \\
+This flag sets the unit of measurement to be inches.
+
+\item{{\tt -templates} ~~\em directories} \\
+This option tells {\em Dirt} which directories to look in for template files,
+which are suffixed with ~{\tt .dirt\_template}.
+The directories are given as a single
+argument with colons separating each directory name, {e.g.}
+{\tt -templates ..:/s/rlh2/templates:/usr/local/lib/dirt}
+tells {\em Dirt} to look for templates in two absolutely named directories
+and in the directory above the one {\em Dirt} was started up from.
+
+New templates are saved in the first directory in the list or if this option
+is missing, in the directory {\em Dirt} was started up from.
+
+\item{\tt +snapToGrid} \\
+Turn on {\em snapping} of an object's position and dimension when it is being
+edited.  When turned on {\em snapping} allows the precise positioning and
+sizing of objects to be made using the edited objects' selection grips.
+An object is positioned and sized using these grips so that the associated
+vertex is always on a grid point.  The spacing of this grid can be set
+from the command line.
+
+\item{\tt -snapToGrid} \\
+Turn off {\em snapping} of edited objects.
+
+\item{\tt +showGrid} \\
+Display the grid points in the parent object when editing a child object.
+
+\item{\tt -showGrid} \\
+Do not display the grid points in the parent object when editing a child object.
+
+\item{{\tt -grid} ~~\em pixel-count} \\
+Grid point spacing size.  This sets both the X and Y axis spacing.
+
+\item{{\tt -xGrid} ~~\em pixel-count} \\
+Set the X axis grid point spacing size.
+
+\item{{\tt -yGrid} ~~\em pixel-count} \\
+Set the Y axis grid point spacing size.
+
+\item{{\tt -gridColour} ~~\em colour} \\
+Set the colour that grid points are displayed in.
+
+\item{{\tt -gravityColour} ~~\em colour} \\
+Set the colour that gravity lines are drawn in.
+
+\item{\tt -sortByType} \\
+Sort and display editable resources by their type name.
+
+\item{\tt -sortByName} \\
+Sort and display editable resources by their resource name. 
+
+\end{description}
+
+\newpage{}
+\section{Built-in Callback Routines}
+\label{appendix:callbacks}
+{\em Dirt} contains a set of callback routines that can be used within any
+callback list resource.  These routines are part of
+``Wc --- Widget Creation Library'' ({\tt -lWc})~\cite{Wcl}.  They are 
+analogous to similarly named functions in the Xt Toolkit 
+Intrinsics~\cite{XtIntrinsics}.
+
+Arguments are normally given as widget (object) names, these names use a 
+hierarchical naming scheme with wildcarding. Periods are used to 
+separate parent and child objects, asterisks are used to match 
+intermediate parents, for example: {\tt *fred.erik*john} matches any 
+objects called ~{\tt john} who have an ancestor called ~{\tt erik} whose 
+parent is called ~{\tt fred}. Normally this naming scheme should only 
+match one object.  A special widget name~{\tt this} can be used which 
+means ``the object that invoked this routine''.
+
+\begin{description}
+\item{\tt WcCreateChildrenCB({\em parent, child [, child] ...})} \\
+This callback creates the named children of the parent. The definition 
+of the children are searched for in the resource database, this 
+definition includes the class of the object, whether it is managed and
+any children it may have.
+
+\item{\tt WcCreatePopupsCB({\em parent, child [, child] ...})} \\
+This callback causes new pop-up (shell) widgets to be created.
+
+\item{\tt WcManageChildrenCB({\em parent, child [, child] ...})} \\
+This callback places the named child objects into the managed set of the
+named parent object.
+
+\item{\tt WcUnmanageChildrenCB({\em parent, child [, child] ...})} \\
+This callback removes the named child objects from the managed set of the
+named parent object.
+
+\item{\tt WcManageCB({\em widget [, widget] ...})} \\
+This callback places each child widget into its parent's managed set
+(causing the parent to re-layout its children).
+
+\item{\tt WcUnmanageCB({\em widget [, widget] ...})} \\
+This callback removes each child widget from its parent's managed set
+(causing the parent to re-layout its children).
+
+\item{\tt WcMapCB({\em shell widget})} \\
+This callback ``maps'' the given Shell widget, displaying it on the screen. 
+
+\item{\tt WcUnmapCB({\em shell widget})} \\
+This callback ``unmaps'' the given Shell widget, removing it from the screen. 
+
+\item{\tt WcDestroyCB({\em widget [, widget] ...})} \\
+This callback destroys the named objects and removes them from the user
+interface.
+
+\item{\tt WcSetSensitiveCB({\em widget [, widget] ...})} \\
+This callback changes the ``sensitive'' resource of each named object to
+TRUE.  This has the effect of allowing events to be sent to the object.
+
+\item{\tt WcSetInsensitiveCB({\em widget [, widget] ...})} \\
+This callback changes the ``sensitive'' resource of each named object to
+FALSE.  This has the effect of not allowing events to be sent to the object,
+also some objects may change the way they look to reflect this change; {i.e.}
+a push button object may gray itself out to show that it cannot be pressed.
+
+\item{\tt WcPopupCB({\em widget})} \\
+This callback pops up (realizes) the named shell widget with a
+non-exclusive (non-modal) grab on further events.
+
+\item{\tt WcPopupGrabCB({\em widget})} \\
+This callback pops up the named shell widget with an exclusive (modal)
+grab.  Any further events are only sent to this widget or any of its
+children.  This routine can be used to create dialog boxes that must be
+acknowledged by the user before continuing.
+
+\item{\tt WcPopdownCB({\em widget})} \\
+This callback pops down (removes from the screen) the named shell widget.
+
+\item{\tt WcSetValueCB({\em $<$object.resource name$>$:$<$resource value$>$})} \\
+This callback can be used to change values of resources in objects from
+within the user interface.  The {\em $<$object.resource name$>$} specifies which
+resource of an object to set to the new {\em $<$resource value$>$}.  When this
+routine is executed the resource is updated and the object is informed (so
+that it can re-display itself if necessary).  This routine can be used to
+set virtually any resource in any object, which means that it can be used to
+change the callbacks on a callback list resource, allowing some dynamic
+programming of the interface from within {\em Dirt}.
+
+\item{\tt WcSetTypeValueCB({\em $<$object.resource name$>$: $<$resource
+type$>$, $<$resource value$>$})} \\
+This callback is an extension of the {\tt WcSetValueCB()}. In addition to
+changing the current value of a named resource, it also explicitly
+converts the value represented as a string to the given {\tt resource
+type}, before updating the resource.
+
+\item{\tt WcLoadResourceFileCB({\em filename})} \\
+This callback loads the resources found in the file: {\em filename}.  These
+resources are merged into the application's current resource database and can
+be used by the application or by the user interface when new objects are
+created.
+
+\item{\tt WcSystemCB({\em ``OS command line''})} \\
+This callback takes the given parameter and passes it to the operating
+system's {\tt system()} procedure which executes the parameter as if it was
+type at the command line.
+
+\item{\tt WcTraceCB({\em debugging annotation})} \\
+This callback is for debugging only and allows the designer to watch what the
+user interface is doing.  When this routine is executed any parameters passed
+are printed on the {\em standard output} of the terminal that {\em Dirt} was
+started from.
+
+\item{\tt WcExitCB({\em exitValue})} \\
+This callback causes the application to quit, setting its {\em exit status}
+to the passed value.  When prototyping from within {\em Dirt} this callback
+displays a suitable message instead of quitting.
+
+\end{description}
+
+\newpage{}
+\section{Built-in Action Routines}
+\label{appendix:actions}
+{\em Dirt} contains a set of actions routines that can be used within any
+translation table.  These routines are part of
+``Wc --- Widget Creation Library'' ({\tt -lWc})~\cite{Wcl}. 
+They are analogous to
+similarly named functions in the Xt Toolkit Intrinsics~\cite{XtIntrinsics}.
+They perform the same function and take the same parameters as the Wc
+callback routines described in Appendix~\ref{appendix:callbacks}. \\
+\\
+{\tt WcCreateChildrenACT({\em parent, child [, child] ...})} \\
+{\tt WcManageChildrenACT({\em parent, child [, child] ...})} \\
+{\tt WcUnmanageChildrenACT({\em parent, child [, child] ...})} \\
+{\tt WcManageACT({\em widget [, widget] ...})} \\
+{\tt WcUnmanageACT({\em widget [, widget] ...})} \\
+{\tt WcMapCB({\em shell widget})} \\
+{\tt WcUnmapCB({\em shell widget})} \\
+{\tt WcDestroyACT({\em widget [, widget] ...})} \\
+{\tt WcSetSensitiveACT({\em widget [, widget] ...})} \\
+{\tt WcSetInsensitiveACT({\em widget [, widget] ...})} \\
+{\tt WcPopupACT({\em widget})} \\
+{\tt WcPopupGrabACT({\em widget})} \\
+{\tt WcPopdownACT({\em widget})} \\
+{\tt WcSetValueACT({\em ``$<$object.resource name$>$ : $<$resource value$>$''})} \\
+{\tt WcSetTypeValueCB({\em $<$object.resource name$>$: $<$resource
+type$>$, $<$resource value$>$})} \\
+{\tt WcLoadResourceFileACT({\em filename})} \\
+{\tt WcTraceACT({\em debugging annotation})} \\
+{\tt WcSystemACT({\em OS command line})} \\
+{\tt WcExitACT({\em exitValue})} 
+
+\newpage{}
+\section{Object Classes Available in Dirt}
+\label{appendix:objects}
+The current object classes availble in {\em Dirt} fall in to two distinct
+Widget Sets; the Athena Widget Set~\cite{XawWidgets} and the UKC Widget
+Set~\cite{ukc-widgets}.  The Xt Intrinsics also define a small collection of
+objects classes which are mainly used as superclasses to all other object
+classes.
+
+The Xt Toolkit Intrinsics define the following widget/object
+classes: {\tt Core}, {\tt Composite}, {\tt Constraint}, {\tt Shell},
+{\tt OverrideShell}, {\tt TransientShell}, {\tt WMShell}, {\tt VendorShell},
+{\tt TopLevelShell}, {\tt ApplicationShell}.
+
+The Athena Widget Set comes as the standard widget set for the Xt 
+Toolkit as part of the MIT Distribution of the X Window System.
+
+The UKC Widget Set is a smaller set of widgets that were mainly created 
+for{\em Dirt} but can be re-used across a wide selection of user 
+interfaces. A lot of the objects are extensions of the Athena Widget
+Set.
+\end{document}

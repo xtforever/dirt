@@ -1,0 +1,403 @@
+.\" $Xukc: UKCMed3Menu.man,v 1.2 90/09/22 17:32:21 rlh2 Rel $
+.\"
+.\" Add simple keeps to MAN macros so .TS/.TE will work
+.\"
+.de KS	\"	Keep start
+.br
+.in 0
+.di KP
+..
+.de KE	\" 	Keep end
+.br
+.di
+.ne \\n(dnu
+.nr fI \\n(.u
+.nf
+.KP
+.if \\n(fI .fi
+.in
+..
+.TH "UKCMed3Menu" "LOCAL X"
+.na
+.nh
+.SH NAME
+UKCMed3MenuWidgetClass \- An X Widget for creating pop-up and pull-down menus.
+.SH SYNOPSIS
+\fB
+.B #include <X11/StringDefs.h>
+.br
+.B #include <X11/Intrinsic.h>
+.br
+.br
+\fB#include <X11/Xukc/Med3Menu.h>
+\fR
+.SH CLASSES
+A subclass of CoreClass.
+.P
+The widget class to use when creating a 
+.I UKCMed3Menu\^
+widget is \fBukcMed3MenuWidgetClass\fP.
+.P
+The class name of 
+.I UKCMed3Menu\^
+is "UKCMed3Menu".
+.SH DESCRIPTION
+The \fIUKCMed3Menu\fP provides an extremely simple method of creating pop-up or
+pull-down style menus.  The menus themselves are designed using the
+\fBMed3\fP menu editor.  This editor produces a description file which is a C
+structure.  This file can either be included and compiled in an application's
+source code or can be read by \fIUKCMed3Menu\fP at runtime.  To read the menu
+from a description file at runtime the \fBXtNmenuFile\fP resource should
+contain the string name of the description file.  To create the menu
+from an included file the \fBXtNmenuStruct\fP resource should
+contain the address of the menu structure variable.  Either \fBXtNmenuFile\fP
+or \fBXtNmenuStruct\fP must be set before calling \fIXtCreateWidget(\|)\fP.
+\fBXtNmenuFile\fP overrides \fBXtNmenuStruct\fP and therefore a compiled
+in menu can be overridden when the application is executed by setting the
+\fBXtNmenuFile\fP via a resource file or the command line (using the -xrm
+option.)
+
+Popup submenus can be changed dynamically using \fBXukcReplaceMenu(\|)\fP.
+This allows lists of choices that during a program's execution to be
+displayed as a submenu.
+
+Menu buttons can be executed directly using the mouse or indirectly using
+Accelerators.  An acelerator is an event sequence that, when set on a menu
+button causes the button to be "pressed" when this sequence occurs.  To set
+accelerators use \fBXukcAddAcceletatorToMenu(\|)\fP and
+\fBXukcInstallMenuAccelerators(\|)\fP.
+
+If the menu's parent is a subclass of \fBshellWidgetClass\fP the menu is
+treated as a pop-up menu otherwise it is a pull-down menu.
+.SH "MENU BUTTONS"
+A \fIUKCMed3Menu\fP can contain three different menu button types; Normal
+Buttons, Toggle Buttons and Popup-menu Buttons.  Application callback
+routines can be added or removed from any menu button via
+the two class defined routines, \fBXukcBindButton(\|)\fP and
+\fBXukcUnbindButton(\|)\fP.  Individual buttons have a \fIreturn value\fP
+set for them in the Med3 editor.  All the functional interface routines
+require this \fIreturn value\fP to identify the individual buttons, therefore
+each button should be assigned with a unique \fIreturn value\fP in the menu
+editor.  Each menu button type operates differently:
+.IP \(bu
+Normal Buttons call any registered callback routines when the pointer is
+within its boundary and the first pointer button (normally the left mouse
+button) is pressed and released.
+\fIAccelerators\fP can be applied to Normal Buttons
+which causes the button to be pressed when a programmer defined event
+sequence happens, e.g. pressing a certain key on the keyboard.
+.IP \(bu
+Toggle Buttons have the same callback calling syntax as Normal Buttons
+except that they have two \fIstates\fP.  Every time a Toggle Button is pressed
+this state is toggled.  For each state a different label can be set, plus a
+callback is called informing the application of the new state (1 or 0).
+To convert a Normal Button into a Toggle Button the \fBXukcBindToggle(\|)\fP
+routine is called, (\fBXukcUnbindToggle(\|)\fP converts it back to a Normal
+Button).  As an example, the application could register a Toggle callback
+that places or removes a "tick" bitmap on the UKCCommandWidget that
+implements the Toggle Button using the \fBXtNleftBitmap\fP resource.
+.IP \(bu
+Popup-menu Buttons cause a sub-menu to be displayed whenever they are
+pressed.  Any registered callback routines are called when the sub-menu
+is popped up.
+The type of sub-menu (either \fIpress\fP or \fIdrag\fP as defined in the
+Med3 editor) defines its behaviour, i.e. when it is popped down.
+.SH "SUB-MENU TYPES"
+Two types of sub-menu are allowed in \fIUKCMed3Menu\fP; static and dynamic.
+Static sub-menus (known as \fIpress\fP sub-menus in the Med3 editor) stay
+popped-up and must be explicity popped down by the user.  This can be done
+by placing a \fIForce Down\fP binding on one or more buttons in the sub-menu,
+(see \fBXukcBindForceDown()\fP below).  Dynamic (or \fIdrag\fP)
+sub-menus are popped
+down automatically when the user releases the left mouse button.  If a dynamic
+sub-menu has a dynamic sub-menu as its parent then it is popped up whenever the
+mouse enters the button it is attached to.  It is popped back down when the
+mouse enters another button.
+.SH "NEW RESOURCES"
+To specify any of these resources within a resource defaults file,
+simply drop the \fIXtN\fP prefix from the resource name.
+.I UKCMed3Menu\^
+defines the following new resources:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Med3Menu Resource Set
+Name	Class	Type	Default
+_
+XtNmenuFile	XtCMenuFile	String	NULL
+XtNmenuStruct	XtCMenuStruct	MENU	NULL
+XtNuseFile	XtCUseFile	Boolean	FALSE
+XtNpopupBitmap	XtCPopupBitmap	Pixmap	XtUnspecifiedPixmap
+XtNnoBorder	XtCNoBorder	Boolean	FALSE
+XtNhighlightThickness	XtCThickness	Dimension	0
+XtNshrinkMenu	XtCShrinkMenu	Boolean	FALSE
+.TE
+.KE
+.sp 1
+.IP \fBXtNmenuFile\fP
+Is the filename of the Med3 menu description file.  It should be set to the
+absolute path of the file or relative to the current directory.  Either this
+resource or \fBXtNmenuStruct\fP must be set as an argument when an instance of
+the \fIUKCMed3Menu\fP is created.  If both resources are set
+\fBXtNuseFile\fP is used to decide which one to take the menu from.
+Thus this resource maybe set from a defaults file to override any internal menu.
+.IP \fBXtNmenuStruct\fP
+Is the address of a menu structure (given in a Med3 menu description file).
+Either this resource or \fBXtNmenuFile\fP must be set as an argument when an
+instance of the \fIUKCMed3Menu\fP is created.
+.IP \fBXtNuseFile\fP
+If this resource is set to TRUE, UKCMed3Menu tries to read the menu from a
+disk file even if the \fBXtNmenuStruct\fP has been set.
+.IP \fBXtNpopupBitmap\fP
+If this bitmap is set it is displayed on the right-hand side of any menu
+buttons which popup sub-menus.  Therefore this could be used to signify that a
+popup sub-menu exists under a button.
+.IP \fBXtNnoBorder\fP
+If set to TRUE when a menu is created this boolean resource causes no borders
+between adjacent menu buttons to be displayed.
+.IP \fBXtNhighlightThickness\fP
+If this resource is non-zero then a highlighting border is displayed whenever
+the cursor enters a button.  This is useful when used with XtNnoBorder ==
+True, to give an indication of which button the cursor is currently in.
+.IP \fBXtshrinkMenu\fP
+If set to TRUE when a menu is created this boolean resource causes the menu
+to ignore the size given to it by the Med3 editor but instead shrinks (or
+grows) to its "ideal" size by calling setting all the menu buttons to their
+preferred geometry. (NOTE: this currently does not work).
+.SH "INHERITED RESOURCES"
+The following resources are inherited from the named superclasses:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Core Resource Set -- CORE(3X)
+Name	Class	Type	Default
+_
+XtNscreen	XtCScreen	XScreen *	0
+XtNcolormap	XtCColormap	Pointer	NULL
+XtNancestorSensitive	XtCAncestorSenstitive	Boolean	TRUE
+XtNx	XtCX	Position	0
+XtNy	XtCY	Position	0
+XtNwidth	XtCWidth	Dimension	10
+XtNheight	XtCHeight	Dimension	10
+XtNdepth	XtCDepth	int	0
+XtNbackground	XtCBackground	Pixel	XtDefaultBackground
+XtNborderWidth	XtCBorderWidth	Dimension	0
+XtNborder	XtCBorder	Pixel	XtDefaultForeground
+XtNsensitive	XtCSensitive	Boolean	TRUE
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	TRUE
+XtNdestroyCallback	XtCCallback	Pointer	NULL
+.TE
+.KE
+.sp 1
+.SH "TRANSLATIONS"
+There are no public default translations in the \fIMed3Menu\fP class.
+.SH "ACTIONS"
+There are no public actions added by the \fIMed3Menu\fP class.
+.SH FUNCTIONAL INTERFACE
+The buttons of any menu can have application callback routines bound to them.
+For normal menu buttons, callback routines registered are called when the
+left mouse button is released in them.  For menu buttons which pop-up
+sub-menus any registered routines are called when the sub-menu is popped-up.
+Menu buttons are identified by the \fIreturn value\fP assigned to them from
+within the Med3 editor.  The following macro can be used to find the correct
+return value assigned by editor:
+.nf
+
+	BINDING_VALUE(bind_character, level)
+
+.fi
+Where the bind_character and level are taken from the menu editors display.
+.sp
+To find the widget instance which implements a menu
+button use the following routine:
+.nf
+
+Widget \fBXukcFindButton\fP(this_menu, button_value)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+
+.fi
+\fBXukcFindButton\fP searches through all the buttons
+contained in the menu and returns
+the widget id. of the first button it finds with a return value the same as
+the \fBbutton_value\fP.
+.LP
+\fBAccelerators\fP can be easily added to menu buttons using
+\fBXukcAddAcceleratorToMenu\fP.  An accelerator is an event sequence which
+can occur in another widget and causes a menu button to be pressed.  This
+allows menu items to be invoked using the keyboard instead of the mouse.
+.nf
+
+Boolean \fBXukcAddAcceleratorToMenu\fP(this_menu, button_value, event, display_string)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+     String event, display_string;
+
+.fi
+The \fBevent\fP string is the event sequence which will cause the menu button
+to be pressed.  Its syntax is the same as the event sequence syntax
+for translation tables, e.g. \fBMeta<Key>Q\fP.  The \fIdisplay_string\fP is
+concatenated on to the buttons labels to give the user an indication that an
+accelerator exists for this menu button, the string is displayed within
+square brackets, e.g. \fB[M-Q]\fP.
+.LP
+To apply the defined accelerators to another widget use
+\fBXukcInstallMenuAccelerators\fP.
+.nf
+
+void \fBXukcInstallMenuAccelerators\fP(this_menu, dest_widget)
+     UKCMed3MenuWidget   this_menu;
+     Widget dest_widget;
+
+.fi
+.LP
+To add or remove application callbacks the following class routines should be
+used:
+.nf
+
+Boolean \fBXukcBindButton\fP(this_menu, button_value, button_proc, client_data)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+     XtCallbackProc   button_proc;
+     XtPointer   client_data;
+
+.fi
+The \fBbutton_proc\fP and \fBclient_data\fP are added to the callback list
+of the menu button denoted by its \fBbutton_value\fP.  \fBXukcBindButton\fP
+returns FALSE if it was unable to find a button in \fBthis_menu\fP which had
+the correct return value.
+.nf
+
+Boolean \fBXukcUnbindButton\fP(this_menu, button_value, button_proc, client_data)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+     XtCallbackProc   button_proc;
+     XtPointer   client_data;
+
+.fi
+The \fBbutton_proc\fP and \fBclient_data\fP are removed from the callback
+list of the menu button denoted by its \fBbutton_value\fP.
+\fBXukcUnbindButton\fP returns FALSE if it was unable to find a button
+in \fBthis_menu\fP which had the correct return
+value.
+.LP
+Toggle buttons are bound and unbound using the following routines:
+.nf
+
+Boolean \fBXukcBindToggle\fP(this_menu, button_value, on_string, off_string, address, button_proc, client_data)
+    UKCMed3MenuWidget   this_menu;
+    short   button_value;
+    String   on_string,   off_string;
+    Boolean   *address;
+    XtCallbackProc   button_proc;
+    XtPointer   client_data;
+
+.fi
+The Toggle button's label is toggled between the on and off strings whenever
+the button is pressed.  Plus the \fBbutton_proc\fP callback is called with the 
+client_data set to \fBclient_data\fP and the call_data set to \fB1\fP if the
+\fBon_string\fP is displayed or \fB0\fP if the \fBoff_string\fP is
+displayed.  The contents of the Boolean \fBaddress\fP is also toggled.
+.nf
+
+Boolean \fBXukcUnbindToggle\fP(this_menu, button_value)
+    UKCMed3MenuWidget   this_menu;
+    short   button_value;
+
+.fi
+removes a Toggle button binding and any callback set.
+.LP
+Static sub-menus need to be explicity forced down by a button in that sub-menu.
+To attach a force down callback to a button use:
+.nf
+
+Boolean \fBXukcBindForceDown\fP(this_menu, button_value)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+
+.fi
+\fBXukcBindForceDown\fP returns FALSE if it was unable to find a button with
+the correct return value or if the button that it found was attached to a top
+level menu which cannot be forced down.
+.LP
+Use \fBXukcUnbindForceDown\fP to remove a force down callback:
+.nf
+
+Boolean \fBXukcUnbindForceDown\fP(this, button_value)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+
+.fi
+\fBXukcUnbindForceDown\fP returns FALSE if it was unable to find a
+button with the correct return value.
+.LP
+To change the resources associated with a particular menu button use:
+.nf
+
+Boolean \fBXukcSetButtonValues\fP(this_menu, button_value, args, num_args)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+     ArgList   args;
+     Cardinal   num_args;
+
+.fi
+This calls \fIXtSetValues(\|)\fP for the menu button denoted by
+\fBbutton_value\fP.  This can be used to adjust the look of menu buttons
+or set them as being insensitive, etc.  TRUE is returned if the SetValues
+was made.
+.LP
+A convenience routine to change the status (and sensitivity) of a button
+is also defined:
+.nf
+
+Boolean \fBXukcChangeButtonStatus\fP(this_menu, button_value, status)
+     UKCMed3MenuWidget this_menu;
+     short button_value;
+     Boolean status;
+
+.fi
+.LP
+To change the contents of a pop sub-menu you can use:
+.nf
+
+void \fBXukcReplaceMenu\fP(this_menu, button_value, new_pane, num_buttons,
+							vertical)
+     UKCMed3MenuWidget   this_menu;
+     short   button_value;
+     XukcReplaceMenuStruct   **new_pane;
+     Cardinal   num_buttons;
+     Boolean   vertical;
+
+.fi
+The parameter \fInew_pane\fP is a list of pointers to
+\fBXukcReplaceMenuStruct\fP structure entries which contain the new sub-menu
+pane descriptions of a button name and button value pair.  \fIbutton_value\fP
+identifies a button in the popup sub-menu pane that you wish to replace.
+The whole of this sub-menu pane is removed and a new one created from
+the entries in \fInew_pane\fP.  If \fIvertical\fP is set to TRUE then the new
+popup sub-menu will be arranged vertically.
+.SH BUGS
+XtNshrinkMenu does not yet work properly.
+.SH AUTHOR
+Richard Hesketh.
+.br
+rlh2@ukc.ac.uk          @nsfnet-relay.ac.uk:rlh2@ukc.ac.uk
+.br
+Computing Lab., University of Kent at Canterbury, UK.
+.SH SEE ALSO
+\fIA Tool for Providing Programs with Menus\fP, John Bovey, Computing Lab.
+Report, UKC 1987
+.br
+\fIAthena Widget Set \- C Language X Interface\fP,
+.br
+\fIX Toolkit Intrinsics - C Language X Interface\fP,
+.br
+\fIXlib - C Language Interface, Protocol Version 11\fP.

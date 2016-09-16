@@ -1,0 +1,82 @@
+%!PS-Adobe-1.0
+%%BoundingBox: 0 0 34 28
+%%Creator: beech:rlh2 (R.L.Hesketh,cug451)
+%%Title: stdin (xwdump)
+%%CreationDate: Tue Jul  3 11:17:22 1990
+%%EndComments
+%%Pages: 1
+%%EndProlog
+%%Page: 1 1
+
+/bitgen
+	{
+		/nextpos 0 def
+		currentfile bufspace readhexstring pop % get a chunk of input
+		% interpret each byte of the input
+		{
+			flag { % if the previous byte was FF
+				/len exch def % this byte is a count
+				result
+				nextpos
+				FFstring 0 len getinterval % grap a chunk of FF's
+					putinterval % and stuff them into the result
+				/nextpos nextpos len add def
+				/flag false def
+			}{ % otherwise
+				dup 255 eq { % if this byte is FF
+					/flag true def % just set the flag
+					pop % and toss the FF
+				}{ % otherwise
+					% move this byte to the result
+					result nextpos
+						3 -1 roll % roll the current byte back to the top
+						put
+					/nextpos nextpos 1 add def
+				} ifelse
+			} ifelse
+		} forall
+		% trim unused space from end of result
+		result 0 nextpos getinterval
+	} def
+
+
+/bitdump % stk: width, height, iscale
+	% dump a bit image with lower left corner at current origin,
+	% scaling by iscale (iscale=1 means 1/300 inch per pixel)
+	{
+		% read arguments
+		/iscale exch def
+		/height exch def
+		/width exch def
+
+		% scale appropriately
+		width iscale mul height iscale mul scale
+
+		% data structures:
+
+		% allocate space for one line of input
+		/bufspace 36 string def
+
+		% string of FF's
+		/FFstring 256 string def
+		% for all i FFstring[i]=255
+		0 1 255 { FFstring exch 255 put } for
+
+		% 'escape' flag
+		/flag false def
+
+		% space for a chunk of generated bits
+		/result 1000 string def
+
+		% read and dump the image
+		width height 1 [width 0 0 height neg 0 height]
+			{ bitgen }
+			image
+	} def
+72 300 div dup scale
+24 20 6 bitdump
+ff03ff03ff03ff03ff03fe7e7fff013cff01ff0199ff01ff01c3ff01ff01e7ff01ff01c3
+ff01ff0199ff01ff013cff01fe7e7fff03ff03ff03ff03ff03ff03789abcdef012345678
+
+showpage
+%%Trailer

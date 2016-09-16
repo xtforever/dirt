@@ -1,0 +1,119 @@
+The ICRM Protocol
+
+ICRM stands for "Inter-Client Resource Management"
+
+
+It is currently implemented using X window properties and XSendEvent().
+
+DEFINITIONS:
+-->  = client sending data to ICRM server process
+<--  = client receiving data from ICRM server process
+			ICRM server receiving data from client process =   --->
+			    ICRM server sending data to client process =   <---
+
+PROTOCOL OVERVIEW:
+				---------
+
+Client examines Root Window for INVITATION properties
+(After the first examination client should watch the root window for any
+ change in these properties.  If a property is updated then a new server
+ has started up.  If a property is deleted then a server has died)
+
+ACCEPT INVITATION -->
+(include comms details)					 --> ACCEPTED
+						(extract comms details)
+
+				----------
+
+					Server Asks Client For Object Heirarchy
+
+							<-- GET HIERARCHY
+RECEIVED HIERARCHY REQUEST <--
+(build heirarchy data structure)
+SEND OBJECT HIERARCHY -->
+(place data in property and				--> RETURNED HIERARCHY
+ send signalling event)				(retrieve data from property)
+						   <-- Delete Data Property
+
+
+				----------
+
+				      Server Asks Client For Values of Resources
+
+							<-- GET VALUES
+RECEIVED GET VALUES REQUEST <--
+(retrieve resource values and
+ convert to wire format)
+SEND VALUES -->
+(place data in property and				--> RETURNED VALUES
+ send signalling event)				(retrieve data from property)
+						   <-- Delete Data Property
+
+				----------
+
+				  Server Gives Client New Values for Resources
+
+							<-- SET VALUES
+						(place data in property and
+						 send signalling event)
+RECEIVED SET VALUES REQUEST <--
+(convert from wire format and
+ set the values on the objects)
+Delete Data Property -->
+
+				----------
+
+							Server Shuts Down
+
+						<-- Delete Root Properties
+Root Window Property Change <--
+(clean up internal data structures)
+
+				----------
+
+Client Shuts Down
+
+CLIENT DYING -->
+						--> CAUGHT DYING CLIENT
+					(clean up internal data structures
+					 and terminate any requests in
+					 process)
+
+				----------
+
+etc.
+
+IN DETAIL:
+When a client starts up it examines the ROOT Window and looks for
+two Properties:
+
+	An "INVITING_CLIENT" property
+and
+	An "INVITING_CLIENT_DISPLAY" property
+
+These two properties tell the client where a resource editor, user interface
+builder or other ICRM protocol using tool is currently running (hereafter
+called an ICRM Server). 
+
+The client then sends an "ACCEPT INVITATION" acknowledgement to the ICRM server
+via an XSendEvent() which includes the window that the server should use to
+communicate to the client with.
+
+The client now justs sits and waits for either a server to shutdown or a
+different one to start up or for an incoming request.  All requests come
+from a server and are delt with by the requested client.  The following
+requests are currently supported:
+
+   HIERARCHY_REQUEST	    - get a copy of the object hierarchy
+   GET_RESOURCES_REQUEST    - get a list of resources in a widget
+   GET_ACTION_LIST_REQUEST  - get a list of the actions available to a widget
+   GET_VALUES_REQUEST	    - get a list of resource values for a widget
+   SET_VALUES_REQUEST	    - set values of resources in a widget
+   CONVERSION_REQUEST	    - perform a remote Type-To-Type resource conversion
+   WINDOW_REQUEST	    - perform a remote Window-To-Widget conversion
+
+Both requests and responses are delt with asynchronously by client and server.
+This allows both parties to continue to operate their user interfaces without
+having to block for a response.  If synchronous operation is required then a
+simple wrapper around each request which waits for responses can be written.
+Dirt does this for some of the requests, such as Get- and SetValues.

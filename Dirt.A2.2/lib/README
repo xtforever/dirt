@@ -1,0 +1,17 @@
+/* SCCSID: @(#)README	1.1 (UKC) 5/10/92 */
+
+        The UKC Widget Set, utilities and Widget Creation Library
+
+Release: Alpha.2
+Patchlevel: 2
+
+This directory contains the UKC widget set and associated utilities routines
+that form the libXukc.a library.  It also contains a copy of the 1.06
+distribution of the Widget Creation library, libWc.a written by
+David Smyth and Martin Brunecky.
+
+The only change to the Widget Creation library made here for its use with
+Dirt is that of a new Imakefile.  To install a newer version of Wc copy over
+all the files except for the Imakefile.  I have only included the Widget
+Creation Library itself and not the example programs that come with the
+full distribution.

@@ -1,0 +1,286 @@
+.\" $Xukc: UKCLabel.man,v 1.2 90/09/22 17:32:19 rlh2 Rel $
+.\"
+.\" Add simple keeps to MAN macros so .TS/.TE will work
+.\"
+.de KS	\"	Keep start
+.br
+.in 0
+.di KP
+..
+.de KE	\" 	Keep end
+.br
+.di
+.ne \\n(dnu
+.nr fI \\n(.u
+.nf
+.KP
+.if \\n(fI .fi
+.in
+..
+.TH "UKCLABEL" "LOCAL X"
+.na
+.nh
+.SH NAME
+UKCLabelWidgetClass \- An X Widget which produces a text/bitmap label.
+.SH SYNOPSIS
+\fB
+.B #include <X11/StringDefs.h>
+.br
+.B #include <X11/Intrinsic.h>
+.br
+\fB#include <X11/Xukc/Label.h>
+\fR
+.SH CLASSES
+A subclass of Core, and Simple class.
+.P
+The widget class to use when creating a 
+.I UKCLabel\^
+widget is \fBukcLabelWidgetClass\fP.
+.P
+The class name of 
+.I UKCLabel\^
+is "UKCLabel".
+.SH DESCRIPTION
+The \fIUKCLabel\fP class provides a widget which displays a text label or
+bitmap or pixmap justified inside a rectangular window.   It also provides
+the ability
+to place two other bitmaps (or pixmaps) on either side of the text/image
+of the label.
+This is used by the UKCToggle widget subclass to provide toggling bitmap
+images for its two different states.  The label does intelligent redraw
+through the use of different regions thus reducing screen flicker.
+
+If the pixmap resources are set then they are only displayed on a screen
+whose depth is greater than 1 (i.e. not monochrome).
+
+The label can also be edited using the keyboard allowing its use a single
+line text entry widget, or for the customization of the label.
+.SH "NEW RESOURCES"
+To specify any of these resources within a resource defaults file,
+simply drop the \fIXtN\fP prefix from the resource name.
+.I UKCLabel\^
+defines the following new resources:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+UKCLabel Resource Set
+Name	Class	Type	Default
+_
+XtNbitmap	XtCPixmap	Pixmap	None
+XtNbarColour	XtCForeground	Pixel	XtDefaultForeground
+XtNeditable	XtCEditable	Boolean	True
+XtNediting	XtCEditing	Boolean	False
+XtNeditCallback	XtCCallback	CallbackList	NULL
+XtNfont	XtCFont	XFontStruct *	XtDefaultFont
+XtNforeground	XtCForeground	Pixel	XtDefaultForeground
+XtNgrabKeyboard	XtCGrabKeyboard	Boolean	False
+XtNinternalHeight	XtCHeight	Dimension	2
+XtNinternalWidth	XtCWidth	Dimension	4
+XtNjustify	XtCJustify	XtJustify	XtJustifyCenter
+XtNlabel	XtCLabel	String	Name of widget
+XtNoverflowRight	XtCOverflowRight	Boolean	False
+XtNoverflowTop	XtCOverflowTop	Boolean	False
+XtNresize	XtCResize	Boolean	False
+XtNverticalJustify	XtCVerticalJustify	XtRVerticalJustify	center
+XtNleftBitmap	XtCLeftBitmap	Bitmap	None
+XtNrightBitmap	XtCRightBitmap	Bitmap	None
+XtNpixmap	XtCPixmap	Pixmap	None
+XtNleftPixmap	XtCLeftPixmap	Pixmap	None
+XtNrightPixmap	XtCLeftPixmap	Pixmap	None
+.TE
+.KE
+.sp 1
+.IP \fBXtNlabel\fP
+A text string which is displayed in the middle of the label widget,
+justified.  It is overridden by XtNbitmap.
+.IP \fBXtNbitmap\fP
+A bitmap to use instead of the text label.
+.IP \fBXtNleftBitmap\fP
+A bitmap that is displayed to the left of the text/image label.
+.IP \fBXtNrightBitmap\fP
+A bitmap that is displayed to the right of the text/image label.
+.IP \fBXtNpixmap\fP
+A pixmap to use instead of the text label.  This pixmap is only used if the
+screen has a depth greater than 1, i.e. is a colour display.
+.IP \fBXtNleftPixmap\fP
+A pixmap that is displayed to the left of the text/image label.
+.IP \fBXtNrightPixmap\fP
+A pixmap that is displayed to the right of the text/image label.
+.IP \fBXtNjustify\fP
+How the text is justified, either XtJustifyCenter ("center" from defaults
+file), XtJustifyRight (right), XtJustifyLeft (left).  Any left or right
+bitmap is taken into account when calculating the justification.
+.IP \fBXtNverticalJustify\fP
+How the text is justified vertically, either XukcEcenter
+("center" from defaults
+file), XukcEtop (top) or XukcEbottom (left).  This resource also
+justifies the
+labels image if one is used instead of the text.
+.IP \fBXtNresize\fP
+If set to TRUE, causes SetValues to calculate the new size of the label
+whenever it is called.  The label will change size only if its parent lets
+it.
+.IP \fBXtNfont\fP
+The font that the text is displayed in.
+.IP \fBXtNforeground\fP
+The color that the text is displayed in.
+.IP \fBXtNinternalHeight\fP
+Distance between top of widget and label text/bitmap.
+.IP \fBXtNinternalWidth\fP
+Distance between side of widget and label text/bitmap.  Also is the spacing
+distance between the left and right bitmaps and the label text/bitmap.
+.IP \fBXtNeditable\fP
+Whether the label can be edited by the user.
+.IP \fBXtNediting\fP
+Turn on or the editing insertion bar.  Can also be used indicate to a program
+if the label is currently being edited.
+.IP \fBXtNgrabKeyboard\fP
+Whether the keyboard should be grabbed, sending all keyboard events to this
+widget, when the label is being edited.
+.IP \fBXtNoverflowRight\fP
+If TRUE and the label's width is too small to contain all the label then
+the label should be left justified.  This also means that when editing the
+label the insertion bar will run off the right hand side of the window.
+If FALSE the label overflows to the left, this is the default for editing.
+.IP \fBXtNoverflowTop\fP
+If TRUE and the label's height is too small to contain all the label then
+the label should be bottom justified.
+If FALSE the label overflows to the bottom.
+.IP \fBXtNeditCallback\fP
+Routines registered on this callback are called whenever the label has been
+changed after being edited from the keyboard (called by the
+\fBlabel_update()\fP action).  The \fIcall_data\fP argument
+contains a pointer to the new label.  The contents of this pointer should
+not be directly changed.  The address of this pointer should not be saved.
+.SH "INHERITED RESOURCES"
+The following resources are inherited from the named superclasses:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Core Resource Set -- CORE(3X)
+Name	Class	Type	Default
+_
+XtNaccelerators	XtCAccelerators	XtTranslations	NULL
+XtNancestorSensitive	XtCAncestorSenstitive	Boolean	TRUE
+XtNbackground	XtCBackground	Pixel	XtDefaultBackground
+XtNborder	XtCBorder	Pixel	XtDefaultForeground
+XtNborderWidth	XtCBorderWidth	Dimension	0
+XtNcolormap	XtCColormap	Pointer	NULL
+XtNdepth	XtCDepth	Cardinal	0
+XtNdestroyCallback	XtCCallback	Pointer	NULL
+XtNheight	XtCHeight	Dimension	text height
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	TRUE
+XtNscreen	XtCScreen	XScreen *	0
+XtNsensitive	XtCSensitive	Boolean	TRUE
+XtNwidth	XtCWidth	Dimension	text width
+XtNx	XtCPosition	Position	0
+XtNy	XtCPosition	Position	0
+.TE
+.KE
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Simple Resource Set -- SIMPLE(3X)
+Name	Class	Type	Default
+_
+XtNcursor	XtCCursor	Cursor	None
+XtNinsensitiveBorder	XtCInsensitive	Pixmap	Grey
+.TE
+.KE
+.sp 1
+.SH "TRANSLATIONS"
+.IP
+<Btn2Down>:      label_edit(on)
+.br
+<Btn2Motion>:      position_bar(\|)
+.br
+:<Key>Delete:      delete_char(\|)
+.br
+:<Key>BackSpace:      delete_char(\|)
+.br
+:<Key>Return:      label_update(\|) label_edit(off)
+.br
+:<Key>Linefeed:      label_update(\|) label_edit(off)
+.br
+:<Key>Escape:      undo_edit(\|)
+.br
+:Ctrl<Key>h:      position_bar(-1)
+.br
+:Ctrl<Key>j:      position_bar(beginning)
+.br
+:Ctrl<Key>k:      position_bar(end)
+.br
+:Ctrl<Key>l:      position_bar(+1)
+.br
+<Key>:      insert_char(\|)
+.SH "ACTIONS"
+.IP \fBlabel_edit()\fP
+Turn \fBon\fP or \fBoff\fP the editing insertion bar at the current
+insertion position.  \fBlabel_edit(off)\fP also resets the old copy
+of the label used by \fBundo_edit()\fP.  Keyboard entry is only
+accepted when \fBlabel_edit(on)\fP has been called.
+If keyboard grabs have been turned on using \fBXtNgrabKeyboard\fP
+then they are set or reset when editing is turned on or off.
+This action is ignored if \fBXtNeditable\fP is FALSE.
+.IP \fBposition_bar()\fP
+Move the insertion bar to a new character position in the string.
+If invoked by a button motion event the current pointer position is used
+to set the character position.  If a single parameter is passed it is
+taken as a numerical offset to the move the bar by, eg.
+\fBposition_bar(+1)\fP moves the bar one character to the right.
+\fBposition_bar(beginning)\fP moves the bar to the start of the string and
+\fBposition_bar(end)\fP moves the bar to the end.
+This action is ignored if \fBXtNeditable\fP or \fBXtNediting\fP is FALSE.
+.IP \fBinsert_char()\fP
+Inserts the KeyPress event character at the current insertion bar location.
+This action is ignored if \fBXtNeditable\fP or \fBXtNediting\fP is FALSE.
+.IP \fBdelete_char()\fP
+Deletes the single character to the left of the insertion bar.
+This action is ignored if \fBXtNeditable\fP or \fBXtNediting\fP is FALSE.
+.IP \fBundo_edit()\fP
+Ignore all the changes made to the label and redisplay the label as it
+was before editing commenced.
+This action is ignored if \fBXtNeditable\fP or \fBXtNediting\fP is FALSE.
+.IP \fBlabel_update()\fP
+Call any callbacks registered on \fBXtNeditCallback\fP callback list,
+passing the currently edited value of the label as a String pointer in
+call_data.
+.SH "FUNCTIONAL INTERFACE"
+To update either the left or right bitmap resources without causing an
+exposure event (ie. the flicker caused by a XtSetValues()) use:
+.LP
+.nf
+void XukcLabelNewBitmap(w, new_bitmap, is_left)
+Widget w;      /* the label widget to update */
+Pixmap new_bitmap;    /* the new bitmap */
+Boolean is_left;   /* TRUE if XtNleftBitmap is required */
+.fi
+.SH AUTHOR
+Taken from the original X11R3 Athena Widget set label widget class by
+DEC/MIT.
+.br
+Updated and revised by Richard Hesketh.
+.br
+rlh2@ukc.ac.uk		@nsfnet-relay.ac.uk:rlh2@ukc.ac.uk
+.br
+ ..!{mcvax | mcsun}!ukc!rlh2
+.br
+Computing Lab., University of Kent at Canterbury, UK.
+.SH SEE ALSO
+\fIAthena Widget Set \- C Language X Interface\fP,
+.br
+\fIX Toolkit Intrinsics \- C Language X Interface\fP,
+.br
+\fIXlib \- C Language Interface, Protocol Version 11\fP.

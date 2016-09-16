@@ -1,0 +1,22 @@
+#include "../../Xukc.tmpl"
+
+/**/# $Xukc: Imakefile,v 1.5 91/12/17 11:35:40 rlh2 Rel $
+/**/# bitmaps Imakefile
+
+INSTALLFLAGS = $(INSTINCFLAGS)
+
+UKCBITMAPS = tick push_left press_left popupPix pointer pauseon pauseoff \
+             perly on_square on_circle off_square off_circle keyboard \
+             dirt cross cont checked_square arrow copyright locked \
+	     unlocked gsicon
+
+all::
+
+BuildIncludes($(UKCBITMAPS),Xukc/bitmaps,../..)
+
+MakeDirectories(install,$(UKCINCDIR)/bitmaps)
+InstallMultiple($(UKCBITMAPS),$(UKCINCDIR)/bitmaps)
+
+depend::
+
+clean::

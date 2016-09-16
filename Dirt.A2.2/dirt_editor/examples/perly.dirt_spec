@@ -1,0 +1,1409 @@
+%%ID  DIRT! 1.4 (c)1990 rlh2@ukc.ac.uk : UI Specification file
+%%ID  Application = "perly"
+%%ID  Created by rlh2 on Mon Dec 16 16:12:25 1991
+%Y tailor_popup
+%Y save_perly
+%Y quit_perly
+%Y perly_popup
+%Y perly_move
+%%%
+%A perly
+%C Perly
+%R borderWidth : 0
+%R allowShellResize : true
+%F
+%%%
+%N perlyBox
+%c boxWidgetClass
+%p perly
+%m true
+%o false
+%r borderWidth : 0
+%r hSpace : 0
+%r vSpace : 0
+%f
+%%%
+%N  perlyButton
+%c  ukcCommandWidgetClass
+%p  perly.perlyBox
+%m  true
+%o  false
+%s  x : 0
+%s  y : 0
+%s  width : 151
+%s  height : 23
+%s  borderWidth : 0
+%s  label : A Perly Button
+%s  font : -B&H-Lucida-Bold-I-Normal-Sans-18-180-75-75-P-119-ISO8859-1
+%s  editable : true
+%s  translations : ~Button1<EnterNotify>: highlight()\
+Button1<EnterNotify>: set() highlight()\
+~Button1<LeaveNotify>: unhighlight()\
+Button1<LeaveNotify>: reset()\
+~Shift<Btn2Down>: label_edit(on)\
+Shift<Btn2Down>: tailor_popup()\
+Button2<MotionNotify>: position_bar()\
+Ctrl<Key>S: save_perly()\
+Ctrl<Key>K: quit_perly(remove)\
+Ctrl<Key>C: quit_perly()\
+Meta<Key>Q: quit_perly()\
+Meta<Key>Escape: quit_perly(nosave)\
+:<KeyPress>Delete: delete_char()\
+:<KeyPress>BackSpace: delete_char()\
+:<KeyPress>Return: label_update() label_edit(off)\
+:<KeyPress>Linefeed: label_update() label_edit(off)\
+:<KeyPress>Escape: undo_edit()\
+<KeyPress>: insert_char()\
+~Shift<Btn1Down>: set()\
+~Shift<Btn1Up>: notify() unset()\
+Shift<Btn1Down>: perly_popup()\
+Shift<Btn3Down>: unhighlight() perly_move(start copy)\
+Shift Button3<MotionNotify>: perly_move(move copy)\
+Shift<Btn3Up>: perly_move(stop copy)\
+<Btn3Down>: unhighlight() perly_move(start move)\
+Button3<MotionNotify>: perly_move(move move)\
+<Btn3Up>: perly_move(stop move)\
+
+%r  resize : true
+%f
+%%%
+%N  transparent
+%c  coreWidgetClass
+%p  perly.perlyBox
+%m  false
+%o  false
+%s  x : 0
+%s  y : 0
+%s  width : 207
+%s  height : 142
+%s  borderWidth : 0
+%s  translations : <Btn2Down>: tailor_popup()\
+Ctrl<Key>C: quit_perly()\
+Meta<Key>Q: quit_perly()\
+Meta<Key>Escape: quit_perly(nosave)\
+<Btn1Down>: perly_popup()\
+
+%f
+%%%
+%N  perlyIcon
+%c  labelWidgetClass
+%p  perly.perlyBox
+%m  false
+%o  false
+%s  x : 0
+%s  y : 23
+%s  width : 151
+%s  height : 22
+%s  borderWidth : 2
+%s  resize : false
+%s  font : nil2
+%r  justify : left
+%r  foreground : #ff0000
+%f
+%%%
+%N tailorPopup
+%c applicationShellWidgetClass
+%p perly
+%m false
+%o false
+%s borderWidth : 0
+%s title : Perly Button Tailoring Popup
+%f
+%%%
+%N  tailorLayout
+%c  ukcLayoutWidgetClass
+%p  perly.tailorPopup
+%m  true
+%o  false
+%s  x : 0
+%s  y : 0
+%s  width : 490
+%s  height : 438
+%s  borderWidth : 0
+%r  geomStatus : turnedoff 
+%f
+%%%
+%N   hideTailorButton
+%c   ukcCommandWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 430
+%s   y : 5
+%s   width : 49
+%s   height : 27
+%s   borderWidth : 2
+%s   label : Hide
+%z   horizFixed : true
+%z   vertFixed : true
+%r   cursor : hand2
+%f
+%%%
+%N   perlyTailorTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 3
+%s   y : 4
+%s   width : 422
+%s   height : 26
+%s   borderWidth : 0
+%z   vertFixed : true
+%r   leftBitmap : perly
+%r   label : Tailoring the Perly Button
+%f
+%%%
+%N   tailorOutputLabel
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 41
+%s   width : 112
+%s   height : 20
+%s   borderWidth : 0
+%s   label : Popup Output:
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   tailorPopupOnOutput
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 117
+%s   y : 41
+%s   width : 99
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_circle
+%s   onBitmap : on_circle
+%s   label : On Output
+%z   vertFixed : true
+%r   radioValue : 1
+%f
+%%%
+%N   tailorPopupOnCompletion
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 224
+%s   y : 41
+%s   width : 131
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_circle
+%s   onBitmap : on_circle
+%s   label : On Completion
+%z   vertFixed : true
+%r   radioValue : 2
+%r   radioToggle : *tailorPopupOnOutput
+%f
+%%%
+%N   tailorPopupNever
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 366
+%s   y : 41
+%s   width : 66
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_circle
+%s   onBitmap : on_circle
+%s   label : Never
+%z   vertFixed : true
+%r   state : false
+%r   radioValue : 3
+%r   radioToggle : *tailorPopupOnCompletion
+%f
+%%%
+%N   tailorIconLabel
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 69
+%s   width : 111
+%s   height : 20
+%s   borderWidth : 0
+%s   label : Output Icon:
+%z   horizFixed : true
+%z   vertFixed : true
+%r   justify : right
+%f
+%%%
+%N   tailorIconOnWhenOutput
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 117
+%s   y : 69
+%s   width : 139
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_circle
+%s   onBitmap : on_circle
+%s   onLeft : true
+%z   vertFixed : true
+%r   label : On When Output
+%r   resize : false
+%r   radioValue : 1
+%f
+%%%
+%N   onCompletionOptions
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 7
+%s   y : 95
+%s   width : 120
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : On Completion:
+%z   vertFixed : true
+%f
+%%%
+%N   beepOnCompletion
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 130
+%s   y : 95
+%s   width : 56
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_square
+%s   onBitmap : on_square
+%s   onLeft : true
+%s   justify : left
+%s   label : Beep
+%z   vertFixed : true
+%r   resize : false
+%f
+%%%
+%N   showQuitButton
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 371
+%s   y : 95
+%s   width : 108
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : cross
+%s   onBitmap : tick
+%s   onLeft : false
+%s   justify : right
+%s   label : Show Quit:
+%z   vertFixed : true
+%r   resize : true
+%f
+%%%
+%N   passArgs
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 131
+%s   y : 119
+%s   width : 92
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_square
+%s   onBitmap : on_square
+%s   onLeft : true
+%s   justify : left
+%s   label : Selected
+%z   vertFixed : true
+%f
+%%%
+%N   executionDirectory
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 182
+%s   y : 143
+%s   width : 300
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%z   vertFixed : true
+%r   editable : true
+%r   label : ~
+%f
+%%%
+%N   executionDirectoryTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 144
+%s   width : 173
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%z   vertFixed : true
+%z   horizFixed : true
+%r   label : Execution Directory:
+%f
+%%%
+%N   labelTailoringTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 177
+%s   width : 264
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : left
+%s   label : Tailorable Resources for Button:
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   fontTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 205
+%s   width : 48
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Font:
+%z   horizFixed : true
+%z   vertFixed : true
+%r   resize : false
+%f
+%%%
+%N   fontButton
+%c   ukcCommandWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 59
+%s   y : 203
+%s   width : 96
+%s   height : 20
+%s   borderWidth : 2
+%s   label : screen.r.14
+%r   resize : true
+%r   editable : true
+%f
+%%%
+%N   foregroundTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 248
+%s   width : 159
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Foreground Colour:
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   foregroundButton
+%c   ukcCommandWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 170
+%s   y : 247
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%z   horizFixed : false
+%z   vertFixed : true
+%r   label : #000000
+%r   resize : false
+%r   editable : true
+%f
+%%%
+%N   backgroundTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 244
+%s   y : 248
+%s   width : 168
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Background Colour:
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   backgroundButton
+%c   ukcCommandWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 417
+%s   y : 247
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%s   label : #ffffff
+%z   vertFixed : true
+%z   horizFixed : false
+%r   editable : true
+%f
+%%%
+%N   barColourTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 275
+%s   width : 159
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Editing Bar Colour:
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   barColourButton
+%c   ukcCommandWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 170
+%s   y : 274
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%s   label : #000000
+%z   vertFixed : true
+%r   editable : true
+%f
+%%%
+%N   highlightColourTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 245
+%s   y : 275
+%s   width : 167
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Highlight Colour:
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   highlightColourButton
+%c   ukcCommandWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 417
+%s   y : 274
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%s   label : #000000
+%z   vertFixed : true
+%r   editable : true
+%f
+%%%
+%N   highlightThicknessTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 244
+%s   y : 302
+%s   width : 168
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Highlight Thickness:
+%z   vertFixed : true
+%z   horizFixed : false
+%f
+%%%
+%N   highlightThickness
+%c   ukcValueWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 417
+%s   y : 300
+%s   width : 48
+%s   height : 24
+%s   borderWidth : 0
+%s   value : 2
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   internalWidth
+%c   ukcValueWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 170
+%s   y : 300
+%s   width : 48
+%s   height : 24
+%s   borderWidth : 0
+%s   value : 2
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   internalHeight
+%c   ukcValueWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 170
+%s   y : 329
+%s   width : 48
+%s   height : 24
+%s   borderWidth : 0
+%s   value : 2
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   internalHeightTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 10
+%s   y : 331
+%s   width : 154
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Internal Height:
+%z   vertFixed : true
+%f
+%%%
+%N   internalWidthTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 9
+%s   y : 302
+%s   width : 155
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Internal Width:
+%z   horizFixed : false
+%z   vertFixed : true
+%f
+%%%
+%N   bitmapTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 6
+%s   y : 363
+%s   width : 112
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Bitmap:
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   leftBitmapTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 388
+%s   width : 113
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Left Bitmap:
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   rightBitmapTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 6
+%s   y : 413
+%s   width : 112
+%s   height : 20
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Right Bitmap:
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   rightBitmapButton
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 122
+%s   y : 412
+%s   width : 361
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%s   label : None
+%z   vertFixed : true
+%r   editable : true
+%f
+%%%
+%N   leftBitmapButton
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 122
+%s   y : 387
+%s   width : 361
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%s   label : None
+%z   vertFixed : true
+%r   resize : false
+%r   editable : true
+%r   leftBitmap : None
+%f
+%%%
+%N   bitmapButton
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 122
+%s   y : 362
+%s   width : 361
+%s   height : 20
+%s   borderWidth : 1
+%s   justify : left
+%s   label : None
+%z   vertFixed : true
+%r   editable : true
+%f
+%%%
+%N   tailorIconAlwaysOn
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 261
+%s   y : 69
+%s   width : 99
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_circle
+%s   onBitmap : on_circle
+%s   label : Always On
+%z   vertFixed : true
+%r   radioValue : 2
+%r   radioToggle : *tailorIconOnWhenOutput
+%f
+%%%
+%N   tailorIconAlwaysOff
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 365
+%s   y : 69
+%s   width : 107
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_circle
+%s   onBitmap : on_circle
+%s   label : Always Off
+%z   vertFixed : true
+%r   radioValue : 3
+%r   radioToggle : *tailorIconAlwaysOn
+%f
+%%%
+%N   popdownOnCompletion
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 187
+%s   y : 95
+%s   width : 136
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_square
+%s   onBitmap : on_square
+%s   onLeft : true
+%s   label : Popdown Output
+%z   vertFixed : true
+%f
+%%%
+%N   autoClear
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 309
+%s   y : 119
+%s   width : 172
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : cross
+%s   onBitmap : tick
+%s   onLeft : false
+%s   label : Output Auto Clear:
+%z   vertFixed : true
+%r   justify : right
+%r   resize : false
+%f
+%%%
+%N   argsTitle
+%c   ukcLabelWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 9
+%s   y : 119
+%s   width : 117
+%s   height : 20
+%s   borderWidth : 0
+%s   label : Arguments:
+%z   horizFixed : true
+%z   vertFixed : true
+%r   justify : right
+%f
+%%%
+%N   splitArgs
+%c   ukcToggleWidgetClass
+%p   perly.tailorPopup.tailorLayout
+%m   true
+%o   false
+%s   x : 223
+%s   y : 119
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 0
+%s   offBitmap : off_square
+%s   onBitmap : on_square
+%s   onLeft : true
+%s   label : Split
+%z   vertFixed : true
+%f
+%%%
+%N editPopup
+%c applicationShellWidgetClass
+%p perly
+%m true
+%o false
+%s borderWidth : 0
+%r title : Perly Button Output/Edit Window
+%f
+%%%
+%N  editLayout
+%c  ukcLayoutWidgetClass
+%p  perly.editPopup
+%m  true
+%o  false
+%s  width : 488
+%s  height : 424
+%s  borderWidth : 1
+%f
+%%%
+%N   hideEditButton
+%c   ukcCommandWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 429
+%s   y : 4
+%s   width : 50
+%s   height : 26
+%s   borderWidth : 2
+%z   vertFixed : true
+%z   horizFixed : true
+%r   label : Hide
+%f
+%%%
+%N   editPane
+%c   panedWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 0
+%s   y : 34
+%s   width : 488
+%s   height : 390
+%s   borderWidth : 0
+%f
+%%%
+%N    outputPane
+%c    panedWidgetClass
+%p    perly.editPopup.editLayout.editPane
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 488
+%s    height : 390
+%s    borderWidth : 0
+%z    min : 147
+%f
+%%%
+%N     stdoutOutputLayout
+%c     ukcLayoutWidgetClass
+%p     perly.editPopup.editLayout.editPane.outputPane
+%m     true
+%o     false
+%s     x : 0
+%s     y : 0
+%s     width : 488
+%s     height : 252
+%s     borderWidth : 0
+%z     min : 82
+%z     preferredPaneSize : 252
+%r     geomStatus : refuseall 
+%f
+%%%
+%N      stdoutText
+%c      asciiTextWidgetClass
+%p      perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 31
+%s      width : 475
+%s      height : 215
+%s      borderWidth : 1
+%s      scrollHorizontal : whenNeeded
+%s      scrollVertical : whenNeeded
+%s      displayCaret : false
+%r      translations : <Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end(PRIMARY, CUT_BUFFER0)\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end(PRIMARY, CUT_BUFFER0)\
+
+%f
+%%%
+%N      stdoutClear
+%c      ukcCommandWidgetClass
+%p      perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout
+%m      true
+%o      false
+%s      x : 430
+%s      y : 3
+%s      width : 48
+%s      height : 20
+%s      borderWidth : 2
+%s      label : clear
+%z      vertFixed : true
+%z      horizFixed : true
+%f
+%%%
+%N      stdoutTitle
+%c      ukcLabelWidgetClass
+%p      perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 1
+%s      width : 420
+%s      height : 26
+%s      borderWidth : 0
+%s      label : Standard Output
+%z      vertFixed : true
+%r      justify : left
+%f
+%%%
+%N     stderrOutputLayout
+%c     ukcLayoutWidgetClass
+%p     perly.editPopup.editLayout.editPane.outputPane
+%m     true
+%o     false
+%s     x : 0
+%s     y : 253
+%s     width : 488
+%s     height : 137
+%s     borderWidth : 0
+%z     min : 64
+%z     preferredPaneSize : 137
+%f
+%%%
+%N      stderrText
+%c      asciiTextWidgetClass
+%p      perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 30
+%s      width : 475
+%s      height : 101
+%s      borderWidth : 1
+%s      scrollHorizontal : whenNeeded
+%s      scrollVertical : whenNeeded
+%s      displayCaret : false
+%r      translations : <Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end(PRIMARY, CUT_BUFFER0)\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end(PRIMARY, CUT_BUFFER0)\
+
+%f
+%%%
+%N      stderrClear
+%c      ukcCommandWidgetClass
+%p      perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout
+%m      true
+%o      false
+%s      x : 430
+%s      y : 3
+%s      width : 48
+%s      height : 20
+%s      borderWidth : 2
+%s      label : clear
+%z      vertFixed : true
+%z      horizFixed : true
+%f
+%%%
+%N      stderrTitle
+%c      ukcLabelWidgetClass
+%p      perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 0
+%s      width : 420
+%s      height : 30
+%s      borderWidth : 0
+%s      label : Standard Error Output
+%z      vertFixed : true
+%r      justify : left
+%f
+%%%
+%N    editScript
+%c    asciiTextWidgetClass
+%p    perly.editPopup.editLayout.editPane
+%m    false
+%o    false
+%s    x : 0
+%s    y : 290
+%s    width : 488
+%s    height : 100
+%s    borderWidth : 0
+%s    scrollHorizontal : whenneeded
+%s    scrollVertical : whenneeded
+%z    min : 100
+%z    allowResize : false
+%f
+%%%
+%N   perlyEditTitle
+%c   ukcLabelWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 3
+%s   y : 4
+%s   width : 30
+%s   height : 26
+%s   borderWidth : 0
+%s   bitmap : perly
+%s   resize : false
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   executeButton
+%c   ukcCommandWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 36
+%s   y : 5
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 2
+%s   label : Execute
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   editButton
+%c   ukcToggleWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 274
+%s   y : 5
+%s   width : 42
+%s   height : 20
+%s   borderWidth : 2
+%s   label : Edit
+%z   vertFixed : true
+%z   horizFixed : true
+%f
+%%%
+%N   blank
+%c   coreWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 0
+%s   y : 5
+%s   width : 488
+%s   height : 24
+%s   borderWidth : 0
+%z   vertFixed : true
+%z   horizFixed : false
+%r   mappedWhenManaged : false
+%f
+%%%
+%N   interruptButton
+%c   ukcCommandWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 109
+%s   y : 5
+%s   width : 80
+%s   height : 20
+%s   borderWidth : 2
+%z   vertFixed : true
+%z   horizFixed : true
+%r   label : Interrupt
+%r   sensitive : false
+%f
+%%%
+%N   quitButton
+%c   ukcCommandWidgetClass
+%p   perly.editPopup.editLayout
+%m   false
+%o   false
+%s   x : 325
+%s   y : 5
+%s   width : 40
+%s   height : 20
+%s   borderWidth : 2
+%s   label : Quit
+%z   horizFixed : true
+%z   vertFixed : true
+%f
+%%%
+%N   pauseButton
+%c   ukcToggleWidgetClass
+%p   perly.editPopup.editLayout
+%m   true
+%o   false
+%s   x : 198
+%s   y : 5
+%s   width : 67
+%s   height : 20
+%s   borderWidth : 2
+%s   bitmap : None
+%s   label : Pause
+%z   vertFixed : true
+%z   horizFixed : true
+%r   sensitive : false
+%f
+%%%
+%N errorPopup
+%c applicationShellWidgetClass
+%p perly
+%m false
+%o false
+%s x : 225
+%s y : 175
+%s width : 410
+%s height : 146
+%s borderWidth : 0
+%s title : Perly Button Warning Messages
+%f
+%%%
+%N  errorWindow
+%c  ukcErrorWidgetClass
+%p  perly.errorPopup
+%m  true
+%o  false
+%s  borderWidth : 0
+%s  beepOnError : true
+%s  handleXlibErrors : true
+%s  handleXtErrors : true
+%s  errorTitle : Perly Warnings:
+%f
+%%%
+%N attributePopup
+%c applicationShellWidgetClass
+%p perly
+%m false
+%o false
+%s borderWidth : 0
+%s title : Perly Script Attributes Window
+%f
+%%%
+%N  attributeForm
+%c  formWidgetClass
+%p  perly.attributePopup
+%m  true
+%o  false
+%s  borderWidth : 1
+%f
+%%%
+%N   attributeBitmap
+%c   ukcLabelWidgetClass
+%p   perly.attributePopup.attributeForm
+%m   true
+%o   false
+%s   width : 322
+%s   borderWidth : 0
+%s   label : Perly Button Script Variables
+%s   leftBitmap : perly
+%s   leftPixmap : perly
+%z   bottom : chaintop
+%z   left : chainleft
+%z   right : chainright
+%z   top : chaintop
+%r   justify : right
+%f
+%%%
+%N   attributeAdd
+%c   ukcCommandWidgetClass
+%p   perly.attributePopup.attributeForm
+%m   true
+%o   false
+%s   borderWidth : 2
+%s   label : Add
+%z   fromHoriz : *attributeBitmap
+%z   top : chaintop
+%z   bottom : chaintop
+%r   sensitive : false
+%f
+%%%
+%N   attributeDelete
+%c   ukcCommandWidgetClass
+%p   perly.attributePopup.attributeForm
+%m   true
+%o   false
+%s   borderWidth : 2
+%s   label : Delete
+%z   bottom : chaintop
+%z   fromHoriz : *attributeAdd
+%z   top : chaintop
+%r   sensitive : false
+%f
+%%%
+%N   attributeHide
+%c   ukcCommandWidgetClass
+%p   perly.attributePopup.attributeForm
+%m   true
+%o   false
+%s   borderWidth : 2
+%s   label : Hide
+%z   top : chaintop
+%z   fromHoriz : *attributeDelete
+%z   bottom : chaintop
+%f
+%%%
+%N   attributeViewport
+%c   ukcViewportWidgetClass
+%p   perly.attributePopup.attributeForm
+%m   true
+%o   false
+%d   *attributeViewport.horizontal.thickness: 14
+%d   *attributeViewport.horizontal.markSize: 0
+%d   *attributeViewport.vertical.thickness: 14
+%d   *attributeViewport.vertical.markSize: 0
+%s   width : 474
+%s   height : 430
+%s   borderWidth : 1
+%z   top : chaintop
+%z   right : chainright
+%z   left : chainleft
+%z   fromVert : *attributeBitmap
+%z   bottom : chainbottom
+%r   allowHoriz : true
+%r   allowVert : true
+%r   forceBars : true
+%f
+%%%
+%N    attributeTable
+%c    ukcRowColWidgetClass
+%p    perly.attributePopup.attributeForm.attributeViewport
+%m    true
+%o    false
+%s    borderWidth : 0
+%f
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.perlyEditTitle ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.perlyEditTitle ; perly.editPopup.editLayout ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.executeButton ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.executeButton ; perly.editPopup.editLayout.perlyEditTitle ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.interruptButton ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.interruptButton ; perly.editPopup.editLayout.executeButton ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.pauseButton ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.pauseButton ; perly.editPopup.editLayout.interruptButton ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editButton ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editButton ; perly.editPopup.editLayout.pauseButton ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.quitButton ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.quitButton ; perly.editPopup.editLayout.editButton ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.blank ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.blank ; perly.editPopup.editLayout.quitButton ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.hideEditButton ; perly.editPopup.editLayout ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.hideEditButton ; perly.editPopup.editLayout.blank ; horizontal_before
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.perlyEditTitle ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.executeButton ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.editButton ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.hideEditButton ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.quitButton ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.blank ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.interruptButton ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout.pauseButton ; vertical_above
+%L perly.editPopup.editLayout ; perly.editPopup.editLayout.editPane ; perly.editPopup.editLayout ; horizontal_before
+%L perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutTitle ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; horizontal_before
+%L perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutTitle ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; vertical_above
+%L perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutClear ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutTitle ; horizontal_before
+%L perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutClear ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; vertical_above
+%L perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutText ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; horizontal_before
+%L perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutText ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutClear ; vertical_above
+%L perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutText ; perly.editPopup.editLayout.editPane.outputPane.stdoutOutputLayout.stdoutTitle ; vertical_above
+%L perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrTitle ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; horizontal_before
+%L perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrTitle ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; vertical_above
+%L perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrClear ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrTitle ; horizontal_before
+%L perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrClear ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; vertical_above
+%L perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrText ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; horizontal_before
+%L perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrText ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrClear ; vertical_above
+%L perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrText ; perly.editPopup.editLayout.editPane.outputPane.stderrOutputLayout.stderrTitle ; vertical_above
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.perlyTailorTitle ; perly.tailorPopup.tailorLayout.tailorOutputLabel ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.hideTailorButton ; perly.tailorPopup.tailorLayout.tailorPopupNever ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorOutputLabel ; perly.tailorPopup.tailorLayout.tailorIconLabel ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconLabel ; perly.tailorPopup.tailorLayout.onCompletionOptions ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.onCompletionOptions ; perly.tailorPopup.tailorLayout.argsTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.argsTitle ; perly.tailorPopup.tailorLayout.executionDirectoryTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.executionDirectoryTitle ; perly.tailorPopup.tailorLayout.labelTailoringTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.perlyTailorTitle ; perly.tailorPopup.tailorLayout.tailorPopupOnOutput ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.perlyTailorTitle ; perly.tailorPopup.tailorLayout.tailorPopupOnCompletion ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.perlyTailorTitle ; perly.tailorPopup.tailorLayout.tailorPopupNever ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.perlyTailorTitle ; perly.tailorPopup.tailorLayout.hideTailorButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.hideTailorButton ; perly.tailorPopup.tailorLayout ; vertical_above
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.perlyTailorTitle ; perly.tailorPopup.tailorLayout ; vertical_above
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.perlyTailorTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorPopupOnOutput ; perly.tailorPopup.tailorLayout.tailorIconOnWhenOutput ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorPopupOnCompletion ; perly.tailorPopup.tailorLayout.tailorIconAlwaysOn ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorPopupNever ; perly.tailorPopup.tailorLayout.tailorIconAlwaysOff ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconOnWhenOutput ; perly.tailorPopup.tailorLayout.beepOnCompletion ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconAlwaysOn ; perly.tailorPopup.tailorLayout.popdownOnCompletion ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconAlwaysOff ; perly.tailorPopup.tailorLayout.showQuitButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorOutputLabel ; perly.tailorPopup.tailorLayout.tailorPopupOnOutput ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorPopupOnOutput ; perly.tailorPopup.tailorLayout.tailorPopupOnCompletion ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorPopupOnCompletion ; perly.tailorPopup.tailorLayout.tailorPopupNever ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconLabel ; perly.tailorPopup.tailorLayout.tailorIconOnWhenOutput ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconOnWhenOutput ; perly.tailorPopup.tailorLayout.tailorIconAlwaysOn ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconAlwaysOn ; perly.tailorPopup.tailorLayout.tailorIconAlwaysOff ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.onCompletionOptions ; perly.tailorPopup.tailorLayout.beepOnCompletion ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.beepOnCompletion ; perly.tailorPopup.tailorLayout.popdownOnCompletion ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.popdownOnCompletion ; perly.tailorPopup.tailorLayout.showQuitButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorOutputLabel ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.tailorIconLabel ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.onCompletionOptions ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.argsTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.executionDirectoryTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.argsTitle ; perly.tailorPopup.tailorLayout.passArgs ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.passArgs ; perly.tailorPopup.tailorLayout.splitArgs ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.splitArgs ; perly.tailorPopup.tailorLayout.autoClear ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.executionDirectoryTitle ; perly.tailorPopup.tailorLayout.executionDirectory ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.beepOnCompletion ; perly.tailorPopup.tailorLayout.passArgs ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.labelTailoringTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.popdownOnCompletion ; perly.tailorPopup.tailorLayout.splitArgs ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.showQuitButton ; perly.tailorPopup.tailorLayout.autoClear ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.passArgs ; perly.tailorPopup.tailorLayout.executionDirectory ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.splitArgs ; perly.tailorPopup.tailorLayout.executionDirectory ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.autoClear ; perly.tailorPopup.tailorLayout.executionDirectory ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.executionDirectory ; perly.tailorPopup.tailorLayout.labelTailoringTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.labelTailoringTitle ; perly.tailorPopup.tailorLayout.fontTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.labelTailoringTitle ; perly.tailorPopup.tailorLayout.fontButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.fontTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.fontTitle ; perly.tailorPopup.tailorLayout.fontButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.foregroundTitle ; perly.tailorPopup.tailorLayout.foregroundButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.fontButton ; perly.tailorPopup.tailorLayout.foregroundTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.fontButton ; perly.tailorPopup.tailorLayout.foregroundButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.fontButton ; perly.tailorPopup.tailorLayout.backgroundTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.fontButton ; perly.tailorPopup.tailorLayout.backgroundButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.foregroundButton ; perly.tailorPopup.tailorLayout.backgroundTitle ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.backgroundTitle ; perly.tailorPopup.tailorLayout.backgroundButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.foregroundTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.foregroundTitle ; perly.tailorPopup.tailorLayout.barColourTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.barColourTitle ; perly.tailorPopup.tailorLayout.internalWidthTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalWidthTitle ; perly.tailorPopup.tailorLayout.internalHeightTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalHeightTitle ; perly.tailorPopup.tailorLayout.bitmapTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.bitmapTitle ; perly.tailorPopup.tailorLayout.leftBitmapTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.leftBitmapTitle ; perly.tailorPopup.tailorLayout.rightBitmapTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalWidthTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalHeightTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.barColourTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.barColourTitle ; perly.tailorPopup.tailorLayout.barColourButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.barColourButton ; perly.tailorPopup.tailorLayout.highlightColourTitle ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.highlightColourTitle ; perly.tailorPopup.tailorLayout.highlightColourButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.backgroundTitle ; perly.tailorPopup.tailorLayout.highlightColourTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.bitmapTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.leftBitmapTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.rightBitmapTitle ; perly.tailorPopup.tailorLayout ; horizontal_before
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.foregroundButton ; perly.tailorPopup.tailorLayout.barColourButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.barColourButton ; perly.tailorPopup.tailorLayout.internalWidth ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalWidth ; perly.tailorPopup.tailorLayout.highlightThicknessTitle ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalWidthTitle ; perly.tailorPopup.tailorLayout.internalWidth ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.backgroundButton ; perly.tailorPopup.tailorLayout.highlightColourButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.highlightColourTitle ; perly.tailorPopup.tailorLayout.highlightThicknessTitle ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.highlightColourButton ; perly.tailorPopup.tailorLayout.highlightThickness ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.highlightThickness ; perly.tailorPopup.tailorLayout.internalHeight ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.highlightThicknessTitle ; perly.tailorPopup.tailorLayout.internalHeight ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalHeight ; perly.tailorPopup.tailorLayout.bitmapButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalWidth ; perly.tailorPopup.tailorLayout.internalHeight ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.leftBitmapTitle ; perly.tailorPopup.tailorLayout.leftBitmapButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.rightBitmapTitle ; perly.tailorPopup.tailorLayout.rightBitmapButton ; horizontal_after
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.leftBitmapButton ; perly.tailorPopup.tailorLayout.rightBitmapButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.bitmapButton ; perly.tailorPopup.tailorLayout.leftBitmapButton ; vertical_below
+%L perly.tailorPopup.tailorLayout ; perly.tailorPopup.tailorLayout.internalHeightTitle ; perly.tailorPopup.tailorLayout.internalHeight ; horizontal_after

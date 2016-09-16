@@ -1,0 +1,64 @@
+#include "../Xukc.tmpl"
+
+XCOMM# SCCSID: @(#)Imakefile	1.2 (UKC) 5/17/92
+XCOMM#
+XCOMM# Dirt UI Builder
+XCOMM#
+
+#define IHaveSubdirs
+
+         SUBDIRS = examples
+     SRC_SUBDIRS = examples
+        INCLUDES = -I$(TOP) XukcLibIncludes $(UKC_INCLUDES)
+         DEPLIBS = XukcClientDepLibs XawClientDepLibs
+ LOCAL_LIBRARIES = XukcClientLibs XawClientLibs -lm
+#if SystemV == YES
+       LDOPTIONS = -L $(USRLIBDIR)
+#else
+       LDOPTIONS = -L$(USRLIBDIR)
+#endif /* SystemV */
+
+            SRCS = dirt.c menu.c list.c dirt_create.c create.c connect.c \
+                   undo.c geometry.c instance_list.c widget_classes.c \
+                   save.c load.c translations.c convert.c resources.c \
+                   log.c edit.c selected.c vampire.c remote.c rdb_parse.c \
+                   wedit.c gravity.c widget_examples.c examples_menu.c \
+                   copy.c templates.c stubs.c comments.c wc_extra.c \
+                   generate_Wc.c file.c help.c putenv.c hash.c pick_menu.c
+
+            OBJS = dirt.o menu.o list.o dirt_create.o create.o connect.o \
+                   undo.o geometry.o instance_list.o widget_classes.o \
+                   save.o load.o translations.o convert.o resources.o \
+                   log.o edit.o selected.o vampire.o remote.o rdb_parse.o \
+                   wedit.o gravity.o widget_examples.o examples_menu.o \
+                   copy.o templates.o stubs.o comments.o wc_extra.o \
+                   generate_Wc.o file.o help.o putenv.o hash.o pick_menu.o
+
+#define PassCDebugFlags 'CDEBUGFLAGS=$(CDEBUGFLAGS)'
+
+MakeSubdirs($(SUBDIRS))
+
+DependSubdirs($(SRC_SUBDIRS))
+
+XCOMM# When Dirt is installed it must look for its bitmaps in the installed
+XCOMM# directory and not in the local directory here.  So we remove the
+XCOMM# object file that contains this dependency and remake it with the
+XCOMM# new path, then continue with the normal installation process.
+
+all::
+	$(RM) dirt.o
+
+install::
+	$(RM) dirt.o
+	make finalInstall "BITMAP_PATH=-DBITMAP_SEARCH_PATH=\\\"$(INCDIR)/Xukc/bitmaps\\\"" "RESOURCES_PATH="
+
+finalInstall: dirt
+	@echo "Made Installed Version of Dirt:"
+	@echo "    Bitmap files are searched for in "$(INCDIR)/Xukc/bitmaps
+
+ComplexProgramTarget(dirt)
+
+SpecialObjectRule(dirt.o,,$(RESOURCES_PATH) $(BITMAP_PATH))
+
+InstallAppDefaults(Dirt)
+InstallNonExec(DirtHelpDB,$(LIBDIR))

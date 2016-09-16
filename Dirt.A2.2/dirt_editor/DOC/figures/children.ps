@@ -1,0 +1,110 @@
+%!PS-Adobe-1.0
+%%BoundingBox: 0 0 148 169
+%%Creator: beech:rlh2 (R.L.Hesketh,cug451)
+%%Title: stdin (xwdump)
+%%CreationDate: Tue Jul  3 11:17:21 1990
+%%EndComments
+%%Pages: 1
+%%EndProlog
+%%Page: 1 1
+
+/bitgen
+	{
+		/nextpos 0 def
+		currentfile bufspace readhexstring pop % get a chunk of input
+		% interpret each byte of the input
+		{
+			flag { % if the previous byte was FF
+				/len exch def % this byte is a count
+				result
+				nextpos
+				FFstring 0 len getinterval % grap a chunk of FF's
+					putinterval % and stuff them into the result
+				/nextpos nextpos len add def
+				/flag false def
+			}{ % otherwise
+				dup 255 eq { % if this byte is FF
+					/flag true def % just set the flag
+					pop % and toss the FF
+				}{ % otherwise
+					% move this byte to the result
+					result nextpos
+						3 -1 roll % roll the current byte back to the top
+						put
+					/nextpos nextpos 1 add def
+				} ifelse
+			} ifelse
+		} forall
+		% trim unused space from end of result
+		result 0 nextpos getinterval
+	} def
+
+
+/bitdump % stk: width, height, iscale
+	% dump a bit image with lower left corner at current origin,
+	% scaling by iscale (iscale=1 means 1/300 inch per pixel)
+	{
+		% read arguments
+		/iscale exch def
+		/height exch def
+		/width exch def
+
+		% scale appropriately
+		width iscale mul height iscale mul scale
+
+		% data structures:
+
+		% allocate space for one line of input
+		/bufspace 36 string def
+
+		% string of FF's
+		/FFstring 256 string def
+		% for all i FFstring[i]=255
+		0 1 255 { FFstring exch 255 put } for
+
+		% 'escape' flag
+		/flag false def
+
+		% space for a chunk of generated bits
+		/result 1000 string def
+
+		% read and dump the image
+		width height 1 [width 0 0 height neg 0 height]
+			{ bitgen }
+			image
+	} def
+72 300 div dup scale
+103 118 6 bitdump
+000000000000000000000000017fff0bfd7fff0bfd7fff0bfd7fff0bfd78000000000000
+007fff03fc78000000000000007fff03fd79ff06fe7fff03fd79ff06fe7fff03fd79ff06
+fe7fff03fd79ff06fe7fff03fd79ff01f7fef8ff01befe7fff03fd79ff01f7fefeff01bc
+fe7fff03fd79ff01f7ff01feff01bafe7fff03fd79f87478fef8befe7fff03fd79f7b3be
+fef73efe7fff03fc79f7f7befef7befe7fff03fd79f7f7befef7befe7fff03fc79f7f7be
+fef7befe7fff03fd79f7b7befef73efe7fff03fc79f877befef8b83e7fff03fd79ff06fe
+7fff03fd79ff06fe7fff03fd79ff06fe7fff03fc79ff06fe7fff03fc79ff06fe7fff03fd
+79ff06fe7fff03fd78000000000000007fff03fd78000000000000007fff03fd7fff0bfc
+7fff0bfc7fff0bfd7fff0bfd78000000000000007fff03fd78000000000000007fff03fd
+79ff06fe7fff03fd79ff06fe7fff03fd79ff06fe7fff03fd79ff06fe7fff03fd79ff01f7
+fef8ff01b87e7fff03fd79ff01f7fefeff01b7be7fff03fd79ff01f7ff01feff01b7be7f
+ff03fd79f87478fef8bfbe7fff03fd79f7b3befef73f7e7fff03fd79f7f7befef7befe7f
+ff03fd79f7f7befef7bdfe7fff03fc79f7f7befef7bbfe7fff03fd79f7b7befef737fe7f
+ff03fd79f877befef8b03e7fff03fd79ff06fe7fff03fd79ff06fe7fff03fd79ff06fe7f
+ff03fd79ff06fe7fff03fd79ff06fe7fff03fc79ff06fe7fff03fc78000000000000007f
+ff03fd78000000000000007fff03fd7fff0bfd7fff0bfc7fff0bfd7fff0bfd7800000000
+7fff06fc78000000007fff06fd79ff03fe7fff06fd79ff03fe7fff06fd79ff03fe7fff06
+fd79ff03fe7fff06fc79f7ff02fe7fff06fd79f7ff02fe7fff06fd79f7ff02fe7fff06fc
+79f47877be7fff06fd79f3b7b7be7fff06fc79f7b7bb7e7fff06fd79f7b7bcfe7fff06fd
+79f7b7bb7e7fff06fd79f3b7b7be7fff06fd79f47877be7fff06fd79ff03fe7fff06fd79
+ff03fe7fff06fd79ff03fe7fff06fd79ff03fe7fff06fd79ff03fe7fff06fd79ff03fe7f
+ff06fd78000000007fff06fc78000000007fff06fc7fff0bfd7fff0bfd7fff0bfc7fff0b
+fd7800000000000000000000007d7800000000000000000000007c79ff0afe7d79ff0afe
+7d79ff0afe7d79ff0afe7d79f8ff03f877ff017fff01fdfe7d79feff03f7b7ff017fff01
+fdfe7c79feff03f7b7ff03fdfe7d79fef87478b7b47c7878707e7d79fef7b3b737b3bf77
+b7bdfe7c79fef7b7b7b7b7bf77b7fdfe7d79fef7b7b7b7b7bf7037fdfe7d79fef7b7b7b7
+b7bf77f7fdfe7d79fef7b7b737b3bf77b7bdbe7d79fef877b8b8747f78787e7e7c79ff04
+bfff027fff02fe7d79ff03f7bfff01f77fff02fe7c79ff03f87fff01f8ff03fe7d79ff0a
+fe7d79ff0afe7d79ff0afe7d7800000000000000000000007d7800000000000000000000
+007d7fff0bfd7fff0bfd7fff0bfd7fff0bfd00000000000000000000000001f012345678
+
+showpage
+%%Trailer

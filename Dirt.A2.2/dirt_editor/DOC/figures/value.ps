@@ -1,0 +1,62 @@
+%!PS-Adobe-1.0
+%%BoundingBox: 0 0 108 34
+%%Creator: beech:rlh2 (R.L.Hesketh,cug451)
+%%Title: value.xwd (xwdump)
+%%CreationDate: Mon Jul  2 09:43:36 1990
+%%EndComments
+%%Pages: 1
+%%EndProlog
+%%Page: 1 1
+
+/bitdump % stk: width, height, iscale
+% dump a bit image with lower left corner at current origin,
+% scaling by iscale (iscale=1 means 1/300 inch per pixel)
+{
+	% read arguments
+	/iscale exch def
+	/height exch def
+	/width exch def
+
+	% scale appropriately
+	width iscale mul height iscale mul scale
+
+	% allocate space for one scanline of input
+	/picstr % picstr holds one scan line
+		width 7 add 8 idiv % width of image in bytes = ceiling(width/8)
+		string
+		def
+
+	% read and dump the image
+	width height 1 [width 0 0 height neg 0 height]
+	{ currentfile picstr readhexstring pop }
+	image
+} def
+72 300 div dup scale
+75 24 6 bitdump
+0000000000007ffffffa
+0000000000007fffffff
+3ffffffffffe7f7ffffa
+3ffffffffffe7ebfffff
+3ffffffffffe7ddffffb
+3ffffffffffe7befffe0
+3c381c3ffffe77f7ffe0
+3bdbdbdffffe63e3ffff
+3bdfdbdffffe7befffe0
+3bdfbbdffffe7befffff
+3bdfbc3ffffe780fffff
+3c1f7bdffffe7fffffff
+3fdf7bdffffe7fffffea
+3fdefbdffffe780ffff5
+3bdefbdffffe7befffff
+3c3efc3ffffe7befffea
+3ffffffffffe63e3ffec
+3ffffffffffe77f7ffff
+3ffffffffffe7befffe0
+3ffffffffffe7ddfffff
+3ffffffffffe7ebfffff
+3ffffffffffe7f7fffff
+0000000000007fffffe0
+0000000000007fffffff
+
+showpage
+%%Trailer

@@ -1,0 +1,42 @@
+#include "./Xukc.tmpl"
+
+XCOMM# SCCSID: @(#)Imakefile	1.2 (UKC) 5/17/92
+XCOMM#
+XCOMM# UKC Widget Set and Dirt Editor Distribution
+XCOMM#
+
+#define IHaveSubdirs
+#define PassCDebugFlags
+
+        SUBDIRS = lib dirt_editor
+
+MakeSubdirs($(SUBDIRS))
+
+DependSubdirs($(SUBDIRS))
+
+architect:
+	$(CC) architect.c -o architect
+
+clean::
+	$(RM) -r X11
+
+includes::
+	$(RM) -r X11
+
+World::
+	@echo ""
+	@echo "Building Release "$(RELEASE)" of the Dirt UI Builder"
+	@echo ""
+	$(RM) architect
+	$(MAKE) architect
+	sed "s/^ARCHITECT_FLAGS=.*$$/ARCHITECT_FLAGS=`./architect`/" < dirt_site.def > tmp$$$$ && mv tmp$$$$ dirt_site.def
+	$(MAKE) Makefiles
+	$(MAKE) clean
+	$(MAKE) includes
+	$(MAKE) depend
+	$(MAKE) $(WORLDOPTS)
+
+install::
+	@echo ""
+	@echo "Installing Release "$(RELEASE)" of the Dirt UI Builder"
+	@echo ""

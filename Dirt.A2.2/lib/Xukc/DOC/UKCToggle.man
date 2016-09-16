@@ -1,0 +1,313 @@
+.\" $Xukc: UKCToggle.man,v 1.2 90/09/22 17:32:25 rlh2 Rel $
+.\"
+.\" Add simple keeps to MAN macros so .TS/.TE will work
+.\"
+.de KS	\"	Keep start
+.br
+.in 0
+.di KP
+..
+.de KE	\" 	Keep end
+.br
+.di
+.ne \\n(dnu
+.nr fI \\n(.u
+.nf
+.KP
+.if \\n(fI .fi
+.in
+..
+.TH "UKCTOGGLE" "LOCAL X"
+.na
+.nh
+.SH NAME
+UKCToggleWidgetClass \- An X Widget which produces a toggling command button.
+.SH SYNOPSIS
+\fB
+.B #include <X11/StringDefs.h>
+.br
+.B #include <X11/Intrinsic.h>
+.br
+.br
+\fB#include <X11/Xukc/Toggle.h>
+\fR
+.SH CLASSES
+A subclass of Core, Simple, UKCLabel and UKCCommand class.
+.P
+The widget class to use when creating a 
+.I UKCToggle\^
+widget is \fBukcToggleWidgetClass\fP.
+.P
+The class name of 
+.I UKCToggle\^
+is "UKCToggle".
+.SH DESCRIPTION
+The
+.I UKCToggle\^
+widget class provides a command button with two states.  The button can be
+toggled either by the user pressing the first mouse button whilst in the
+button's boundaries or from within the application program.  The
+application can use the \fBXtNtoggleAddress\fP to track the current state of
+the toggle button.  The Boolean variable that this address points to is
+toggled (TRUE/FALSE) whenever the \fBtoggle(\|)\fP action is called.  This
+action also changes the colour of the widget.   The state of the toggle
+button can be set/unset explicity using the class defined routines;
+\fBXukcDoToggle(\|)\fP, \fBXukcSetToggle(\|)\fP and \fBXukcUnsetToggle(\|)\fP.
+.LP
+An important feature of this toggle widget is its ability to be connected
+to other toggle widgets as part of a set of radio buttons, (only one button
+can be set at a time).  To join this toggle button to another toggle button
+in a radio set the \fBXtNradioToggle\fP resource should be set to the widget
+id. of the toggle button in this radio set.  All the resources can be
+specified from within application resource files.
+.SH "NEW RESOURCES"
+To specify any of these resources within a resource defaults file,
+simply drop the \fIXtN\fP prefix from the resource name.
+.I UKCToggle\^
+defines the following new resources:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+UKCToggle Resource Set
+Name	Class	Type	Default
+_
+XtNtoggleAddress	XtCToggleAddress	Boolean *	NULL
+XtNstate	XtCBoolean	Boolean	False
+XtNradioToggle	XtCWidget	Widget	NULL
+XtNradioValue	XtCRadioValue	integer	0
+XtNonLeft	XtCOnLeft	Boolean	True
+XtNonBitmap	XtCOnBitmap	Bitmap	None
+XtNoffBitmap	XtCOffBitmap	Bitmap	None
+.TE
+.KE
+.sp 1
+.IP \fBXtNtoggleAddress\fP
+This is an address of a Boolean variable, normally in an application program,
+which is toggled by the \fBtoggle(\|)\fP action.  If the application changes
+the contents of the variable it should call \fIXtSetValues(\|)\fP to update
+the widgets resources, (this will cause the visible form to change to the
+right colour).  If the user toggles the button the contents of the Boolean
+variable are toggled.
+.IP \fBXtNstate\fP
+This is the current state of the toggle widget.
+.IP \fBXtNradioToggle\fP
+This is the widget Id of another toggle widget which if non-NULL means that
+the toggle button is turned into a radio button and operates as such
+until this resource is set to NULL again either via XtSetValues(\|) or using
+the functions defined below.
+.IP \fBXtNradioValue\fP
+This is the value passed to any callbacks set on the toggle widget whenever
+it is a member of a set of radio widgets and has just had its state set to
+true.  This value is passed as the "call_data" to the callback routine.
+.IP \fBXtNonLeft\fP
+This boolean resource specifies whether the on and off state bitmaps should
+appear on the left or the right of the toggle buttons text label.
+.IP \fBXtNonBitmap\fP
+This bitmap resource is displayed inside the toggle button whenever its
+state is TRUE.
+.IP \fBXtNoffBitmap\fP
+This bitmap resource is displayed inside the toggle button whenever its
+state is FALSE.
+.SH "INHERITED RESOURCES"
+The following resources are inherited from the named superclasses:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Core Resource Set -- CORE(3X)
+Name	Class	Type	Default
+_
+XtNaccelerators	XtCAccelerators	XtTranslations	NULL
+XtNancestorSensitive	XtCAncestorSenstitive	Boolean	TRUE
+XtNbackground	XtCBackground	Pixel	XtDefaultBackground
+XtNborder	XtCBorder	Pixel	XtDefaultForeground
+XtNborderWidth	XtCBorderWidth	Dimension	0
+XtNcolormap	XtCColormap	Pointer	NULL
+XtNdepth	XtCDepth	Cardinal	0
+XtNdestroyCallback	XtCCallback	Pointer	NULL
+XtNheight	XtCHeight	Dimension	text height
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	TRUE
+XtNscreen	XtCScreen	XScreen *	0
+XtNsensitive	XtCSensitive	Boolean	TRUE
+XtNwidth	XtCWidth	Dimension	text width
+XtNx	XtCPosition	Position	0
+XtNy	XtCPosition	Position	0
+.TE
+.KE
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Simple Resource Set -- SIMPLE(3X)
+Name	Class	Type	Default
+_
+XtNcursor	XtCCursor	Cursor	hand1
+XtNinsensitiveBorder	XtCInsensitive	Pixmap	Grey
+.TE
+.KE
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+UKCLabel Resource Set -- UKCLABEL(3X)
+Name	Class	Type	Default
+_
+XtNbitmap	XtCPixmap	Pixmap	None
+XtNbarColour	XtCForeground	Pixel	XtDefaultForeground
+XtNeditable	XtCEditable	Boolean	True
+XtNediting	XtCEditing	Boolean	False
+XtNeditCallback	XtCCallback	CallbackList	NULL
+XtNfont	XtCFont	XFontStruct *	XtDefaultFont
+XtNforeground	XtCForeground	Pixel	XtDefaultForeground
+XtNgrabKeyboard	XtCGrabKeyboard	Boolean	False
+XtNinternalHeight	XtCHeight	Dimension	2
+XtNinternalWidth	XtCWidth	Dimension	4
+XtNjustify	XtCJustify	XtJustify	XtJustifyCenter
+XtNlabel	XtCLabel	String	Name of widget
+XtNoverflowRight	XtCOverflowRight	Boolean	False
+XtNoverflowTop	XtCOverflowTop	Boolean	False
+XtNresize	XtCResize	Boolean	False
+XtNverticalJustify	XtCVerticalJustify	XtRVerticalJustify	center
+XtNleftBitmap	XtCLeftBitmap	Bitmap	None
+XtNrightBitmap	XtCRightBitmap	Bitmap	None
+XtNpixmap	XtCPixmap	Pixmap	None
+XtNleftPixmap	XtCLeftPixmap	Pixmap	None
+XtNrightPixmap	XtCLeftPixmap	Pixmap	None
+.TE
+.KE
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+UKCCommand Resource Set -- UKCCOMMAND(3X)
+Name	Class	Type	Default
+_
+XtNcallback	XtCCallback	Pointer	NULL
+XtNhighlightColor	XtCHighlightColor	Pixel	XtDefaultForeground
+XtNhighlightThickness	XtCThickness	Dimension	2
+.TE
+.KE
+.sp 1
+.SH "TRANSLATIONS"
+The default translation set for the toggle button is:
+.IP
+<Btn1Down>:      toggle(\|)
+.br
+<EnterWindow>:       highlight(\|)
+.br
+<LeaveWindow>:       unhighlight(\|)
+.br
+<Btn2Down>:      label_edit(on)
+.br
+<Btn2Motion>:      position_bar(\|)
+.br
+:<Key>Delete:      delete_char(\|)
+.br
+:<Key>BackSpace:      delete_char(\|)
+.br
+:<Key>Return:      label_update(\|) label_edit(off)
+.br
+:<Key>Linefeed:      label_update(\|) label_edit(off)
+.br
+:<Key>Escape:      undo_edit(\|)
+.br
+:Ctrl<Key>h:      position_bar(-1)
+.br
+:Ctrl<Key>j:      position_bar(beginning)
+.br
+:Ctrl<Key>k:      position_bar(end)
+.br
+:Ctrl<Key>l:      position_bar(+1)
+.br
+<Key>:      insert_char(\|)
+.SH "ACTIONS"
+\fBtoggle:\fP  Toggles the current state of the button, which changes its
+colour and toggles the state of any variable pointed to by
+\fBXtNtoggleAddress\fP.  Any callbacks on the \fBXtNcallback\fP list are
+called with the \fIcall_data\fP set to the new state of the button.
+\fBtoggle\fP can take a up to 2 parameters :-
+.LP
+\fIset\fP or \fIunset\fP : These override the toggling action of \fBtoggle\fP
+and explicity sets the button.
+.LP
+\fIno_call\fP : The routines registered on the button's callback list are not
+called if this parameter is present.  The contents of the toggle address are
+still updated however.
+.SH FUNCTIONAL INTERFACE
+The current state of toggle widget can be explicity toggled, set or reset,
+using the following class defined routines.  If \fIcall_callbacks\fP is true
+the registered callback routines are called whenever a change of state is made.
+The \fBXukcSetToggle(\|)\fP and
+\fBXukcUnsetToggle(\|)\fP routines sets the toggle widget to the corresponding
+state, however, unlike \fBXukcDoToggle(\|)\fP any callback routines on the
+\fBXtNcallback\fP list are only called if a change in state is actually
+made.
+.LP
+\fBXukcDoToggle( toggle_widget, call_callbacks )\fP
+.br
+Widget toggle_widget;
+Boolean call_callbacks;
+.LP
+\fBXukcSetToggle( toggle_widget, call_callbacks )\fP
+.br
+Widget toggle_widget;
+Boolean call_callbacks;
+.LP
+\fBXukcUnsetToggle( toggle_widget, call_callbacks )\fP
+.br
+Widget toggle_widget;
+Boolean call_callbacks;
+.LP
+The following routines deal with toggle widgets that have been grouped as
+radio buttons (one of N only set):
+.LP
+\fBvoid XukcAddRadioToggle(w1, w2)\fP
+.br
+Widget w1, w2;
+
+	Links toggle widgets w2 and w1 together as part of a set of radio
+buttons.
+.LP
+\fBvoid XukcRemoveRadioToggle(w)\fP
+.br
+Widget w;
+
+	Unlinks w from any set of radio toggle buttons that it might be in.
+.LP
+\fBUKCToggleWidget XukcGetRadioSet( toggle_widget )\fP
+.br
+Widget toggle_widget;
+
+	Returns widget ID of the currently set radio widget in the group
+that \fBtoggle_widget\fP is a member of of.  Returns NULL if none of them
+are set.
+.SH AUTHOR
+Richard Hesketh.
+.br
+rlh2@ukc.ac.uk		@nsfnet-relay.ac.uk:rlh2@ukc.ac.uk
+.br
+ ..!{mcvax | mcsun}!ukc!rlh2
+.br
+Computing Lab., University of Kent at Canterbury, UK.
+.SH SEE ALSO
+\fIX Toolkit Widgets - C Language X Interface\fP,
+.br
+\fIX Toolkit Intrinsics - C Language X Interface\fP,
+.br
+\fIXlib - C Language Interface, Protocol Version 11\fP.

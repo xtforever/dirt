@@ -1,0 +1,930 @@
+%%ID  DIRT! 1.4 (c)1990 rlh2@ukc.ac.uk : UI Specification file
+%%ID  Application = "xscan"
+%%ID  Created by rlh2 on Mon Dec 16 15:35:16 1991
+%Y StartNewDrag
+%Y EndDrag
+%Y DragBox
+%%%
+%A xscan
+%C XScan
+%R x : 350
+%R y : 350
+%R width : 778
+%R height : 489
+%R borderWidth : 0
+%R title : xscan
+%R minWidth : 778
+%R minHeight : 489
+%R maxWidth : 778
+%R maxHeight : 489
+%R iconName : xscan
+%F
+%%%
+%N mainLayout
+%c ukcLayoutWidgetClass
+%p xscan
+%m true
+%o false
+%s width : 778
+%s height : 489
+%s borderWidth : 0
+%f
+%%%
+%N  mainTitle
+%c  ukcLabelWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  width : 60
+%s  height : 34
+%s  borderWidth : 0
+%r  label : XScan
+%r  leftBitmap : None
+%r  rightBitmap : None
+%f
+%%%
+%N  quitButton
+%c  ukcMed3MenuWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 722
+%s  y : 5
+%s  width : 50
+%s  height : 22
+%r  menuFile : quit_menu.c
+%r  borderWidth : 1
+%r  useFile : true
+%r  highlightThickness : 2
+%f
+%%%
+%N  previewScan
+%c  ukcPassiveWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 5
+%s  y : 34
+%s  width : 325
+%s  height : 448
+%r  translations : <Btn1Down>: StartNewDrag()\
+Button1<MotionNotify>: DragBox()\
+<Btn1Up>: EndDrag()\
+
+%r  borderWidth : 1
+%f
+%%%
+%N  previewButton
+%c  ukcCommandWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 60
+%s  y : 5
+%s  width : 110
+%s  height : 22
+%r  label : Preview Scan
+%f
+%%%
+%N  scanButton
+%c  ukcCommandWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 177
+%s  y : 5
+%s  width : 100
+%s  height : 22
+%r  label : Image Scan
+%f
+%%%
+%N  imageFileButton
+%c  ukcCommandWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 291
+%s  y : 5
+%s  width : 55
+%s  height : 24
+%s  borderWidth : 0
+%r  label : File :
+%r  justify : left
+%f
+%%%
+%N  imageFile
+%c  asciiTextWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 349
+%s  y : 5
+%s  width : 364
+%s  height : 20
+%s  borderWidth : 2
+%f
+%%%
+%N  resLayout
+%c  ukcLayoutWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 337
+%s  y : 34
+%s  width : 435
+%s  height : 73
+%z  horizFixed : true
+%z  vertFixed : true
+%f
+%%%
+%N   dpi75
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 3
+%s   width : 80
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 75 dpi
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   dpi150
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 110
+%s   y : 3
+%s   width : 90
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 150 dpi
+%r   radioToggle : dpi75
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   dpi300
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 220
+%s   y : 3
+%s   width : 90
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 300 dpi
+%r   radioToggle : dpi150
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   dpiCustom
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 330
+%s   y : 3
+%s   width : 85
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Custom
+%r   state : true
+%r   radioToggle : dpi300
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   resTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 23
+%s   width : 152
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Custom Resolution:
+%f
+%%%
+%N   xResTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 45
+%s   width : 24
+%s   height : 20
+%s   borderWidth : 0
+%r   label : X:
+%f
+%%%
+%N   xResMin
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 27
+%s   y : 45
+%s   width : 46
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 12 <=
+%r   justify : right
+%f
+%%%
+%N   xRes
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 75
+%s   y : 43
+%z   horizFixed : true
+%z   vertFixed : false
+%r   value : 300
+%r   min : 12
+%r   max : 1500
+%r   borderWidth : 0
+%f
+%%%
+%N   xResMax
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 135
+%s   y : 45
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 0
+%r   label : <= 1500
+%r   justify : left
+%f
+%%%
+%N   yResTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 214
+%s   y : 45
+%s   width : 24
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Y:
+%f
+%%%
+%N   yResMin
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 235
+%s   y : 45
+%s   width : 48
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 12 <=
+%r   justify : right
+%f
+%%%
+%N   yRes
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 285
+%s   y : 43
+%z   horizFixed : true
+%z   vertFixed : false
+%r   value : 300
+%r   min : 12
+%r   max : 1500
+%f
+%%%
+%N   yResMax
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.resLayout
+%m   true
+%o   false
+%s   x : 346
+%s   y : 45
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 0
+%r   label : <= 1500
+%r   justify : left
+%f
+%%%
+%N  scaleLayout
+%c  ukcLayoutWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 337
+%s  y : 114
+%s  width : 435
+%s  height : 51
+%z  horizFixed : true
+%z  vertFixed : true
+%f
+%%%
+%N   scaleTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   width : 208
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Scale Factor Percentages:
+%f
+%%%
+%N   xScaleTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 23
+%s   width : 24
+%s   height : 20
+%s   borderWidth : 0
+%r   label : X:
+%f
+%%%
+%N   xScaleMin
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 27
+%s   y : 23
+%s   width : 47
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 7 <=
+%r   justify : left
+%f
+%%%
+%N   xScale
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 75
+%s   y : 21
+%z   horizFixed : true
+%z   vertFixed : true
+%r   value : 100
+%r   min : 7
+%r   max : 1578
+%f
+%%%
+%N   xScaleMax
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 135
+%s   y : 23
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 0
+%r   label : <= 1578
+%r   justify : left
+%f
+%%%
+%N   yScaleTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 214
+%s   y : 23
+%s   width : 24
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Y:
+%f
+%%%
+%N   yScaleMin
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 236
+%s   y : 23
+%s   width : 47
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 7 <=
+%r   justify : left
+%f
+%%%
+%N   yScale
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 285
+%s   y : 21
+%z   horizFixed : true
+%z   vertFixed : true
+%r   value : 100
+%r   min : 7
+%r   max : 1578
+%f
+%%%
+%N   yScaleMax
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scaleLayout
+%m   true
+%o   false
+%s   x : 346
+%s   y : 23
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 0
+%r   label : <= 1578
+%r   justify : left
+%f
+%%%
+%N  intensityLayout
+%c  ukcLayoutWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 337
+%s  y : 172
+%s  width : 435
+%s  height : 105
+%z  horizFixed : true
+%z  vertFixed : true
+%f
+%%%
+%N   intensityTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   y : 5
+%s   width : 90
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Intensity:
+%f
+%%%
+%N   intensityMin
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 90
+%s   y : 5
+%s   width : 130
+%s   height : 20
+%s   borderWidth : 0
+%r   label : (darker) -127 <=
+%r   justify : left
+%f
+%%%
+%N   intensity
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 230
+%s   y : 3
+%z   horizFixed : false
+%z   vertFixed : false
+%r   min : -127
+%r   max : 128
+%f
+%%%
+%N   intensityMax
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 292
+%s   y : 5
+%s   width : 144
+%s   height : 20
+%s   borderWidth : 0
+%r   label : <= +127 (lighter)
+%r   justify : left
+%f
+%%%
+%N   contrastTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   y : 35
+%s   width : 90
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Contrast:
+%f
+%%%
+%N   contrastMin
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 95
+%s   y : 35
+%s   width : 126
+%s   height : 20
+%s   borderWidth : 0
+%r   label : -127 <=
+%r   justify : right
+%f
+%%%
+%N   contrast
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 230
+%s   y : 33
+%z   horizFixed : false
+%z   vertFixed : false
+%r   min : -127
+%r   max : 128
+%f
+%%%
+%N   contrastMax
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 292
+%s   y : 35
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 0
+%r   label : <= +127
+%r   justify : left
+%f
+%%%
+%N   invertImage
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 84
+%s   width : 130
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Invert Image
+%r   onBitmap : checked_square
+%r   offBitmap : off_square
+%f
+%%%
+%N   mirrorImage
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 200
+%s   y : 84
+%s   width : 130
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Mirror Image
+%r   onBitmap : checked_square
+%r   offBitmap : off_square
+%f
+%%%
+%N   autoBackground
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.intensityLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 63
+%s   width : 260
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Automatic Background Control
+%r   onBitmap : checked_square
+%r   offBitmap : off_square
+%f
+%%%
+%N  scanLayout
+%c  ukcLayoutWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 337
+%s  y : 284
+%s  width : 435
+%s  height : 55
+%z  horizFixed : true
+%z  vertFixed : true
+%f
+%%%
+%N   scanTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 3
+%s   width : 328
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Image Scan Dimensions (in 1/72" points):
+%f
+%%%
+%N   xStartTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 25
+%s   width : 24
+%s   height : 20
+%s   borderWidth : 0
+%r   label : X:
+%f
+%%%
+%N   xStart
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 30
+%s   y : 23
+%z   horizFixed : true
+%z   vertFixed : false
+%r   max : 612
+%f
+%%%
+%N   yStartTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 95
+%s   y : 25
+%s   width : 24
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Y:
+%f
+%%%
+%N   yStart
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 120
+%s   y : 23
+%z   horizFixed : true
+%z   vertFixed : false
+%r   max : 842
+%f
+%%%
+%N   xExtentTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 185
+%s   y : 25
+%s   width : 56
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Width:
+%f
+%%%
+%N   xExtent
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 243
+%s   y : 23
+%z   horizFixed : true
+%z   vertFixed : false
+%r   max : 612
+%f
+%%%
+%N   yExtentTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 305
+%s   y : 25
+%s   width : 64
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Height:
+%f
+%%%
+%N   yExtent
+%c   ukcValueWidgetClass
+%p   xscan.mainLayout.scanLayout
+%m   true
+%o   false
+%s   x : 370
+%s   y : 23
+%f
+%%%
+%N  outputLayout
+%c  ukcLayoutWidgetClass
+%p  xscan.mainLayout
+%m  true
+%o  false
+%s  x : 337
+%s  y : 346
+%s  width : 435
+%s  height : 136
+%z  horizFixed : true
+%z  vertFixed : true
+%f
+%%%
+%N   ditheredTitle
+%c   ukcLabelWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   y : 3
+%s   width : 216
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Bitmap Dithering Patterns:
+%f
+%%%
+%N   fat8
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 23
+%s   width : 120
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 8x8 Fatting
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   fat4
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 200
+%s   y : 23
+%s   width : 120
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 4x4 Fatting
+%r   radioToggle : fat8
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   bayer
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 43
+%s   width : 75
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Bayer
+%r   radioToggle : fat4
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   vertical
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 200
+%s   y : 43
+%s   width : 100
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Vertical
+%r   radioToggle : bayer
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   patternTitle
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 66
+%s   width : 180
+%s   height : 20
+%s   borderWidth : 0
+%r   sensitive : false
+%r   label : Pattern from file:
+%r   radioToggle : vertical
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   patternFile
+%c   asciiTextWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 185
+%s   y : 64
+%s   width : 242
+%s   height : 20
+%s   borderWidth : 2
+%r   sensitive : false
+%f
+%%%
+%N   outputBitmap
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 94
+%s   width : 85
+%s   height : 20
+%s   borderWidth : 0
+%r   label : Bitmap
+%r   radioToggle : patternTitle
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   greyscale4Bit
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 200
+%s   y : 94
+%s   width : 150
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 4 Bit Greyscale
+%r   radioToggle : outputBitmap
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   greyscale7Bit
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 5
+%s   y : 114
+%s   width : 150
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 7 Bit Greyscale
+%r   state : true
+%r   radioToggle : greyscale4Bit
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f
+%%%
+%N   greyscale8Bit
+%c   ukcToggleWidgetClass
+%p   xscan.mainLayout.outputLayout
+%m   true
+%o   false
+%s   x : 200
+%s   y : 114
+%s   width : 150
+%s   height : 20
+%s   borderWidth : 0
+%r   label : 8 Bit Greyscale
+%r   radioToggle : greyscale7Bit
+%r   onBitmap : on_circle
+%r   offBitmap : off_circle
+%f

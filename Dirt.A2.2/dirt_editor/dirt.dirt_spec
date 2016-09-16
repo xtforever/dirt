@@ -1,0 +1,4453 @@
+%%ID  DIRT! 1.4 (c)1990 rlh2@ukc.ac.uk : UI Specification file
+%%ID  Application = "dirt"
+%%ID  Created by rlh2 on Sun Jun 30 17:56:27 1991
+%Y dirtACTUpdateParent
+%Y dirtACTUpdateNewName
+%Y dirtACTUpdateInstanceName
+%Y dirtACTUpdateApplicationName
+%Y dirtACTUpdateApplicationClass
+%Y dirtACTSaveUI
+%Y dirtACTRegisterCallback
+%Y dirtACTRegisterAction
+%Y dirtACTLoadSpec
+%Y dirtACTCreateTemplate
+%Z positionShell
+%Z popupShell
+%Z SelectClass
+%Z SaveUI
+%Z ResetCreateObject
+%Z RegisterCallback
+%Z RegisterAction
+%Z PickInstance
+%Z PasteEvent
+%Z PasteAction
+%Z LoadTemplate
+%Z LoadSpec
+%Z DeleteObject
+%Z DeleteApplication
+%Z CreateTemplate
+%Z CreateObject
+%Z CreateApplication
+%Z ApplyTranslations
+%%%
+%A dirt
+%C Dirt
+%R borderWidth : 0
+%R allowShellResize : true
+%R title : dirt
+%R iconName : dirt
+%F
+%%%
+%N mainLayout
+%c ukcLayoutWidgetClass
+%p dirt
+%m true
+%o false
+%s width : 500
+%s height : 507
+%s borderWidth : 0
+%s geomStatus : refuseall 
+%f
+%%%
+%N  mainTitle
+%c  ukcLabelWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 0
+%s  y : 0
+%s  width : 500
+%s  height : 24
+%s  borderWidth : 0
+%s  label : Design In Real Time
+%s  leftBitmap : dirt
+%s  rightBitmap : copyright
+%z  vertFixed : true
+%f
+%%%
+%N  mainMenu
+%c  ukcMed3MenuWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 26
+%s  width : 490
+%s  height : 23
+%s  vertPane : false
+%s  askChild : false
+%s  borderWidth : 1
+%s  menuFile : /s/rlh2/toolkit/dirt_editor/menu.c
+%s  popupBitmap : arrow
+%z  vertFixed : true
+%f
+%%%
+%N  createPressup
+%c  ukcCommandWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 331
+%s  width : 491
+%s  height : 24
+%s  label : Application Details
+%s  borderWidth : 1
+%z  vertFixed : true
+%r  rightBitmap : press_left
+%r  callback : WcPopdownCB(*createShell),positionShell(*createShell),popupShell(*createShell)
+%f
+%%%
+%N  createShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  title : createShell
+%s  borderWidth : 0
+%f
+%%%
+%N   createLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.createShell
+%m   true
+%o   false
+%s   width : 490
+%s   height : 420
+%s   borderWidth : 0
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    createHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 429
+%s    y : 5
+%s    width : 52
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Hide
+%z    vertFixed : true
+%z    horizFixed : true
+%r    leftBitmap : None
+%r    rightBitmap : None
+%r    callback : WcPopdownCB(*createShell)
+%f
+%%%
+%N    createNameLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 56
+%s    width : 158
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Application Name:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    createNameEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%d    *createNameEntry.textSource.editType : edit
+%s    x : 158
+%s    y : 56
+%s    width : 325
+%s    height : 23
+%s    sensitive : true
+%s    borderWidth : 1
+%s    ancestorSensitive : true
+%z    vertFixed : true
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTUpdateApplicationName()\
+<LeaveNotify>: dirtACTUpdateApplicationName()\
+~Ctrl<KeyPress>a: insert-char()\
+~Ctrl<KeyPress>b: insert-char()\
+~Ctrl<KeyPress>c: insert-char()\
+~Ctrl<KeyPress>d: insert-char()\
+~Ctrl<KeyPress>e: insert-char()\
+~Ctrl<KeyPress>f: insert-char()\
+~Ctrl<KeyPress>g: insert-char()\
+~Ctrl<KeyPress>h: insert-char()\
+~Ctrl<KeyPress>i: insert-char()\
+~Ctrl<KeyPress>j: insert-char()\
+~Ctrl<KeyPress>k: insert-char()\
+~Ctrl<KeyPress>l: insert-char()\
+~Ctrl<KeyPress>m: insert-char()\
+~Ctrl<KeyPress>n: insert-char()\
+~Ctrl<KeyPress>o: insert-char()\
+~Ctrl<KeyPress>p: insert-char()\
+~Ctrl<KeyPress>q: insert-char()\
+~Ctrl<KeyPress>r: insert-char()\
+~Ctrl<KeyPress>s: insert-char()\
+~Ctrl<KeyPress>t: insert-char()\
+~Ctrl<KeyPress>u: insert-char()\
+~Ctrl<KeyPress>v: insert-char()\
+~Ctrl<KeyPress>w: insert-char()\
+~Ctrl<KeyPress>x: insert-char()\
+~Ctrl<KeyPress>y: insert-char()\
+~Ctrl<KeyPress>z: insert-char()\
+~Shift~Ctrl<KeyPress>0: insert-char()\
+~Shift~Ctrl<KeyPress>1: insert-char()\
+~Shift~Ctrl<KeyPress>2: insert-char()\
+~Shift~Ctrl<KeyPress>3: insert-char()\
+~Shift~Ctrl<KeyPress>4: insert-char()\
+~Shift~Ctrl<KeyPress>5: insert-char()\
+~Shift~Ctrl<KeyPress>6: insert-char()\
+~Shift~Ctrl<KeyPress>7: insert-char()\
+~Shift~Ctrl<KeyPress>8: insert-char()\
+~Shift~Ctrl<KeyPress>9: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    createClassLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 87
+%s    width : 158
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Application Class:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    createClassEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%d    *createClassEntry.textSource.editType : edit
+%s    x : 158
+%s    y : 87
+%s    width : 325
+%s    height : 23
+%s    sensitive : true
+%s    borderWidth : 1
+%z    vertFixed : true
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTUpdateApplicationClass()\
+<LeaveNotify>: dirtACTUpdateApplicationClass()\
+~Ctrl<KeyPress>a: insert-char()\
+~Ctrl<KeyPress>b: insert-char()\
+~Ctrl<KeyPress>c: insert-char()\
+~Ctrl<KeyPress>d: insert-char()\
+~Ctrl<KeyPress>e: insert-char()\
+~Ctrl<KeyPress>f: insert-char()\
+~Ctrl<KeyPress>g: insert-char()\
+~Ctrl<KeyPress>h: insert-char()\
+~Ctrl<KeyPress>i: insert-char()\
+~Ctrl<KeyPress>j: insert-char()\
+~Ctrl<KeyPress>k: insert-char()\
+~Ctrl<KeyPress>l: insert-char()\
+~Ctrl<KeyPress>m: insert-char()\
+~Ctrl<KeyPress>n: insert-char()\
+~Ctrl<KeyPress>o: insert-char()\
+~Ctrl<KeyPress>p: insert-char()\
+~Ctrl<KeyPress>q: insert-char()\
+~Ctrl<KeyPress>r: insert-char()\
+~Ctrl<KeyPress>s: insert-char()\
+~Ctrl<KeyPress>t: insert-char()\
+~Ctrl<KeyPress>u: insert-char()\
+~Ctrl<KeyPress>v: insert-char()\
+~Ctrl<KeyPress>w: insert-char()\
+~Ctrl<KeyPress>x: insert-char()\
+~Ctrl<KeyPress>y: insert-char()\
+~Ctrl<KeyPress>z: insert-char()\
+~Shift~Ctrl<KeyPress>0: insert-char()\
+~Shift~Ctrl<KeyPress>1: insert-char()\
+~Shift~Ctrl<KeyPress>2: insert-char()\
+~Shift~Ctrl<KeyPress>3: insert-char()\
+~Shift~Ctrl<KeyPress>4: insert-char()\
+~Shift~Ctrl<KeyPress>5: insert-char()\
+~Shift~Ctrl<KeyPress>6: insert-char()\
+~Shift~Ctrl<KeyPress>7: insert-char()\
+~Shift~Ctrl<KeyPress>8: insert-char()\
+~Shift~Ctrl<KeyPress>9: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    appXLockedToggle
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 14
+%s    y : 121
+%s    width : 137
+%s    height : 24
+%s    borderWidth : 0
+%s    label : X Position =
+%s    onBitmap : locked
+%s    offBitmap : unlocked
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appXPosValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 157
+%s    y : 121
+%s    sensitive : true
+%s    min : -2500
+%s    max : 2500
+%s    borderWidth : 0
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appYLockedToggle
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 237
+%s    y : 121
+%s    width : 129
+%s    height : 24
+%s    borderWidth : 0
+%s    onBitmap : locked
+%s    offBitmap : unlocked
+%s    label : Y Position =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appYPosValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 370
+%s    y : 121
+%s    sensitive : true
+%s    min : -2500
+%s    max : 2500
+%s    borderWidth : 0
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appWidthLockedToggle
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 14
+%s    y : 152
+%s    width : 137
+%s    height : 24
+%s    borderWidth : 0
+%s    onBitmap : locked
+%s    offBitmap : unlocked
+%s    label : Width =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appWidthValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 157
+%s    y : 152
+%s    sensitive : true
+%s    value : 500
+%s    min : 1
+%s    max : 5000
+%s    borderWidth : 0
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appHeightLockedToggle
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 238
+%s    y : 153
+%s    width : 128
+%s    height : 24
+%s    borderWidth : 0
+%s    onBitmap : locked
+%s    offBitmap : unlocked
+%s    label : Height =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appHeightValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 370
+%s    y : 153
+%s    sensitive : true
+%s    value : 300
+%s    min : 1
+%s    max : 5000
+%s    borderWidth : 0
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appBorderLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 14
+%s    y : 184
+%s    width : 137
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Border Width =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appBorderValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 157
+%s    y : 183
+%s    sensitive : true
+%s    value : 1
+%s    max : 500
+%s    borderWidth : 0
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    appNew
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 158
+%s    y : 26
+%s    width : 56
+%s    height : 24
+%s    label : Create
+%s    borderWidth : 1
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : CreateApplication()
+%f
+%%%
+%N    appDelete
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 221
+%s    y : 26
+%s    width : 60
+%s    height : 24
+%s    label : Delete
+%s    borderWidth : 1
+%z    vertFixed : true
+%z    horizFixed : true
+%r    callback : DeleteApplication()
+%f
+%%%
+%N    appResourcesTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 214
+%s    width : 453
+%s    height : 23
+%s    borderWidth : 0
+%s    label : Application Resources
+%z    vertFixed : true
+%r    leftBitmap : pointer
+%f
+%%%
+%N    appResourcesViewport
+%c    ukcViewportWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%d    *appResourcesViewport.vertical.centre: true
+%d    *appResourcesViewport.vertical.thickness : 13
+%d    *appResourcesViewport.vertical.markSize : 0
+%d    *appResourcesViewport.horizontal.thickness : 12
+%d    *appResourcesViewport.horizontal.markSize : 0
+%s    x : 4
+%s    y : 237
+%s    width : 479
+%s    height : 177
+%s    borderWidth : 1
+%r    allowHoriz : true
+%r    allowVert : true
+%r    forceBars : true
+%f
+%%%
+%N    appComments
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 390
+%s    y : 183
+%s    width : 90
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Comments
+%z    vertFixed : true
+%z    horizFixed : true
+%r    callback : positionShell(*commentShell),popupShell(*commentShell)
+%f
+%%%
+%N    appBlank
+%c    coreWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 245
+%s    y : 186
+%s    width : 144
+%s    height : 26
+%s    borderWidth : 0
+%z    vertFixed : true
+%f
+%%%
+%N    createTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.createShell.createLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 429
+%s    height : 26
+%s    borderWidth : 0
+%s    leftBitmap : keyboard
+%s    label : Application Details
+%z    horizFixed : false
+%z    vertFixed : true
+%r    rightBitmap : None
+%f
+%%%
+%N  newPressup
+%c  ukcCommandWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 361
+%s  width : 491
+%s  height : 24
+%s  label : Create New Widget Instance
+%s  borderWidth : 1
+%s  rightBitmap : press_left
+%z  vertFixed : true
+%r  callback : WcPopdownCB(*newShell),positionShell(*newShell),popupShell(*newShell)
+%f
+%%%
+%N  newShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  allowShellResize : true
+%s  title : newShell
+%s  borderWidth : 0
+%f
+%%%
+%N   newLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.newShell
+%m   true
+%o   false
+%s   width : 490
+%s   height : 505
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    newHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 429
+%s    y : 5
+%s    width : 52
+%s    height : 26
+%s    borderWidth : 2
+%s    label : Hide
+%z    vertFixed : true
+%z    horizFixed : true
+%r    leftBitmap : None
+%r    rightBitmap : None
+%r    callback : WcPopdownCB(*newShell)
+%f
+%%%
+%N    newNameLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 60
+%s    width : 135
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Widget Name:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    newNameEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%d    *newNameEntry.textSource.editType : edit
+%s    x : 135
+%s    y : 60
+%s    width : 348
+%s    height : 22
+%s    sensitive : true
+%z    vertFixed : true
+%r    borderWidth : 1
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTUpdateNewName()\
+<LeaveNotify>: dirtACTUpdateNewName()\
+~Ctrl<KeyPress>a: insert-char()\
+~Ctrl<KeyPress>b: insert-char()\
+~Ctrl<KeyPress>c: insert-char()\
+~Ctrl<KeyPress>d: insert-char()\
+~Ctrl<KeyPress>e: insert-char()\
+~Ctrl<KeyPress>f: insert-char()\
+~Ctrl<KeyPress>g: insert-char()\
+~Ctrl<KeyPress>h: insert-char()\
+~Ctrl<KeyPress>i: insert-char()\
+~Ctrl<KeyPress>j: insert-char()\
+~Ctrl<KeyPress>k: insert-char()\
+~Ctrl<KeyPress>l: insert-char()\
+~Ctrl<KeyPress>m: insert-char()\
+~Ctrl<KeyPress>n: insert-char()\
+~Ctrl<KeyPress>o: insert-char()\
+~Ctrl<KeyPress>p: insert-char()\
+~Ctrl<KeyPress>q: insert-char()\
+~Ctrl<KeyPress>r: insert-char()\
+~Ctrl<KeyPress>s: insert-char()\
+~Ctrl<KeyPress>t: insert-char()\
+~Ctrl<KeyPress>u: insert-char()\
+~Ctrl<KeyPress>v: insert-char()\
+~Ctrl<KeyPress>w: insert-char()\
+~Ctrl<KeyPress>x: insert-char()\
+~Ctrl<KeyPress>y: insert-char()\
+~Ctrl<KeyPress>z: insert-char()\
+~Shift~Ctrl<KeyPress>0: insert-char()\
+~Shift~Ctrl<KeyPress>1: insert-char()\
+~Shift~Ctrl<KeyPress>2: insert-char()\
+~Shift~Ctrl<KeyPress>3: insert-char()\
+~Shift~Ctrl<KeyPress>4: insert-char()\
+~Shift~Ctrl<KeyPress>5: insert-char()\
+~Shift~Ctrl<KeyPress>6: insert-char()\
+~Shift~Ctrl<KeyPress>7: insert-char()\
+~Shift~Ctrl<KeyPress>8: insert-char()\
+~Shift~Ctrl<KeyPress>9: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    newClassLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 90
+%s    width : 135
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Widget Class:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    newClassEntry
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 135
+%s    y : 90
+%s    width : 348
+%s    height : 22
+%s    sensitive : true
+%s    justify : left
+%z    vertFixed : true
+%z    horizFixed : false
+%r    borderWidth : 1
+%r    label : 
+%f
+%%%
+%N    newParentLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 120
+%s    width : 135
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Parent's Name:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    newParentEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%d    *newParentEntry.textSource.editType : edit
+%s    x : 135
+%s    y : 120
+%s    width : 290
+%s    height : 22
+%s    sensitive : true
+%z    vertFixed : true
+%r    borderWidth : 1
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTUpdateParent()\
+<LeaveNotify>: dirtACTUpdateParent()\
+~Ctrl<KeyPress>a: insert-char()\
+~Ctrl<KeyPress>b: insert-char()\
+~Ctrl<KeyPress>c: insert-char()\
+~Ctrl<KeyPress>d: insert-char()\
+~Ctrl<KeyPress>e: insert-char()\
+~Ctrl<KeyPress>f: insert-char()\
+~Ctrl<KeyPress>g: insert-char()\
+~Ctrl<KeyPress>h: insert-char()\
+~Ctrl<KeyPress>i: insert-char()\
+~Ctrl<KeyPress>j: insert-char()\
+~Ctrl<KeyPress>k: insert-char()\
+~Ctrl<KeyPress>l: insert-char()\
+~Ctrl<KeyPress>m: insert-char()\
+~Ctrl<KeyPress>n: insert-char()\
+~Ctrl<KeyPress>o: insert-char()\
+~Ctrl<KeyPress>p: insert-char()\
+~Ctrl<KeyPress>q: insert-char()\
+~Ctrl<KeyPress>r: insert-char()\
+~Ctrl<KeyPress>s: insert-char()\
+~Ctrl<KeyPress>t: insert-char()\
+~Ctrl<KeyPress>u: insert-char()\
+~Ctrl<KeyPress>v: insert-char()\
+~Ctrl<KeyPress>w: insert-char()\
+~Ctrl<KeyPress>x: insert-char()\
+~Ctrl<KeyPress>y: insert-char()\
+~Ctrl<KeyPress>z: insert-char()\
+~Shift~Ctrl<KeyPress>0: insert-char()\
+~Shift~Ctrl<KeyPress>1: insert-char()\
+~Shift~Ctrl<KeyPress>2: insert-char()\
+~Shift~Ctrl<KeyPress>3: insert-char()\
+~Shift~Ctrl<KeyPress>4: insert-char()\
+~Shift~Ctrl<KeyPress>5: insert-char()\
+~Shift~Ctrl<KeyPress>6: insert-char()\
+~Shift~Ctrl<KeyPress>7: insert-char()\
+~Shift~Ctrl<KeyPress>8: insert-char()\
+~Shift~Ctrl<KeyPress>9: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    pickParent
+%c    ukcMed3MenuWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 433
+%s    y : 120
+%s    width : 50
+%s    height : 22
+%s    askChild : false
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 1
+%r    menuFile : /s/rlh2/toolkit/dirt_editor/pick_menu.c
+%f
+%%%
+%N    newXPosLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 29
+%s    y : 150
+%s    width : 127
+%s    height : 24
+%s    borderWidth : 0
+%s    label : X Position =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : unlocked
+%r    onBitmap : locked
+%f
+%%%
+%N    newXPosValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 160
+%s    y : 150
+%s    width : 75
+%s    height : 24
+%s    min : -2500
+%s    max : 2500
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    newYPosLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 246
+%s    y : 150
+%s    width : 127
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Y Position =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : unlocked
+%r    onBitmap : locked
+%f
+%%%
+%N    newYPosValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 376
+%s    y : 150
+%s    width : 75
+%s    height : 24
+%s    min : -2500
+%s    max : 2500
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    newWidthLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 29
+%s    y : 180
+%s    width : 127
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Width =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : unlocked
+%r    onBitmap : locked
+%f
+%%%
+%N    newWidthValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 160
+%s    y : 180
+%s    width : 75
+%s    height : 24
+%s    value : 500
+%s    min : 1
+%s    max : 5000
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    newHeightLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 246
+%s    y : 180
+%s    width : 127
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Height =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : unlocked
+%r    onBitmap : locked
+%f
+%%%
+%N    newHeightValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 376
+%s    y : 180
+%s    width : 75
+%s    height : 24
+%s    value : 300
+%s    min : 1
+%s    max : 5000
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    newBorderLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 5
+%s    y : 210
+%s    width : 130
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Border Width =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    newBorderValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 135
+%s    y : 210
+%s    width : 75
+%s    height : 24
+%s    value : 1
+%s    max : 500
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    newManaged
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 239
+%s    y : 210
+%s    width : 90
+%s    height : 26
+%s    borderWidth : 0
+%s    sensitive : true
+%s    label : Managed
+%s    justify : left
+%z    horizFixed : true
+%z    vertFixed : true
+%r    onLeft : true
+%r    resize : false
+%r    verticalJustify : center
+%r    offBitmap : cross
+%r    onBitmap : tick
+%r    state : true
+%f
+%%%
+%N    newPane
+%c    panedWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 240
+%s    width : 490
+%s    height : 265
+%s    borderWidth : 0
+%f
+%%%
+%N     classLayout
+%c     ukcLayoutWidgetClass
+%p     dirt.mainLayout.newShell.newLayout.newPane
+%m     true
+%o     false
+%s     x : 0
+%s     y : 0
+%s     width : 500
+%s     height : 130
+%s     geomStatus : refuseall 
+%s     borderWidth : 0
+%z     allowResize : false
+%z     resizeToPreferred : true
+%z     skipAdjust : true
+%z     preferredPaneSize : 130
+%z     min : 80
+%f
+%%%
+%N      classTitle
+%c      ukcLabelWidgetClass
+%p      dirt.mainLayout.newShell.newLayout.newPane.classLayout
+%m      true
+%o      false
+%s      x : 0
+%s      y : 0
+%s      width : 408
+%s      height : 28
+%s      borderWidth : 0
+%s      label : Available Widget Classes
+%z      horizFixed : false
+%z      vertFixed : true
+%r      leftBitmap : pointer
+%f
+%%%
+%N      classExamples
+%c      ukcMed3MenuWidgetClass
+%p      dirt.mainLayout.newShell.newLayout.newPane.classLayout
+%m      true
+%o      false
+%s      x : 410
+%s      y : 0
+%s      width : 83
+%s      height : 23
+%s      askChild : false
+%s      borderWidth : 1
+%s      popupBitmap : arrow
+%s      menuFile : /s/rlh2/toolkit/dirt_editor/examples_menu.c
+%z      horizFixed : true
+%z      vertFixed : true
+%f
+%%%
+%N      classList
+%c      ukcScrListWidgetClass
+%p      dirt.mainLayout.newShell.newLayout.newPane.classLayout
+%m      true
+%o      false
+%d      *classList.vertical.centre: true
+%s      x : 5
+%s      y : 28
+%s      width : 488
+%s      height : 95
+%z      horizFixed : false
+%z      vertFixed : false
+%r      borderWidth : 1
+%r      callback : SelectClass()
+%f
+%%%
+%N     newResourcesLayout
+%c     ukcLayoutWidgetClass
+%p     dirt.mainLayout.newShell.newLayout.newPane
+%m     true
+%o     false
+%s     x : 0
+%s     y : 131
+%s     width : 500
+%s     height : 136
+%s     geomStatus : refuseall 
+%z     resizeToPreferred : true
+%z     allowResize : false
+%z     skipAdjust : true
+%z     preferredPaneSize : 134
+%z     min : 80
+%r     borderWidth : 0
+%f
+%%%
+%N      newResourcesTitle
+%c      ukcLabelWidgetClass
+%p      dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout
+%m      true
+%o      false
+%s      x : 0
+%s      y : 0
+%s      width : 440
+%s      height : 28
+%s      borderWidth : 0
+%s      label : Resources
+%z      horizFixed : false
+%z      vertFixed : true
+%r      leftBitmap : pointer
+%f
+%%%
+%N      newResourcesViewport
+%c      ukcViewportWidgetClass
+%p      dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout
+%m      true
+%o      false
+%d      *newResourcesViewport.vertical.centre: true
+%d      *newResourcesViewport.horizontal.thickness : 13
+%d      *newResourcesViewport.horizontal.markSize : 0
+%d      *newResourcesViewport.vertical.thickness : 13
+%d      *newResourcesViewport.vertical.markSize : 0
+%s      x : 5
+%s      y : 28
+%s      width : 489
+%s      height : 102
+%r      borderWidth : 1
+%r      allowVert : true
+%r      allowHoriz : true
+%r      forceBars : true
+%f
+%%%
+%N    newTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 424
+%s    height : 28
+%s    borderWidth : 0
+%s    bitmap : None
+%s    leftBitmap : keyboard
+%s    label : Create New Widget Instance
+%z    horizFixed : false
+%z    vertFixed : true
+%r    rightBitmap : None
+%f
+%%%
+%N    newCreate
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 135
+%s    y : 29
+%s    width : 60
+%s    height : 24
+%s    borderWidth : 1
+%s    label : Create
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : CreateObject()
+%f
+%%%
+%N    newDelete
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 203
+%s    y : 29
+%s    width : 60
+%s    height : 24
+%s    borderWidth : 1
+%s    label : Reset
+%z    horizFixed : true
+%z    vertFixed : true
+%r    cursor : hand2
+%r    callback : ResetCreateObject()
+%f
+%%%
+%N    newDeferred
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.newShell.newLayout
+%m    true
+%o    false
+%s    x : 336
+%s    y : 210
+%s    width : 92
+%s    height : 26
+%s    borderWidth : 0
+%s    offBitmap : cross
+%s    onBitmap : tick
+%s    label : Deferred
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N  instancePressup
+%c  ukcCommandWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 391
+%s  width : 491
+%s  height : 24
+%s  label : Edit Widget Instance
+%s  borderWidth : 1
+%z  vertFixed : true
+%r  rightBitmap : press_left
+%r  callback : WcPopdownCB(*instanceShell),positionShell(*instanceShell),popupShell(*instanceShell)
+%f
+%%%
+%N  instanceShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  allowShellResize : true
+%s  title : instanceShell
+%s  borderWidth : 0
+%f
+%%%
+%N   instanceLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.instanceShell
+%m   true
+%o   false
+%s   width : 490
+%s   height : 455
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    instanceHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 429
+%s    y : 5
+%s    width : 52
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Hide
+%z    vertFixed : true
+%z    horizFixed : true
+%r    cursor : hand2
+%r    leftBitmap : None
+%r    rightBitmap : None
+%r    bitmap : None
+%r    callback : WcPopdownCB(*instanceShell)
+%f
+%%%
+%N    instanceNameLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 37
+%s    width : 135
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Widget Name:
+%s    justify : right
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    instanceNameEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%d    *instanceNameEntry.textSource.editType : edit
+%s    x : 135
+%s    y : 37
+%s    width : 348
+%s    height : 22
+%s    sensitive : true
+%z    vertFixed : true
+%r    borderWidth : 1
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTUpdateInstanceName()\
+<LeaveNotify>: dirtACTUpdateInstanceName()\
+~Ctrl<KeyPress>a: insert-char()\
+~Ctrl<KeyPress>b: insert-char()\
+~Ctrl<KeyPress>c: insert-char()\
+~Ctrl<KeyPress>d: insert-char()\
+~Ctrl<KeyPress>e: insert-char()\
+~Ctrl<KeyPress>f: insert-char()\
+~Ctrl<KeyPress>g: insert-char()\
+~Ctrl<KeyPress>h: insert-char()\
+~Ctrl<KeyPress>i: insert-char()\
+~Ctrl<KeyPress>j: insert-char()\
+~Ctrl<KeyPress>k: insert-char()\
+~Ctrl<KeyPress>l: insert-char()\
+~Ctrl<KeyPress>m: insert-char()\
+~Ctrl<KeyPress>n: insert-char()\
+~Ctrl<KeyPress>o: insert-char()\
+~Ctrl<KeyPress>p: insert-char()\
+~Ctrl<KeyPress>q: insert-char()\
+~Ctrl<KeyPress>r: insert-char()\
+~Ctrl<KeyPress>s: insert-char()\
+~Ctrl<KeyPress>t: insert-char()\
+~Ctrl<KeyPress>u: insert-char()\
+~Ctrl<KeyPress>v: insert-char()\
+~Ctrl<KeyPress>w: insert-char()\
+~Ctrl<KeyPress>x: insert-char()\
+~Ctrl<KeyPress>y: insert-char()\
+~Ctrl<KeyPress>z: insert-char()\
+~Shift~Ctrl<KeyPress>0: insert-char()\
+~Shift~Ctrl<KeyPress>1: insert-char()\
+~Shift~Ctrl<KeyPress>2: insert-char()\
+~Shift~Ctrl<KeyPress>3: insert-char()\
+~Shift~Ctrl<KeyPress>4: insert-char()\
+~Shift~Ctrl<KeyPress>5: insert-char()\
+~Shift~Ctrl<KeyPress>6: insert-char()\
+~Shift~Ctrl<KeyPress>7: insert-char()\
+~Shift~Ctrl<KeyPress>8: insert-char()\
+~Shift~Ctrl<KeyPress>9: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    instanceClassLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 67
+%s    width : 135
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Widget Class:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    instanceClassEntry
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 135
+%s    y : 67
+%s    width : 348
+%s    height : 22
+%s    sensitive : true
+%s    justify : left
+%z    vertFixed : true
+%z    horizFixed : false
+%r    borderWidth : 1
+%r    label : 
+%f
+%%%
+%N    instanceParentLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 97
+%s    width : 135
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Parent's Name:
+%s    justify : right
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    instanceParentEntry
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 135
+%s    y : 97
+%s    width : 348
+%s    height : 22
+%s    sensitive : true
+%s    justify : left
+%z    vertFixed : true
+%r    borderWidth : 1
+%r    label : 
+%f
+%%%
+%N    xPosLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 25
+%s    y : 127
+%s    width : 137
+%s    height : 24
+%s    borderWidth : 0
+%s    label : X Position =
+%s    justify : right
+%z    vertFixed : true
+%z    horizFixed : true
+%r    onBitmap : locked
+%r    offBitmap : unlocked
+%f
+%%%
+%N    xPosValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 165
+%s    y : 127
+%s    width : 75
+%s    height : 24
+%s    sensitive : true
+%s    min : -2500
+%s    max : 2500
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    yPosLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 247
+%s    y : 127
+%s    width : 130
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Y Position =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : unlocked
+%r    onBitmap : locked
+%f
+%%%
+%N    yPosValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 380
+%s    y : 127
+%s    width : 75
+%s    height : 24
+%s    sensitive : true
+%s    min : -2500
+%s    max : 2500
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    widthLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 25
+%s    y : 157
+%s    width : 137
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Width =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : unlocked
+%r    onBitmap : locked
+%f
+%%%
+%N    widthValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 165
+%s    y : 157
+%s    width : 75
+%s    height : 24
+%s    value : 1
+%s    min : 1
+%s    max : 5000
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    heightLabel
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 248
+%s    y : 157
+%s    width : 129
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Height =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : unlocked
+%r    onBitmap : locked
+%f
+%%%
+%N    heightValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 380
+%s    y : 157
+%s    width : 75
+%s    height : 24
+%s    value : 1
+%s    min : 1
+%s    max : 5000
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    borderLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 5
+%s    y : 187
+%s    width : 130
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Border Width =
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    borderValue
+%c    ukcValueWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 135
+%s    y : 187
+%s    width : 75
+%s    height : 24
+%s    max : 500
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 0
+%f
+%%%
+%N    instanceManaged
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 216
+%s    y : 186
+%s    width : 86
+%s    height : 25
+%s    borderWidth : 0
+%s    label : Managed
+%s    justify : left
+%s    state : true
+%z    horizFixed : true
+%z    vertFixed : true
+%r    offBitmap : cross
+%r    onBitmap : tick
+%f
+%%%
+%N    instanceResourcesTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 214
+%s    width : 391
+%s    height : 23
+%s    borderWidth : 0
+%s    label : Editable Resources
+%z    vertFixed : true
+%r    leftBitmap : pointer
+%f
+%%%
+%N    instanceResourcesViewport
+%c    ukcViewportWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%d    *instanceResourcesViewport.vertical.centre: true
+%d    *instanceResourcesViewport.vertical.markSize : 0
+%d    *instanceResourcesViewport.vertical.thickness : 13
+%d    *instanceResourcesViewport.horizontal.thickness : 13
+%d    *instanceResourcesViewport.horizontal.markSize : 0
+%s    x : 5
+%s    y : 237
+%s    width : 478
+%s    height : 211
+%z    vertFixed : false
+%r    borderWidth : 1
+%r    allowHoriz : true
+%r    allowVert : true
+%r    forceBars : true
+%f
+%%%
+%N    editComments
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 401
+%s    y : 206
+%s    width : 82
+%s    height : 25
+%s    borderWidth : 2
+%s    label : Comments
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : positionShell(*commentShell),popupShell(*commentShell)
+%f
+%%%
+%N    instanceTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 428
+%s    height : 28
+%s    borderWidth : 0
+%s    label : Edit Widget Instance
+%z    horizFixed : false
+%z    vertFixed : true
+%r    rightBitmap : None
+%r    leftBitmap : keyboard
+%f
+%%%
+%N    instanceDeferred
+%c    ukcToggleWidgetClass
+%p    dirt.mainLayout.instanceShell.instanceLayout
+%m    true
+%o    false
+%s    x : 302
+%s    y : 186
+%s    width : 94
+%s    height : 25
+%s    borderWidth : 0
+%s    offBitmap : cross
+%s    onBitmap : tick
+%s    label : Deferred
+%z    horizFixed : true
+%z    vertFixed : true
+%r    justify : left
+%f
+%%%
+%N  instanceListTitle
+%c  ukcLabelWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 0
+%s  y : 54
+%s  width : 430
+%s  height : 25
+%s  borderWidth : 0
+%s  label : Widget Instances
+%s  leftBitmap : pointer
+%z  vertFixed : true
+%f
+%%%
+%N  instanceList
+%c  ukcScrListWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%d  *instanceList.vertical.centre: true
+%s  x : 4
+%s  y : 79
+%s  width : 491
+%s  height : 247
+%z  vertFixed : false
+%r  borderWidth : 1
+%r  callback : PickInstance()
+%f
+%%%
+%N  actionStubsPressup
+%c  ukcCommandWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 449
+%s  width : 491
+%s  height : 24
+%s  sensitive : true
+%s  label : Translation Actions
+%s  borderWidth : 1
+%z  vertFixed : true
+%r  rightBitmap : press_left
+%r  callback : WcPopdownCB(*actionStubsShell),positionShell(*actionStubsShell),popupShell(*actionStubsShell)
+%f
+%%%
+%N  actionStubsShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  allowShellResize : true
+%s  title : actionStubsShell
+%s  borderWidth : 0
+%f
+%%%
+%N   actionStubsLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.actionStubsShell
+%m   true
+%o   false
+%s   width : 492
+%s   height : 300
+%s   borderWidth : 0
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    actionStubsHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.actionStubsShell.actionStubsLayout
+%m    true
+%o    false
+%s    x : 432
+%s    y : 4
+%s    width : 52
+%s    height : 26
+%s    borderWidth : 2
+%s    label : Hide
+%z    vertFixed : true
+%z    horizFixed : true
+%r    leftBitmap : None
+%r    rightBitmap : None
+%r    callback : WcPopdownCB(*actionStubsShell)
+%f
+%%%
+%N    actionStubsLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.actionStubsShell.actionStubsLayout
+%m    true
+%o    false
+%s    x : 4
+%s    y : 57
+%s    width : 61
+%s    height : 26
+%s    borderWidth : 0
+%s    justify : right
+%s    label : Name:
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    actionStubsEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.actionStubsShell.actionStubsLayout
+%m    true
+%o    false
+%s    x : 66
+%s    y : 57
+%s    width : 420
+%s    height : 24
+%s    borderWidth : 1
+%z    vertFixed : true
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTRegisterAction()\
+~Ctrl<KeyPress>a: insert-char()\
+~Ctrl<KeyPress>b: insert-char()\
+~Ctrl<KeyPress>c: insert-char()\
+~Ctrl<KeyPress>d: insert-char()\
+~Ctrl<KeyPress>e: insert-char()\
+~Ctrl<KeyPress>f: insert-char()\
+~Ctrl<KeyPress>g: insert-char()\
+~Ctrl<KeyPress>h: insert-char()\
+~Ctrl<KeyPress>i: insert-char()\
+~Ctrl<KeyPress>j: insert-char()\
+~Ctrl<KeyPress>k: insert-char()\
+~Ctrl<KeyPress>l: insert-char()\
+~Ctrl<KeyPress>m: insert-char()\
+~Ctrl<KeyPress>n: insert-char()\
+~Ctrl<KeyPress>o: insert-char()\
+~Ctrl<KeyPress>p: insert-char()\
+~Ctrl<KeyPress>q: insert-char()\
+~Ctrl<KeyPress>r: insert-char()\
+~Ctrl<KeyPress>s: insert-char()\
+~Ctrl<KeyPress>t: insert-char()\
+~Ctrl<KeyPress>u: insert-char()\
+~Ctrl<KeyPress>v: insert-char()\
+~Ctrl<KeyPress>w: insert-char()\
+~Ctrl<KeyPress>x: insert-char()\
+~Ctrl<KeyPress>y: insert-char()\
+~Ctrl<KeyPress>z: insert-char()\
+~Shift~Ctrl<KeyPress>0: insert-char()\
+~Shift~Ctrl<KeyPress>1: insert-char()\
+~Shift~Ctrl<KeyPress>2: insert-char()\
+~Shift~Ctrl<KeyPress>3: insert-char()\
+~Shift~Ctrl<KeyPress>4: insert-char()\
+~Shift~Ctrl<KeyPress>5: insert-char()\
+~Shift~Ctrl<KeyPress>6: insert-char()\
+~Shift~Ctrl<KeyPress>7: insert-char()\
+~Shift~Ctrl<KeyPress>8: insert-char()\
+~Shift~Ctrl<KeyPress>9: insert-char()\
+:~Ctrl<KeyPress>underscore: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    actionStubsListLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.actionStubsShell.actionStubsLayout
+%m    true
+%o    false
+%s    x : 7
+%s    y : 86
+%s    width : 140
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Action Routines:
+%z    vertFixed : true
+%z    horizFixed : true
+%r    justify : left
+%f
+%%%
+%N    actionStubsList
+%c    ukcScrListWidgetClass
+%p    dirt.mainLayout.actionStubsShell.actionStubsLayout
+%m    true
+%o    false
+%d    *actionStubsList.vertical.centre: true
+%s    x : 4
+%s    y : 107
+%s    width : 482
+%s    height : 187
+%s    borderWidth : 1
+%s    listName : callbacks
+%f
+%%%
+%N    actionStubsRegister
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.actionStubsShell.actionStubsLayout
+%m    true
+%o    false
+%s    x : 66
+%s    y : 27
+%s    width : 76
+%s    height : 23
+%s    borderWidth : 2
+%s    label : Register
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : RegisterAction()
+%f
+%%%
+%N    actionStubsTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.actionStubsShell.actionStubsLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 430
+%s    height : 26
+%s    borderWidth : 0
+%s    label : Translation Actions
+%z    horizFixed : false
+%z    vertFixed : true
+%r    rightBitmap : None
+%r    leftBitmap : keyboard
+%f
+%%%
+%N  callbackStubsPressup
+%c  ukcCommandWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 479
+%s  width : 491
+%s  height : 23
+%s  sensitive : true
+%s  label : Application Callbacks
+%s  borderWidth : 1
+%z  vertFixed : true
+%r  rightBitmap : press_left
+%r  callback : WcPopdownCB(*callbackStubsShell),positionShell(*callbackStubsShell),popupShell(*callbackStubsShell)
+%f
+%%%
+%N  callbackStubsShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  allowShellResize : true
+%s  title : callbackStubsShell
+%s  borderWidth : 0
+%f
+%%%
+%N   callbackStubsLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.callbackStubsShell
+%m   true
+%o   false
+%s   width : 492
+%s   height : 300
+%s   borderWidth : 0
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    callbackStubsHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.callbackStubsShell.callbackStubsLayout
+%m    true
+%o    false
+%s    x : 431
+%s    y : 5
+%s    width : 52
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Hide
+%z    vertFixed : true
+%r    leftBitmap : None
+%r    rightBitmap : None
+%r    bitmap : None
+%r    callback : WcPopdownCB(*callbackStubsShell)
+%f
+%%%
+%N    callbackStubsRegister
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.callbackStubsShell.callbackStubsLayout
+%m    true
+%o    false
+%s    x : 66
+%s    y : 27
+%s    width : 76
+%s    height : 23
+%s    borderWidth : 2
+%s    label : Register
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : RegisterCallback()
+%f
+%%%
+%N    callbackStubsLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.callbackStubsShell.callbackStubsLayout
+%m    true
+%o    false
+%s    x : 4
+%s    y : 57
+%s    width : 61
+%s    height : 26
+%s    borderWidth : 0
+%s    justify : right
+%s    label : Name:
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    callbackStubsEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.callbackStubsShell.callbackStubsLayout
+%m    true
+%o    false
+%d    *actionStubsEntry.textSource.editType : edit
+%d    *actionStubsEntry.textSource.string : 
+%d    *callbackStubsEntry.textSource.editType : edit
+%s    x : 66
+%s    y : 57
+%s    width : 420
+%s    height : 24
+%s    borderWidth : 1
+%z    vertFixed : true
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTRegisterCallback()\
+~Ctrl<KeyPress>a: insert-char()\
+~Ctrl<KeyPress>b: insert-char()\
+~Ctrl<KeyPress>c: insert-char()\
+~Ctrl<KeyPress>d: insert-char()\
+~Ctrl<KeyPress>e: insert-char()\
+~Ctrl<KeyPress>f: insert-char()\
+~Ctrl<KeyPress>g: insert-char()\
+~Ctrl<KeyPress>h: insert-char()\
+~Ctrl<KeyPress>i: insert-char()\
+~Ctrl<KeyPress>j: insert-char()\
+~Ctrl<KeyPress>k: insert-char()\
+~Ctrl<KeyPress>l: insert-char()\
+~Ctrl<KeyPress>m: insert-char()\
+~Ctrl<KeyPress>n: insert-char()\
+~Ctrl<KeyPress>o: insert-char()\
+~Ctrl<KeyPress>p: insert-char()\
+~Ctrl<KeyPress>q: insert-char()\
+~Ctrl<KeyPress>r: insert-char()\
+~Ctrl<KeyPress>s: insert-char()\
+~Ctrl<KeyPress>t: insert-char()\
+~Ctrl<KeyPress>u: insert-char()\
+~Ctrl<KeyPress>v: insert-char()\
+~Ctrl<KeyPress>w: insert-char()\
+~Ctrl<KeyPress>x: insert-char()\
+~Ctrl<KeyPress>y: insert-char()\
+~Ctrl<KeyPress>z: insert-char()\
+~Shift~Ctrl<KeyPress>0: insert-char()\
+~Shift~Ctrl<KeyPress>1: insert-char()\
+~Shift~Ctrl<KeyPress>2: insert-char()\
+~Shift~Ctrl<KeyPress>3: insert-char()\
+~Shift~Ctrl<KeyPress>4: insert-char()\
+~Shift~Ctrl<KeyPress>5: insert-char()\
+~Shift~Ctrl<KeyPress>6: insert-char()\
+~Shift~Ctrl<KeyPress>7: insert-char()\
+~Shift~Ctrl<KeyPress>8: insert-char()\
+~Shift~Ctrl<KeyPress>9: insert-char()\
+:~Ctrl<KeyPress>underscore: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    callbackStubsListLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.callbackStubsShell.callbackStubsLayout
+%m    true
+%o    false
+%s    x : 7
+%s    y : 86
+%s    width : 152
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Callback Routines:
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    callbackStubsList
+%c    ukcScrListWidgetClass
+%p    dirt.mainLayout.callbackStubsShell.callbackStubsLayout
+%m    true
+%o    false
+%d    *callbackStubsList.vertical.centre: true
+%d    *callbackStubsList.vertical.thickness: 13
+%d    *callbackStubsList.vertical.markSize: 0
+%s    x : 4
+%s    y : 107
+%s    width : 482
+%s    height : 187
+%s    borderWidth : 1
+%s    listName : callbacks
+%f
+%%%
+%N    callbackStubsTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.callbackStubsShell.callbackStubsLayout
+%m    true
+%o    false
+%s    x : 4
+%s    y : 2
+%s    width : 422
+%s    height : 22
+%s    borderWidth : 0
+%s    label : Register Application Callbacks
+%z    vertFixed : true
+%z    horizFixed : false
+%r    leftBitmap : keyboard
+%r    rightBitmap : None
+%f
+%%%
+%N  transShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  allowShellResize : true
+%s  title : transShell
+%s  borderWidth : 0
+%f
+%%%
+%N   translationsLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.transShell
+%m   true
+%o   false
+%s   width : 700
+%s   height : 300
+%s   borderWidth : 0
+%s   minWidth : 300
+%s   minHeight : 100
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    transApplyButton
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%s    x : 5
+%s    y : 5
+%s    width : 50
+%s    height : 24
+%s    label : Apply
+%s    borderWidth : 1
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : ApplyTranslations()
+%f
+%%%
+%N    transHideButton
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%s    x : 643
+%s    y : 5
+%s    width : 50
+%s    height : 24
+%s    label : Hide
+%z    horizFixed : true
+%z    vertFixed : true
+%r    borderWidth : 1
+%r    callback : WcPopdownCB(*transShell)
+%f
+%%%
+%N    eventsLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%s    x : 5
+%s    y : 35
+%s    width : 140
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Event List
+%z    horizFixed : false
+%z    vertFixed : true
+%f
+%%%
+%N    actionsLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%s    x : 557
+%s    y : 35
+%s    width : 140
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Action List
+%z    horizFixed : false
+%z    vertFixed : true
+%f
+%%%
+%N    transTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%s    x : 59
+%s    y : 5
+%s    width : 583
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Translations Editor
+%z    horizFixed : false
+%z    vertFixed : true
+%f
+%%%
+%N    eventsView
+%c    ukcViewportWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%d    *eventsView.horizontal.thickness: 13
+%d    *eventsView.horizontal.markSize: 0
+%d    *eventsView.vertical.thickness: 13
+%d    *eventsView.vertical.markSize: 0
+%d    *eventsView.horizontal.markSize: 0
+%d    *eventsView.horizontal.thickness: 13
+%s    x : 5
+%s    y : 60
+%s    width : 140
+%s    height : 235
+%s    defaultDistance : 0
+%s    allowHoriz : true
+%s    allowVert : true
+%z    horizFixed : true
+%r    borderWidth : 1
+%r    forceBars : false
+%f
+%%%
+%N    currentTranslations
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%s    x : 145
+%s    y : 30
+%s    width : 412
+%s    height : 24
+%s    borderWidth : 0
+%s    label : Widget = "" : (core)
+%s    resize : false
+%z    horizFixed : false
+%z    vertFixed : true
+%f
+%%%
+%N    actionsView
+%c    ukcViewportWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%d    *actionsView.horizontal.thickness: 13
+%d    *actionsView.horizontal.markSize: 0
+%d    *actionsView.vertical.thickness: 13
+%d    *actionsView.vertical.markSize: 0
+%s    x : 555
+%s    y : 60
+%s    width : 140
+%s    height : 235
+%s    defaultDistance : 0
+%s    allowHoriz : true
+%s    allowVert : true
+%z    horizFixed : true
+%r    borderWidth : 1
+%r    forceBars : false
+%f
+%%%
+%N    transVPane
+%c    panedWidgetClass
+%p    dirt.mainLayout.transShell.translationsLayout
+%m    true
+%o    false
+%s    x : 150
+%s    y : 60
+%s    width : 400
+%s    height : 235
+%s    borderWidth : 1
+%f
+%%%
+%N     transText
+%c     asciiTextWidgetClass
+%p     dirt.mainLayout.transShell.translationsLayout.transVPane
+%m     true
+%o     false
+%d     *transText.textSource.editType : edit
+%s     x : 0
+%s     y : 0
+%s     width : 200
+%s     height : 442
+%s     scrollVertical : whenneeded
+%s     scrollHorizontal : whenneeded
+%s     borderWidth : 0
+%f
+%%%
+%N     transError
+%c     ukcErrorWidgetClass
+%p     dirt.mainLayout.transShell.translationsLayout.transVPane
+%m     false
+%o     false
+%s     x : 0
+%s     y : 154
+%s     width : 400
+%s     height : 81
+%s     handleXtErrors : false
+%s     handleXlibErrors : false
+%s     borderWidth : 0
+%z     min : 81
+%f
+%%%
+%N  errorShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  allowShellResize : true
+%s  title : errorShell
+%s  borderWidth : 0
+%f
+%%%
+%N   errorTrap
+%c   ukcErrorWidgetClass
+%p   dirt.mainLayout.errorShell
+%m   true
+%o   false
+%s   borderWidth : 0
+%s   errorTitle : Dirt Warnings:
+%f
+%%%
+%N  deleteDialogShell
+%c  transientShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  borderWidth : 0
+%s  allowShellResize : true
+%s  title : deleteDialogShell
+%f
+%%%
+%N   deleteDialogLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.deleteDialogShell
+%m   true
+%o   false
+%s   width : 415
+%s   height : 93
+%s   borderWidth : 0
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    deleteDialogTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.deleteDialogShell.deleteDialogLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 416
+%s    height : 30
+%s    borderWidth : 0
+%s    label : Delete Object?
+%z    horizFixed : false
+%z    vertFixed : false
+%r    leftBitmap : dirt
+%r    rightBitmap : copyright
+%f
+%%%
+%N    deleteDialogObject
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.deleteDialogShell.deleteDialogLayout
+%m    true
+%o    false
+%s    x : 5
+%s    y : 27
+%s    width : 404
+%s    height : 30
+%s    borderWidth : 0
+%s    label : Object = ??
+%z    horizFixed : false
+%z    vertFixed : false
+%f
+%%%
+%N    deleteDialogYes
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.deleteDialogShell.deleteDialogLayout
+%m    true
+%o    false
+%s    x : 124
+%s    y : 63
+%s    width : 77
+%s    height : 20
+%s    borderWidth : 2
+%s    label : Yes
+%z    horizFixed : false
+%z    vertFixed : false
+%r    callback : WcPopdownCB(*deleteDialogShell),DeleteObject()
+%f
+%%%
+%N    deleteDialogNo
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.deleteDialogShell.deleteDialogLayout
+%m    true
+%o    false
+%s    x : 218
+%s    y : 63
+%s    width : 77
+%s    height : 20
+%s    borderWidth : 2
+%s    label : No
+%z    horizFixed : false
+%z    vertFixed : false
+%r    callback : WcPopdownCB(*deleteDialogShell),DeleteObject(cancel)
+%f
+%%%
+%N  fileDialogShell
+%c  transientShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  allowShellResize : true
+%s  title : fileDialogShell
+%s  borderWidth : 0
+%f
+%%%
+%N   fileDialogLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.fileDialogShell
+%m   true
+%o   false
+%s   width : 413
+%s   height : 204
+%s   borderWidth : 0
+%s   geomStatus : refuseall 
+%f
+%%%
+%N    fileDialogTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 1
+%s    y : 1
+%s    width : 412
+%s    height : 36
+%s    borderWidth : 0
+%s    label : Save Interface Specification 
+%z    horizFixed : false
+%z    vertFixed : false
+%r    leftBitmap : keyboard
+%r    rightBitmap : dirt
+%f
+%%%
+%N    fileDialogSpecPrefix
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%d    *fileDialogSpecPrefix.textSource.editType : edit
+%s    x : 128
+%s    y : 55
+%s    width : 277
+%s    height : 24
+%s    borderWidth : 1
+%z    horizFixed : false
+%z    vertFixed : true
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: WcPopdownACT("*fileDialogShell") dirtACTSaveUI()\
+<KeyPress>: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    fileDialogSpecLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 3
+%s    y : 58
+%s    width : 121
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Spec. Prefix:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    fileDialogSaveSpec
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 38
+%s    y : 137
+%s    width : 98
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Save Spec.
+%z    horizFixed : false
+%z    vertFixed : false
+%r    callback : WcPopdownCB(*fileDialogShell),SaveUI(spec)
+%f
+%%%
+%N    fileDialogSaveCode
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 280
+%s    y : 137
+%s    width : 96
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Save Code
+%z    horizFixed : false
+%z    vertFixed : false
+%r    callback : WcPopdownCB(*fileDialogShell),SaveUI(code)
+%f
+%%%
+%N    fileDialogSaveBoth
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 38
+%s    y : 170
+%s    width : 163
+%s    height : 20
+%s    borderWidth : 4
+%s    label : Save Everything
+%z    horizFixed : false
+%z    vertFixed : false
+%r    callback : WcPopdownCB(*fileDialogShell),SaveUI(spec&code)
+%f
+%%%
+%N    fileDialogSaveCancel
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 216
+%s    y : 170
+%s    width : 160
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Cancel
+%z    horizFixed : false
+%z    vertFixed : false
+%r    callback : WcPopdownCB(*fileDialogShell),SaveUI(cancel)
+%f
+%%%
+%N    fileDialogCodePrefix
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%d    *fileDialogCodePrefix.textSource.editType : edit
+%s    x : 128
+%s    y : 95
+%s    width : 277
+%s    height : 24
+%s    borderWidth : 1
+%z    vertFixed : true
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: WcPopdownACT("*fileDialogShell") dirtACTSaveUI()\
+<KeyPress>: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    fileDialogCodeLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 4
+%s    y : 98
+%s    width : 119
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Code Prefix:
+%s    justify : right
+%z    horizFixed : true
+%z    vertFixed : true
+%f
+%%%
+%N    fileDialogSaveResources
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    x : 145
+%s    y : 137
+%s    width : 126
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Save Resources
+%z    horizFixed : false
+%z    vertFixed : false
+%r    callback : WcPopdownCB(*fileDialogShell),SaveUI(resources)
+%f
+%%%
+%N  templatesPressup
+%c  ukcCommandWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  x : 4
+%s  y : 420
+%s  width : 491
+%s  height : 24
+%s  borderWidth : 1
+%s  label : Templates
+%z  horizFixed : false
+%z  vertFixed : true
+%r  rightBitmap : press_left
+%r  callback : WcPopdownCB(*templatesShell),positionShell(*templatesShell),popupShell(*templatesShell)
+%f
+%%%
+%N  templatesShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  geometry : 533x699+36+137
+%s  borderWidth : 0
+%f
+%%%
+%N   templatesPane
+%c   panedWidgetClass
+%p   dirt.mainLayout.templatesShell
+%m   true
+%o   false
+%s   borderWidth : 0
+%f
+%%%
+%N    templatesLayout
+%c    ukcLayoutWidgetClass
+%p    dirt.mainLayout.templatesShell.templatesPane
+%m    true
+%o    false
+%s    width : 500
+%s    height : 219
+%s    borderWidth : 0
+%z    skipAdjust : true
+%z    preferredPaneSize : 219
+%z    resizeToPreferred : true
+%z    min : 142
+%r    geomStatus : refuseall 
+%f
+%%%
+%N     templatesHide
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesLayout
+%m     true
+%o     false
+%s     x : 435
+%s     y : 4
+%s     width : 56
+%s     height : 24
+%s     borderWidth : 2
+%s     label : Hide
+%z     horizFixed : true
+%z     vertFixed : true
+%r     leftBitmap : None
+%r     rightBitmap : None
+%r     callback : WcPopdownCB(*templatesShell)
+%f
+%%%
+%N     templatesName
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesLayout
+%m     true
+%o     false
+%s     x : 2
+%s     y : 56
+%s     width : 123
+%s     height : 22
+%s     borderWidth : 0
+%s     label : New Template:
+%s     verticalJustify : center
+%z     horizFixed : true
+%z     vertFixed : true
+%r     justify : right
+%f
+%%%
+%N     templatesNameEntry
+%c     asciiTextWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesLayout
+%m     true
+%o     false
+%d     *templatesNameEntry.textSource.editType : edit
+%s     x : 128
+%s     y : 56
+%s     width : 365
+%s     height : 25
+%s     borderWidth : 1
+%z     vertFixed : true
+%r     translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: dirtACTCreateTemplate()\
+<KeyPress>: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N     templatesNotesTitle
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesLayout
+%m     true
+%o     false
+%s     x : 6
+%s     y : 87
+%s     width : 488
+%s     height : 26
+%s     borderWidth : 0
+%s     label : Notes for Template:
+%z     vertFixed : true
+%z     horizFixed : false
+%r     justify : left
+%f
+%%%
+%N     templatesNotes
+%c     asciiTextWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesLayout
+%m     true
+%o     false
+%d     *templatesNotes.textSource.editType : edit
+%s     x : 5
+%s     y : 114
+%s     width : 492
+%s     height : 98
+%s     borderWidth : 1
+%s     scrollHorizontal : never
+%s     scrollVertical : always
+%r     wrap : word
+%f
+%%%
+%N     templatesTitle
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesLayout
+%m     true
+%o     false
+%s     x : 0
+%s     y : 0
+%s     width : 423
+%s     height : 24
+%s     borderWidth : 0
+%s     leftBitmap : keyboard
+%s     label : Templates
+%z     horizFixed : false
+%z     vertFixed : true
+%r     rightBitmap : None
+%f
+%%%
+%N     templateCreate
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesLayout
+%m     true
+%o     false
+%s     x : 128
+%s     y : 27
+%s     width : 59
+%s     height : 24
+%s     borderWidth : 1
+%s     label : Create
+%z     horizFixed : true
+%z     vertFixed : true
+%r     callback : CreateTemplate()
+%f
+%%%
+%N    templatesAvailLayout
+%c    ukcLayoutWidgetClass
+%p    dirt.mainLayout.templatesShell.templatesPane
+%m    true
+%o    false
+%s    width : 500
+%s    height : 169
+%s    borderWidth : 0
+%z    skipAdjust : true
+%z    preferredPaneSize : 169
+%z    min : 80
+%r    geomStatus : refuseall 
+%f
+%%%
+%N     templatesAvailTitle
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout
+%m     true
+%o     false
+%s     x : 0
+%s     y : 0
+%s     width : 453
+%s     height : 24
+%s     borderWidth : 0
+%s     label : Available Templates
+%z     horizFixed : false
+%z     vertFixed : true
+%r     leftBitmap : pointer
+%f
+%%%
+%N     templatesAvailable
+%c     ukcScrListWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout
+%m     true
+%o     false
+%d     *templatesAvailable.vertical.centre: true
+%s     x : 5
+%s     y : 25
+%s     width : 488
+%s     height : 137
+%s     borderWidth : 1
+%r     callback : LoadTemplate()
+%f
+%%%
+%N    templatesHeirLayout
+%c    ukcLayoutWidgetClass
+%p    dirt.mainLayout.templatesShell.templatesPane
+%m    true
+%o    false
+%s    width : 500
+%s    height : 117
+%s    borderWidth : 0
+%z    skipAdjust : true
+%z    preferredPaneSize : 309
+%z    min : 80
+%r    geomStatus : refuseall 
+%f
+%%%
+%N     templatesHeirTitle
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout
+%m     true
+%o     false
+%s     x : 3
+%s     y : 1
+%s     width : 431
+%s     height : 22
+%s     borderWidth : 0
+%s     label : Template Heirarchy
+%z     horizFixed : false
+%z     vertFixed : true
+%r     leftBitmap : pointer
+%f
+%%%
+%N     templatesHeirarchy
+%c     ukcScrListWidgetClass
+%p     dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout
+%m     true
+%o     false
+%d     *templatesHeirarchy.vertical.centre: true
+%s     x : 5
+%s     y : 25
+%s     width : 488
+%s     height : 86
+%s     borderWidth : 1
+%r     callback : PickInstance()
+%f
+%%%
+%N  templateBuildingShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  true
+%s  borderWidth : 0
+%f
+%%%
+%N   templateBuildingLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.templateBuildingShell
+%m   true
+%o   false
+%s   width : 525
+%s   height : 790
+%s   borderWidth : 1
+%f
+%%%
+%N    templateBuildingTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.templateBuildingShell.templateBuildingLayout
+%m    true
+%o    false
+%s    x : 5
+%s    y : 4
+%s    width : 460
+%s    height : 26
+%s    borderWidth : 0
+%s    label : Template Building Area
+%z    vertFixed : true
+%r    leftBitmap : dirt
+%f
+%%%
+%N    templateBuildingHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.templateBuildingShell.templateBuildingLayout
+%m    true
+%o    false
+%s    x : 468
+%s    y : 4
+%s    width : 49
+%s    height : 22
+%s    borderWidth : 2
+%s    label : Hide
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : WcPopdownCB(*templateBuildingShell)
+%f
+%%%
+%N    templateBuildingArea
+%c    ukcLayoutWidgetClass
+%p    dirt.mainLayout.templateBuildingShell.templateBuildingLayout
+%m    true
+%o    false
+%s    x : 4
+%s    y : 34
+%s    width : 513
+%s    height : 748
+%s    borderWidth : 2
+%f
+%%%
+%N  commentShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  borderWidth : 0
+%f
+%%%
+%N   commentPane
+%c   panedWidgetClass
+%p   dirt.mainLayout.commentShell
+%m   true
+%o   false
+%s   borderWidth : 0
+%f
+%%%
+%N    commentLayout
+%c    ukcLayoutWidgetClass
+%p    dirt.mainLayout.commentShell.commentPane
+%m    true
+%o    false
+%s    width : 500
+%s    height : 179
+%s    borderWidth : 0
+%z    skipAdjust : true
+%z    min : 80
+%z    resizeToPreferred : true
+%z    preferredPaneSize : 179
+%r    minHeight : 0
+%f
+%%%
+%N     commentTitle
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.commentShell.commentPane.commentLayout
+%m     true
+%o     false
+%s     x : 0
+%s     y : 5
+%s     width : 440
+%s     height : 26
+%s     borderWidth : 0
+%s     leftBitmap : keyboard
+%s     label : Comments for %s
+%z     vertFixed : true
+%r     justify : center
+%r     verticalJustify : center
+%f
+%%%
+%N     commentHide
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.commentShell.commentPane.commentLayout
+%m     true
+%o     false
+%s     x : 442
+%s     y : 4
+%s     width : 50
+%s     height : 24
+%s     borderWidth : 2
+%s     label : Hide
+%z     horizFixed : true
+%z     vertFixed : true
+%r     callback : WcPopdownCB(*commentShell)
+%f
+%%%
+%N     commentText
+%c     asciiTextWidgetClass
+%p     dirt.mainLayout.commentShell.commentPane.commentLayout
+%m     true
+%o     false
+%d     *commentText.textSource.editType : edit
+%s     x : 4
+%s     y : 36
+%s     width : 490
+%s     height : 137
+%s     borderWidth : 1
+%s     scrollVertical : whenneeded
+%s     wrap : word
+%f
+%%%
+%N    helpLayout
+%c    ukcLayoutWidgetClass
+%p    dirt.mainLayout.commentShell.commentPane
+%m    true
+%o    false
+%s    width : 500
+%s    height : 327
+%s    borderWidth : 0
+%z    resizeToPreferred : true
+%z    skipAdjust : true
+%z    preferredPaneSize : 173
+%z    min : 80
+%f
+%%%
+%N     helpTitle
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.commentShell.commentPane.helpLayout
+%m     true
+%o     false
+%s     x : 2
+%s     y : 2
+%s     width : 437
+%s     height : 28
+%s     borderWidth : 0
+%s     leftBitmap : keyboard
+%s     label : Context Help
+%z     vertFixed : true
+%f
+%%%
+%N     helpText
+%c     asciiTextWidgetClass
+%p     dirt.mainLayout.commentShell.commentPane.helpLayout
+%m     true
+%o     false
+%d     *helpText.textSource.editType : edit
+%s     x : 4
+%s     y : 31
+%s     width : 490
+%s     height : 290
+%s     borderWidth : 1
+%s     scrollVertical : whenneeded
+%s     wrap : word
+%f
+%%%
+%N  loadDialogShell
+%c  transientShellWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  borderWidth : 0
+%f
+%%%
+%N   loadDialogLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.loadDialogShell
+%m   true
+%o   false
+%s   width : 422
+%s   height : 123
+%s   borderWidth : 1
+%f
+%%%
+%N    loadDialogTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.loadDialogShell.loadDialogLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 0
+%s    width : 422
+%s    height : 25
+%s    borderWidth : 0
+%s    label : Load Interface From File
+%z    vertFixed : true
+%r    leftBitmap : keyboard
+%r    rightBitmap : dirt
+%f
+%%%
+%N    loadDialogPrefixLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.loadDialogShell.loadDialogLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 44
+%s    width : 112
+%s    height : 29
+%s    borderWidth : 0
+%s    label : File Prefix:
+%z    horizFixed : true
+%z    vertFixed : true
+%r    justify : right
+%f
+%%%
+%N    loadDialogSpecPrefix
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.loadDialogShell.loadDialogLayout
+%m    true
+%o    false
+%d    *loadDialogSpecPrefix.textSource.editType : edit
+%s    x : 115
+%s    y : 46
+%s    width : 300
+%s    height : 22
+%s    borderWidth : 1
+%z    vertFixed : true
+%r    translations : Ctrl<KeyPress>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<KeyPress>W: kill-selection()\
+<KeyPress>Delete: delete-previous-character()\
+<KeyPress>BackSpace: delete-previous-character()\
+<KeyPress>Linefeed: newline-and-indent()\
+<KeyPress>Return: WcPopdownACT("*loadDialogShell") dirtACTLoadSpec()\
+<KeyPress>: insert-char()\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    loadDialogLoad
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.loadDialogShell.loadDialogLayout
+%m    true
+%o    false
+%s    x : 69
+%s    y : 86
+%s    width : 122
+%s    height : 24
+%s    borderWidth : 2
+%s    label : Load
+%z    vertFixed : true
+%z    horizFixed : false
+%r    callback : WcPopdownCB(*loadDialogShell),LoadSpec()
+%f
+%%%
+%N    loadDialogCancel
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.loadDialogShell.loadDialogLayout
+%m    true
+%o    false
+%s    x : 237
+%s    y : 86
+%s    width : 122
+%s    height : 26
+%s    borderWidth : 1
+%s    label : Cancel
+%z    vertFixed : true
+%z    horizFixed : false
+%r    callback : WcPopdownCB(*loadDialogShell),LoadSpec(cancel)
+%f
+%%%
+%N  helpShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  false
+%s  borderWidth : 0
+%f
+%%%
+%N   contextHelpLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.helpShell
+%m   true
+%o   false
+%s   width : 560
+%s   height : 551
+%s   borderWidth : 0
+%f
+%%%
+%N    contextHelpTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.helpShell.contextHelpLayout
+%m    true
+%o    false
+%s    x : 1
+%s    y : 0
+%s    width : 493
+%s    height : 25
+%s    borderWidth : 0
+%s    leftBitmap : dirt
+%s    label : Context Help
+%z    vertFixed : true
+%f
+%%%
+%N    contextHelpHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.helpShell.contextHelpLayout
+%m    true
+%o    false
+%s    x : 501
+%s    y : 5
+%s    width : 50
+%s    height : 25
+%s    borderWidth : 2
+%s    label : Hide
+%z    horizFixed : true
+%z    vertFixed : true
+%r    callback : WcPopdownCB(*helpShell)
+%f
+%%%
+%N    helpResourceTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.helpShell.contextHelpLayout
+%m    true
+%o    false
+%s    x : 9
+%s    y : 26
+%s    width : 490
+%s    height : 23
+%s    borderWidth : 0
+%z    vertFixed : true
+%r    justify : left
+%r    label : Resource =
+%f
+%%%
+%N    helpPane
+%c    panedWidgetClass
+%p    dirt.mainLayout.helpShell.contextHelpLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 50
+%s    width : 560
+%s    height : 501
+%s    borderWidth : 0
+%f
+%%%
+%N     helpResourceLayout
+%c     ukcLayoutWidgetClass
+%p     dirt.mainLayout.helpShell.contextHelpLayout.helpPane
+%m     true
+%o     false
+%s     x : 0
+%s     y : 0
+%s     width : 500
+%s     height : 221
+%s     borderWidth : 0
+%z     resizeToPreferred : true
+%z     skipAdjust : true
+%z     min : 100
+%z     preferredPaneSize : 221
+%f
+%%%
+%N      helpResourceLabel
+%c      ukcLabelWidgetClass
+%p      dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 0
+%s      width : 490
+%s      height : 22
+%s      borderWidth : 0
+%s      label : Description:
+%z      vertFixed : true
+%r      justify : left
+%f
+%%%
+%N      helpResourceText
+%c      asciiTextWidgetClass
+%p      dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 24
+%s      width : 488
+%s      height : 191
+%s      borderWidth : 1
+%s      scrollHorizontal : never
+%s      scrollVertical : always
+%s      wrap : word
+%r      displayCaret : false
+%f
+%%%
+%N     helpTypeLayout
+%c     ukcLayoutWidgetClass
+%p     dirt.mainLayout.helpShell.contextHelpLayout.helpPane
+%m     true
+%o     false
+%s     x : 0
+%s     y : 222
+%s     width : 500
+%s     height : 137
+%s     borderWidth : 0
+%z     resizeToPreferred : true
+%z     skipAdjust : true
+%z     min : 50
+%z     preferredPaneSize : 137
+%f
+%%%
+%N      helpTypeText
+%c      asciiTextWidgetClass
+%p      dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 26
+%s      width : 488
+%s      height : 105
+%s      borderWidth : 1
+%s      scrollVertical : always
+%s      wrap : word
+%r      displayCaret : false
+%f
+%%%
+%N      helpTypeLabel
+%c      ukcLabelWidgetClass
+%p      dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 0
+%s      width : 490
+%s      height : 24
+%s      borderWidth : 0
+%s      label : Type =
+%z      vertFixed : true
+%r      justify : left
+%f
+%%%
+%N     helpClassLayout
+%c     ukcLayoutWidgetClass
+%p     dirt.mainLayout.helpShell.contextHelpLayout.helpPane
+%m     true
+%o     false
+%s     x : 0
+%s     y : 360
+%s     width : 500
+%s     height : 97
+%s     borderWidth : 0
+%z     resizeToPreferred : true
+%z     skipAdjust : true
+%z     min : 50
+%z     preferredPaneSize : 141
+%f
+%%%
+%N      helpClassLabel
+%c      ukcLabelWidgetClass
+%p      dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 0
+%s      width : 492
+%s      height : 24
+%s      borderWidth : 0
+%s      justify : left
+%s      label : Object Class =
+%z      vertFixed : true
+%f
+%%%
+%N      helpClassText
+%c      asciiTextWidgetClass
+%p      dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout
+%m      true
+%o      false
+%s      x : 5
+%s      y : 25
+%s      width : 488
+%s      height : 66
+%s      borderWidth : 1
+%s      displayCaret : false
+%s      scrollVertical : always
+%s      wrap : word
+%f
+%%%
+%% Athena Examples
+%% 
+%% These are the example uses of a lot of the classes used in the Athena Widget Set
+%N  athenaExamples
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  true
+%s  borderWidth : 0
+%f
+%%%
+%N   athenaExamplesLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.athenaExamples
+%m   true
+%o   false
+%s   width : 520
+%s   height : 588
+%s   borderWidth : 0
+%f
+%%%
+%N    athenaExamplesTitle
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 8
+%s    y : 6
+%s    width : 151
+%s    height : 22
+%s    borderWidth : 0
+%s    label : Athena Widget Set
+%z    vertFixed : true
+%z    horizFixed : true
+%r    justify : left
+%f
+%%%
+%N    athenaExamplesHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 456
+%s    y : 2
+%s    width : 57
+%s    height : 25
+%s    borderWidth : 2
+%s    label : Hide
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    athenaBox
+%c    boxWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 16
+%s    y : 61
+%s    width : 132
+%s    height : 154
+%s    borderWidth : 1
+%f
+%%%
+%N     athenaClock
+%c     clockWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox
+%m     true
+%o     false
+%s     x : 63
+%s     y : 178
+%s     width : 55
+%s     height : 56
+%s     borderWidth : 1
+%f
+%%%
+%N     athenaCommand
+%c     commandWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox
+%m     true
+%o     false
+%s     x : 65
+%s     y : 4
+%s     width : 120
+%s     height : 20
+%s     borderWidth : 2
+%s     label : Command Button
+%f
+%%%
+%N     athenaDialogBox
+%c     dialogWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox
+%m     true
+%o     false
+%s     x : 4
+%s     y : 94
+%s     width : 112
+%s     height : 54
+%s     borderWidth : 1
+%s     label : Dialog Box :
+%f
+%%%
+%N      athenaDialogBoxButton
+%c      commandWidgetClass
+%p      dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox.athenaDialogBox
+%m      true
+%o      false
+%s      x : 32
+%s      y : 176
+%s      borderWidth : 1
+%s      label : PRESS ME!
+%f
+%%%
+%N    athenaEditableText
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%d    *athenaEditableText.textSource.editType: edit
+%d    *athenaEditableText.textSource.string: Some Editable Text
+%s    x : 167
+%s    y : 61
+%s    width : 197
+%s    height : 24
+%r    borderWidth : 1
+%f
+%%%
+%N    athenaForm
+%c    formWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 167
+%s    y : 124
+%s    borderWidth : 1
+%f
+%%%
+%N     f1
+%c     ukcLabelWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm
+%m     true
+%o     false
+%s     borderWidth : 0
+%s     label : Buttons in a Form :
+%z     resizable : false
+%r     resize : false
+%f
+%%%
+%N     f2
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm
+%m     true
+%o     false
+%s     borderWidth : 2
+%s     label : Button 1
+%z     fromHoriz : *f1
+%z     resizable : false
+%r     resize : false
+%f
+%%%
+%N     f3
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm
+%m     true
+%o     false
+%s     borderWidth : 2
+%s     label : Button 2
+%z     fromHoriz : *f1
+%z     fromVert : *f2
+%z     resizable : false
+%r     resize : false
+%f
+%%%
+%N    athenaExamplesBoxLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 14
+%s    y : 33
+%s    width : 106
+%s    height : 28
+%s    borderWidth : 0
+%s    label : Box Widget
+%z    vertFixed : true
+%z    horizFixed : true
+%r    justify : left
+%f
+%%%
+%N    athenaFormLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 167
+%s    y : 102
+%s    width : 96
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Form Widget
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    athenaLabel
+%c    labelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 302
+%s    y : 239
+%s    width : 158
+%s    height : 38
+%s    borderWidth : 1
+%r    label : A Label Widget
+%r    resize : false
+%f
+%%%
+%N    athenaGrip
+%c    gripWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 443
+%s    y : 295
+%s    width : 12
+%s    height : 12
+%s    borderWidth : 1
+%f
+%%%
+%N    athenaGripLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 320
+%s    y : 293
+%s    width : 120
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Grip Widget ->
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    athenaMailbox
+%c    mailboxWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 300
+%s    y : 337
+%s    width : 48
+%s    height : 53
+%s    borderWidth : 1
+%f
+%%%
+%N    athenaPaned
+%c    panedWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 16
+%s    y : 227
+%s    width : 132
+%s    height : 92
+%s    borderWidth : 1
+%f
+%%%
+%N     p1
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPaned
+%m     true
+%o     false
+%s     x : 0
+%s     y : 0
+%s     width : 132
+%s     height : 20
+%s     label : start
+%r     borderWidth : 0
+%f
+%%%
+%N     p2
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPaned
+%m     true
+%o     false
+%s     x : 0
+%s     y : 21
+%s     width : 132
+%s     height : 20
+%s     label : go a bit
+%r     borderWidth : 0
+%f
+%%%
+%N     p3
+%c     ukcCommandWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPaned
+%m     true
+%o     false
+%s     x : 0
+%s     y : 42
+%s     width : 132
+%s     height : 50
+%s     label : stop
+%r     borderWidth : 0
+%f
+%%%
+%N    athenaPanedLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 150
+%s    y : 291
+%s    width : 134
+%s    height : 28
+%s    borderWidth : 0
+%s    label : <- Paned Widget
+%z    vertFixed : true
+%z    horizFixed : true
+%r    justify : left
+%f
+%%%
+%N    athenaToggleLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 167
+%s    y : 211
+%s    width : 116
+%s    height : 20
+%s    borderWidth : 0
+%s    label : Toggle Widget
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    athenaToggle
+%c    toggleWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 167
+%s    y : 232
+%s    width : 114
+%s    height : 30
+%s    borderWidth : 2
+%s    label : Toggle Me!
+%f
+%%%
+%N    athenaLogo
+%c    logoWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 459
+%s    y : 63
+%s    width : 48
+%s    height : 43
+%s    borderWidth : 1
+%f
+%%%
+%N    athenaScrollBar
+%c    scrollbarWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 481
+%s    y : 122
+%s    width : 29
+%s    height : 298
+%s    borderWidth : 1
+%f
+%%%
+%N    athenaStripChart
+%c    stripChartWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 360
+%s    y : 337
+%s    width : 107
+%s    height : 53
+%s    borderWidth : 1
+%f
+%%%
+%N    athenaPopupAMenu
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 26
+%s    y : 337
+%s    width : 173
+%s    height : 30
+%s    borderWidth : 2
+%s    label : Popup A Simple Menu
+%f
+%%%
+%N    athenaSimpleMenu
+%c    simpleMenuWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    false
+%o    false
+%s    x : 600
+%s    y : 575
+%s    width : 138
+%s    height : 134
+%s    borderWidth : 2
+%s    backingStore : whenMapped
+%s    label : Simple Menu
+%f
+%%%
+%N    athenaViewport
+%c    viewportWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 17
+%s    y : 381
+%s    width : 239
+%s    height : 165
+%s    borderWidth : 1
+%s    allowHoriz : true
+%s    allowVert : true
+%s    forceBars : true
+%s    useRight : true
+%f
+%%%
+%N     v1
+%c     ukcLayoutWidgetClass
+%p     dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaViewport
+%m     true
+%o     false
+%s     x : -57
+%s     y : -49
+%s     width : 459
+%s     height : 368
+%s     borderWidth : 0
+%f
+%%%
+%N      v2
+%c      labelWidgetClass
+%p      dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaViewport.v1
+%m      true
+%o      false
+%s      x : 39
+%s      y : 113
+%s      width : 282
+%s      height : 20
+%s      borderWidth : 5
+%s      label : erik the viking
+%f
+%%%
+%N    athenaViewportLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 21
+%s    y : 550
+%s    width : 218
+%s    height : 22
+%s    borderWidth : 0
+%s    label : ^ scrollable Viewport
+%z    vertFixed : true
+%z    horizFixed : true
+%r    justify : left
+%f
+%%%
+%N    athenaCurrentClass
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 162
+%s    y : 6
+%s    width : 290
+%s    height : 22
+%s    borderWidth : 0
+%z    vertFixed : true
+%r    label : %s Widget Class
+%r    justify : left
+%f
+%%%
+%N    athenaMailboxLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 266
+%s    y : 401
+%s    width : 84
+%s    height : 22
+%s    borderWidth : 0
+%s    label : Mailbox ^
+%r    justify : right
+%f
+%%%
+%N    athenaStripchartLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.athenaExamples.athenaExamplesLayout
+%m    true
+%o    false
+%s    x : 362
+%s    y : 400
+%s    width : 114
+%s    height : 26
+%s    borderWidth : 0
+%s    label : ^ Strip Chart
+%r    justify : left
+%f
+%%%
+%N  widgetLayoutShell
+%c  topLevelShellWidgetClass
+%p  dirt.mainLayout
+%m  true
+%o  true
+%s  borderWidth : 0
+%f
+%%%
+%N   widgetLayout
+%c   ukcLayoutWidgetClass
+%p   dirt.mainLayout.widgetLayoutShell
+%m   true
+%o   false
+%s   width : 500
+%s   height : 507
+%s   borderWidth : 1
+%f
+%%%
+%N    widgetEntryLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.widgetLayoutShell.widgetLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 5
+%s    width : 66
+%s    height : 25
+%s    borderWidth : 0
+%z    vertFixed : true
+%z    horizFixed : true
+%r    label : Widget:
+%r    justify : right
+%f
+%%%
+%N    widgetHide
+%c    ukcCommandWidgetClass
+%p    dirt.mainLayout.widgetLayoutShell.widgetLayout
+%m    true
+%o    false
+%s    x : 449
+%s    y : 5
+%s    width : 42
+%s    height : 21
+%s    borderWidth : 2
+%s    label : Hide
+%z    vertFixed : true
+%z    horizFixed : true
+%f
+%%%
+%N    widgetEntry
+%c    asciiTextWidgetClass
+%p    dirt.mainLayout.widgetLayoutShell.widgetLayout
+%m    true
+%o    false
+%d    *widgetEntry.textSource.editType: edit
+%s    x : 67
+%s    y : 5
+%s    width : 375
+%s    height : 23
+%s    borderWidth : 1
+%z    vertFixed : true
+%f
+%%%
+%N    widgetResourcesLabel
+%c    ukcLabelWidgetClass
+%p    dirt.mainLayout.widgetLayoutShell.widgetLayout
+%m    true
+%o    false
+%s    x : 0
+%s    y : 34
+%s    width : 501
+%s    height : 31
+%s    borderWidth : 0
+%z    vertFixed : true
+%r    label : "widget" Resources
+%r    leftBitmap : pointer
+%f
+%%%
+%N    widgetResourcesViewport
+%c    ukcViewportWidgetClass
+%p    dirt.mainLayout.widgetLayoutShell.widgetLayout
+%m    true
+%o    false
+%d    *widgetResourcesViewport.vertical.centre: true
+%d    *widgetResourcesViewport.vertical.markSize: 0
+%d    *widgetResourcesViewport.vertical.thickness: 13
+%d    *widgetResourcesViewport.horizontal.thickness: 13
+%d    *widgetResourcesViewport.horizontal.markSize: 0
+%s    x : 5
+%s    y : 66
+%s    width : 488
+%s    height : 435
+%s    borderWidth : 1
+%s    allowHoriz : true
+%s    allowVert : true
+%s    forceBars : true
+%f
+%%%
+%N  busyWindow
+%c  simpleWidgetClass
+%p  dirt.mainLayout
+%m  false
+%o  false
+%s  x : 0
+%s  y : 0
+%s  width : 300
+%s  height : 300
+%s  borderWidth : 0
+%s  cursor : watch
+%s  backgroundPixmap : None
+%f
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesTitle ; dirt.mainLayout.athenaExamples.athenaExamplesLayout ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaCurrentClass ; dirt.mainLayout.athenaExamples.athenaExamplesLayout ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesTitle ; dirt.mainLayout.athenaExamples.athenaExamplesLayout ; horizontal_before
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesTitle ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaCurrentClass ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaCurrentClass ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesHide ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesHide ; dirt.mainLayout.athenaExamples.athenaExamplesLayout ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesHide ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLogo ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLogo ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaScrollBar ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaEditableText ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLogo ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaEditableText ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaCurrentClass ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesBoxLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesTitle ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesBoxLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesBoxLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout ; horizontal_before
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaExamplesBoxLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaEditableText ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaEditableText ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaFormLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaEditableText ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaFormLabel ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox ; dirt.mainLayout.athenaExamples.athenaExamplesLayout ; horizontal_before
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaBox ; horizontal_before
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaFormLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaFormLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLogo ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaScrollBar ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaToggleLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaScrollBar ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaToggle ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLabel ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaScrollBar ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaToggle ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPanedLabel ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaToggleLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaForm ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPanedLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGripLabel ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPanedLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPopupAMenu ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGripLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailbox ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGripLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripChart ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGrip ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGrip ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripChart ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailbox ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailboxLabel ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripChart ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripchartLabel ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailboxLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripchartLabel ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailbox ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripChart ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGripLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGrip ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGrip ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaScrollBar ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripChart ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaScrollBar ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaStripchartLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaScrollBar ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaToggleLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaToggle ; vertical_below
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPopupAMenu ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailbox ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPopupAMenu ; dirt.mainLayout.athenaExamples.athenaExamplesLayout ; horizontal_before
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaGripLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaLabel ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaViewport ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaPopupAMenu ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaViewportLabel ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaViewport ; vertical_above
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaViewport ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailbox ; horizontal_after
+%L dirt.mainLayout.athenaExamples.athenaExamplesLayout ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaViewport ; dirt.mainLayout.athenaExamples.athenaExamplesLayout.athenaMailboxLabel ; horizontal_after
+%L dirt.mainLayout ; dirt.mainLayout.mainTitle ; dirt.mainLayout.mainMenu ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.mainMenu ; dirt.mainLayout.instanceListTitle ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.instanceListTitle ; dirt.mainLayout.instanceList ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.instanceList ; dirt.mainLayout.createPressup ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.createPressup ; dirt.mainLayout.newPressup ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.newPressup ; dirt.mainLayout.instancePressup ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.templatesPressup ; dirt.mainLayout.actionStubsPressup ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.actionStubsPressup ; dirt.mainLayout.callbackStubsPressup ; vertical_below
+%L dirt.mainLayout ; dirt.mainLayout.mainTitle ; dirt.mainLayout ; vertical_above
+%L dirt.mainLayout ; dirt.mainLayout.mainTitle ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.mainMenu ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.instanceListTitle ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.instanceList ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.createPressup ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.newPressup ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.instancePressup ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.templatesPressup ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.actionStubsPressup ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.callbackStubsPressup ; dirt.mainLayout ; horizontal_before
+%L dirt.mainLayout ; dirt.mainLayout.instancePressup ; dirt.mainLayout.templatesPressup ; vertical_below
+%L dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingHide ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; vertical_above
+%L dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingTitle ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingArea ; vertical_below
+%L dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingTitle ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; vertical_above
+%L dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingArea ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; horizontal_before
+%L dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingTitle ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; horizontal_before
+%L dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingHide ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingArea ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout.templatesHeirTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout ; vertical_above
+%L dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout.templatesHeirTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout.templatesHeirarchy ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout.templatesHeirTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout ; horizontal_before
+%L dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout.templatesHeirarchy ; dirt.mainLayout.templatesShell.templatesPane.templatesHeirLayout ; horizontal_before
+%L dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout.templatesAvailable ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout.templatesAvailTitle ; vertical_above
+%L dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout.templatesAvailTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout ; vertical_above
+%L dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout.templatesAvailable ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout ; horizontal_before
+%L dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout.templatesAvailTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesAvailLayout ; horizontal_before
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNotesTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNotes ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNotesTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; horizontal_before
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNotes ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; horizontal_before
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesHide ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; vertical_above
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceHide ; dirt.mainLayout.instanceShell.instanceLayout ; vertical_above
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createHide ; dirt.mainLayout.createShell.createLayout.appDelete ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appDelete ; dirt.mainLayout.createShell.createLayout.createNameEntry ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createNameEntry ; dirt.mainLayout.createShell.createLayout.createClassEntry ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createClassEntry ; dirt.mainLayout.createShell.createLayout.appYPosValue ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appYLockedToggle ; dirt.mainLayout.createShell.createLayout.appHeightLockedToggle ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appYPosValue ; dirt.mainLayout.createShell.createLayout.appHeightValue ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appHeightValue ; dirt.mainLayout.createShell.createLayout.appComments ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appComments ; dirt.mainLayout.createShell.createLayout.appResourcesTitle ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appBorderValue ; dirt.mainLayout.createShell.createLayout.appResourcesTitle ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appNew ; dirt.mainLayout.createShell.createLayout.createNameEntry ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createNameLabel ; dirt.mainLayout.createShell.createLayout.createClassLabel ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createClassLabel ; dirt.mainLayout.createShell.createLayout.appXLockedToggle ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appXLockedToggle ; dirt.mainLayout.createShell.createLayout.appWidthLockedToggle ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appWidthLockedToggle ; dirt.mainLayout.createShell.createLayout.appBorderLabel ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appBorderLabel ; dirt.mainLayout.createShell.createLayout.appResourcesTitle ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appResourcesTitle ; dirt.mainLayout.createShell.createLayout.appResourcesViewport ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appWidthValue ; dirt.mainLayout.createShell.createLayout.appBorderValue ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appXPosValue ; dirt.mainLayout.createShell.createLayout.appWidthValue ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createNameLabel ; dirt.mainLayout.createShell.createLayout.createNameEntry ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createClassLabel ; dirt.mainLayout.createShell.createLayout.createClassEntry ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createNameLabel ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createClassLabel ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appXLockedToggle ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appXPosValue ; dirt.mainLayout.createShell.createLayout.appXLockedToggle ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appXPosValue ; dirt.mainLayout.createShell.createLayout.appYLockedToggle ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appYLockedToggle ; dirt.mainLayout.createShell.createLayout.appYPosValue ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appHeightLockedToggle ; dirt.mainLayout.createShell.createLayout.appHeightValue ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appBorderValue ; dirt.mainLayout.createShell.createLayout.appBorderLabel ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appWidthValue ; dirt.mainLayout.createShell.createLayout.appWidthLockedToggle ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appWidthValue ; dirt.mainLayout.createShell.createLayout.appHeightLockedToggle ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appWidthLockedToggle ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appBorderLabel ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appResourcesTitle ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appResourcesViewport ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createHide ; dirt.mainLayout.createShell.createLayout ; vertical_above
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogTitle ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSpecPrefix ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogTitle ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSpecLabel ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSpecLabel ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogCodeLabel ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogCodeLabel ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogCodePrefix ; horizontal_after
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSpecLabel ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSpecPrefix ; horizontal_after
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogCodeLabel ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveSpec ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogCodePrefix ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveCode ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSpecPrefix ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogCodePrefix ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveCode ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveCancel ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveSpec ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveBoth ; vertical_below
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveSpec ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveCode ; horizontal_after
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveBoth ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveCancel ; horizontal_after
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveSpec ; horizontal_after
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSaveBoth ; horizontal_after
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogCodeLabel ; dirt.mainLayout.fileDialogShell.fileDialogLayout ; horizontal_before
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogSpecLabel ; dirt.mainLayout.fileDialogShell.fileDialogLayout ; horizontal_before
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogTitle ; dirt.mainLayout.fileDialogShell.fileDialogLayout ; horizontal_before
+%L dirt.mainLayout.fileDialogShell.fileDialogLayout ; dirt.mainLayout.fileDialogShell.fileDialogLayout.fileDialogTitle ; dirt.mainLayout.fileDialogShell.fileDialogLayout ; vertical_above
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogTitle ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogObject ; vertical_below
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogObject ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogYes ; vertical_below
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogObject ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogNo ; vertical_below
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogNo ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogYes ; horizontal_before
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogYes ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; horizontal_before
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogTitle ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; horizontal_before
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogObject ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; horizontal_before
+%L dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout.deleteDialogTitle ; dirt.mainLayout.deleteDialogShell.deleteDialogLayout ; vertical_above
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transTitle ; dirt.mainLayout.transShell.translationsLayout.currentTranslations ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transHideButton ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transHideButton ; dirt.mainLayout.transShell.translationsLayout.actionsLabel ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.actionsLabel ; dirt.mainLayout.transShell.translationsLayout.actionsView ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transTitle ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.currentTranslations ; dirt.mainLayout.transShell.translationsLayout.transVPane ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.eventsLabel ; dirt.mainLayout.transShell.translationsLayout.eventsView ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transApplyButton ; dirt.mainLayout.transShell.translationsLayout.eventsLabel ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transApplyButton ; vertical_below
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transApplyButton ; horizontal_after
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transApplyButton ; dirt.mainLayout.transShell.translationsLayout.transTitle ; horizontal_after
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transTitle ; dirt.mainLayout.transShell.translationsLayout.transHideButton ; horizontal_after
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.actionsLabel ; dirt.mainLayout.transShell.translationsLayout.currentTranslations ; horizontal_before
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.currentTranslations ; dirt.mainLayout.transShell.translationsLayout.eventsLabel ; horizontal_before
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.eventsLabel ; dirt.mainLayout.transShell.translationsLayout ; horizontal_before
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.eventsView ; horizontal_after
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.eventsView ; dirt.mainLayout.transShell.translationsLayout.transVPane ; horizontal_after
+%L dirt.mainLayout.transShell.translationsLayout ; dirt.mainLayout.transShell.translationsLayout.transVPane ; dirt.mainLayout.transShell.translationsLayout.actionsView ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appBorderValue ; dirt.mainLayout.createShell.createLayout.appBlank ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appBlank ; dirt.mainLayout.createShell.createLayout.appComments ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appBlank ; dirt.mainLayout.createShell.createLayout.appResourcesTitle ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appHeightLockedToggle ; dirt.mainLayout.createShell.createLayout.appBlank ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesName ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNameEntry ; horizontal_after
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsHide ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsRegister ; vertical_below
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsRegister ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsEntry ; vertical_below
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsEntry ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsListLabel ; vertical_below
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsListLabel ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsList ; vertical_below
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsRegister ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsLabel ; vertical_below
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsLabel ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsListLabel ; vertical_below
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsRegister ; horizontal_after
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsLabel ; horizontal_after
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsLabel ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsEntry ; horizontal_after
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsListLabel ; horizontal_after
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsList ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; horizontal_before
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsHide ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; vertical_above
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsHide ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsRegister ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsRegister ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsEntry ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsEntry ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsListLabel ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsListLabel ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsList ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsRegister ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsLabel ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsLabel ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsListLabel ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsRegister ; horizontal_after
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsLabel ; horizontal_after
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsListLabel ; horizontal_after
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsList ; horizontal_after
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsHide ; vertical_below
+%L dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentTitle ; vertical_below
+%L dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentTitle ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentText ; vertical_below
+%L dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentHide ; vertical_below
+%L dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentHide ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentText ; vertical_below
+%L dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentTitle ; horizontal_after
+%L dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentTitle ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentHide ; horizontal_after
+%L dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout ; dirt.mainLayout.commentShell.commentPane.commentLayout.commentText ; horizontal_after
+%L dirt.mainLayout.commentShell.commentPane.helpLayout ; dirt.mainLayout.commentShell.commentPane.helpLayout ; dirt.mainLayout.commentShell.commentPane.helpLayout.helpTitle ; vertical_below
+%L dirt.mainLayout.commentShell.commentPane.helpLayout ; dirt.mainLayout.commentShell.commentPane.helpLayout.helpTitle ; dirt.mainLayout.commentShell.commentPane.helpLayout.helpText ; vertical_below
+%L dirt.mainLayout.commentShell.commentPane.helpLayout ; dirt.mainLayout.commentShell.commentPane.helpLayout ; dirt.mainLayout.commentShell.commentPane.helpLayout.helpTitle ; horizontal_after
+%L dirt.mainLayout.commentShell.commentPane.helpLayout ; dirt.mainLayout.commentShell.commentPane.helpLayout ; dirt.mainLayout.commentShell.commentPane.helpLayout.helpText ; horizontal_after
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsLabel ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsEntry ; horizontal_after
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogTitle ; vertical_below
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogTitle ; horizontal_after
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogTitle ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogPrefixLabel ; vertical_below
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogPrefixLabel ; horizontal_after
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogSpecPrefix ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogCancel ; vertical_below
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogSpecPrefix ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogLoad ; vertical_below
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogPrefixLabel ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogLoad ; vertical_below
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogTitle ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogSpecPrefix ; vertical_below
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogPrefixLabel ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogSpecPrefix ; horizontal_after
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogLoad ; horizontal_after
+%L dirt.mainLayout.loadDialogShell.loadDialogLayout ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogLoad ; dirt.mainLayout.loadDialogShell.loadDialogLayout.loadDialogCancel ; horizontal_after
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsTitle ; vertical_below
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsTitle ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; horizontal_before
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsTitle ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsHide ; horizontal_after
+%L dirt.mainLayout.callbackStubsShell.callbackStubsLayout ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsTitle ; dirt.mainLayout.callbackStubsShell.callbackStubsLayout.callbackStubsRegister ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsTitle ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsRegister ; vertical_below
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsTitle ; dirt.mainLayout.actionStubsShell.actionStubsLayout ; vertical_above
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createTitle ; dirt.mainLayout.createShell.createLayout.createHide ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createTitle ; dirt.mainLayout.createShell.createLayout ; horizontal_before
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createTitle ; dirt.mainLayout.createShell.createLayout ; vertical_above
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createTitle ; dirt.mainLayout.createShell.createLayout.appDelete ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesHide ; horizontal_after
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesHide ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templateCreate ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesTitle ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templateCreate ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templateCreate ; horizontal_after
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templateCreate ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNameEntry ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesName ; horizontal_after
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templateCreate ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesName ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesName ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNotesTitle ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNameEntry ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesNotesTitle ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesTitle ; vertical_below
+%L dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout ; dirt.mainLayout.templatesShell.templatesPane.templatesLayout.templatesTitle ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceHide ; dirt.mainLayout.instanceShell.instanceLayout.instanceNameEntry ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceNameEntry ; dirt.mainLayout.instanceShell.instanceLayout.instanceClassEntry ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceClassEntry ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentEntry ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentEntry ; dirt.mainLayout.instanceShell.instanceLayout.yPosValue ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.yPosValue ; dirt.mainLayout.instanceShell.instanceLayout.heightValue ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.heightLabel ; dirt.mainLayout.instanceShell.instanceLayout.instanceManaged ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceManaged ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesTitle ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesTitle ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesViewport ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.borderValue ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesTitle ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.borderLabel ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesTitle ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.widthLabel ; dirt.mainLayout.instanceShell.instanceLayout.borderLabel ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.widthValue ; dirt.mainLayout.instanceShell.instanceLayout.borderValue ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.yPosLabel ; dirt.mainLayout.instanceShell.instanceLayout.heightLabel ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentEntry ; dirt.mainLayout.instanceShell.instanceLayout.yPosLabel ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceTitle ; dirt.mainLayout.instanceShell.instanceLayout.instanceNameEntry ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceNameLabel ; dirt.mainLayout.instanceShell.instanceLayout.instanceClassLabel ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceClassLabel ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentLabel ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentLabel ; dirt.mainLayout.instanceShell.instanceLayout.xPosLabel ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.xPosLabel ; dirt.mainLayout.instanceShell.instanceLayout.widthLabel ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentEntry ; dirt.mainLayout.instanceShell.instanceLayout.xPosValue ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceNameEntry ; dirt.mainLayout.instanceShell.instanceLayout.instanceNameLabel ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceClassLabel ; dirt.mainLayout.instanceShell.instanceLayout.instanceClassEntry ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentLabel ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentEntry ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.xPosValue ; dirt.mainLayout.instanceShell.instanceLayout.yPosLabel ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.yPosLabel ; dirt.mainLayout.instanceShell.instanceLayout.yPosValue ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.xPosLabel ; dirt.mainLayout.instanceShell.instanceLayout.xPosValue ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceNameLabel ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceClassLabel ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceParentLabel ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.xPosLabel ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.widthLabel ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.borderLabel ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesTitle ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesViewport ; dirt.mainLayout.instanceShell.instanceLayout ; horizontal_before
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.xPosValue ; dirt.mainLayout.instanceShell.instanceLayout.widthValue ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.widthLabel ; dirt.mainLayout.instanceShell.instanceLayout.widthValue ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.widthValue ; dirt.mainLayout.instanceShell.instanceLayout.heightLabel ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.heightLabel ; dirt.mainLayout.instanceShell.instanceLayout.heightValue ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.borderLabel ; dirt.mainLayout.instanceShell.instanceLayout.borderValue ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.borderValue ; dirt.mainLayout.instanceShell.instanceLayout.instanceManaged ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceTitle ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceTitle ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newNameLabel ; dirt.mainLayout.newShell.newLayout.newClassLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newNameEntry ; dirt.mainLayout.newShell.newLayout.newClassEntry ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newClassLabel ; dirt.mainLayout.newShell.newLayout.newParentLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newClassEntry ; dirt.mainLayout.newShell.newLayout.newParentEntry ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newClassEntry ; dirt.mainLayout.newShell.newLayout.pickParent ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.pickParent ; dirt.mainLayout.newShell.newLayout.newYPosValue ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newParentEntry ; dirt.mainLayout.newShell.newLayout.newYPosValue ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newParentEntry ; dirt.mainLayout.newShell.newLayout.newYPosLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newParentEntry ; dirt.mainLayout.newShell.newLayout.newXPosValue ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newParentLabel ; dirt.mainLayout.newShell.newLayout.newXPosLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newXPosLabel ; dirt.mainLayout.newShell.newLayout.newWidthLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newXPosValue ; dirt.mainLayout.newShell.newLayout.newWidthValue ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newYPosLabel ; dirt.mainLayout.newShell.newLayout.newHeightLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newYPosValue ; dirt.mainLayout.newShell.newLayout.newHeightValue ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newHeightValue ; dirt.mainLayout.newShell.newLayout.newManaged ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newHeightLabel ; dirt.mainLayout.newShell.newLayout.newManaged ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newWidthValue ; dirt.mainLayout.newShell.newLayout.newBorderValue ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newWidthLabel ; dirt.mainLayout.newShell.newLayout.newBorderLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newBorderLabel ; dirt.mainLayout.newShell.newLayout.newPane ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newBorderValue ; dirt.mainLayout.newShell.newLayout.newPane ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newManaged ; dirt.mainLayout.newShell.newLayout.newPane ; vertical_below
+%L dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classTitle ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classList ; vertical_below
+%L dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classExamples ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classList ; vertical_below
+%L dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout.newResourcesTitle ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout.newResourcesViewport ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newTitle ; dirt.mainLayout.newShell.newLayout.newHide ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newNameLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newNameLabel ; dirt.mainLayout.newShell.newLayout.newNameEntry ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newClassLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newClassLabel ; dirt.mainLayout.newShell.newLayout.newClassEntry ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newParentLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newParentLabel ; dirt.mainLayout.newShell.newLayout.newParentEntry ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newParentEntry ; dirt.mainLayout.newShell.newLayout.pickParent ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newXPosLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newXPosLabel ; dirt.mainLayout.newShell.newLayout.newXPosValue ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newXPosValue ; dirt.mainLayout.newShell.newLayout.newYPosLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newYPosLabel ; dirt.mainLayout.newShell.newLayout.newYPosValue ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newWidthLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newWidthLabel ; dirt.mainLayout.newShell.newLayout.newWidthValue ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newWidthValue ; dirt.mainLayout.newShell.newLayout.newHeightLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newHeightLabel ; dirt.mainLayout.newShell.newLayout.newHeightValue ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newBorderLabel ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newBorderLabel ; dirt.mainLayout.newShell.newLayout.newBorderValue ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newBorderValue ; dirt.mainLayout.newShell.newLayout.newManaged ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classTitle ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classExamples ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classList ; dirt.mainLayout.newShell.newLayout.newPane.classLayout ; horizontal_before
+%L dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classTitle ; dirt.mainLayout.newShell.newLayout.newPane.classLayout ; horizontal_before
+%L dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout.newResourcesViewport ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout ; horizontal_before
+%L dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout.newResourcesTitle ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout ; horizontal_before
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newTitle ; dirt.mainLayout.newShell.newLayout ; vertical_above
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newTitle ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classTitle ; vertical_below
+%L dirt.mainLayout.newShell.newLayout.newPane.classLayout ; dirt.mainLayout.newShell.newLayout.newPane.classLayout.classExamples ; dirt.mainLayout.newShell.newLayout.newPane.classLayout ; vertical_above
+%L dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout.newResourcesTitle ; dirt.mainLayout.newShell.newLayout.newPane.newResourcesLayout ; vertical_above
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.contextHelpTitle ; dirt.mainLayout.helpShell.contextHelpLayout ; vertical_above
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.contextHelpTitle ; dirt.mainLayout.helpShell.contextHelpLayout ; horizontal_before
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.contextHelpHide ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.contextHelpHide ; dirt.mainLayout.helpShell.contextHelpLayout.helpResourceTitle ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.contextHelpTitle ; dirt.mainLayout.helpShell.contextHelpLayout.helpResourceTitle ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.contextHelpTitle ; dirt.mainLayout.helpShell.contextHelpLayout.contextHelpHide ; horizontal_after
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpResourceTitle ; horizontal_after
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpResourceTitle ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane ; dirt.mainLayout.helpShell.contextHelpLayout ; horizontal_before
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout.helpResourceLabel ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout ; vertical_above
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout.helpResourceLabel ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout ; horizontal_before
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout.helpResourceText ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout ; horizontal_before
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout.helpResourceLabel ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpResourceLayout.helpResourceText ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout.helpTypeLabel ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout.helpTypeText ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout.helpTypeLabel ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout ; horizontal_before
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout.helpTypeLabel ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout.helpTypeText ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpTypeLayout ; horizontal_before
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout.helpClassLabel ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout.helpClassLabel ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout ; horizontal_before
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout.helpClassLabel ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout.helpClassText ; vertical_below
+%L dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout ; dirt.mainLayout.helpShell.contextHelpLayout.helpPane.helpClassLayout.helpClassText ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesTitle ; dirt.mainLayout.instanceShell.instanceLayout.editComments ; horizontal_after
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.editComments ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesViewport ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.heightValue ; dirt.mainLayout.instanceShell.instanceLayout.instanceDeferred ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceDeferred ; dirt.mainLayout.instanceShell.instanceLayout.editComments ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceDeferred ; dirt.mainLayout.instanceShell.instanceLayout.instanceResourcesTitle ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceManaged ; dirt.mainLayout.instanceShell.instanceLayout.instanceDeferred ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newHide ; dirt.mainLayout.newShell.newLayout.newDelete ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newTitle ; dirt.mainLayout.newShell.newLayout.newDelete ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newTitle ; dirt.mainLayout.newShell.newLayout.newCreate ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newDelete ; dirt.mainLayout.newShell.newLayout.newNameEntry ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newCreate ; dirt.mainLayout.newShell.newLayout.newNameEntry ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newCreate ; dirt.mainLayout.newShell.newLayout.newNameLabel ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newHeightValue ; dirt.mainLayout.newShell.newLayout.newDeferred ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newDeferred ; dirt.mainLayout.newShell.newLayout.newPane ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newManaged ; dirt.mainLayout.newShell.newLayout.newDeferred ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appNew ; dirt.mainLayout.createShell.createLayout.createNameLabel ; vertical_below
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.appNew ; horizontal_after
+%L dirt.mainLayout.createShell.createLayout ; dirt.mainLayout.createShell.createLayout.createTitle ; dirt.mainLayout.createShell.createLayout.appNew ; vertical_below
+%L dirt.mainLayout.instanceShell.instanceLayout ; dirt.mainLayout.instanceShell.instanceLayout.instanceTitle ; dirt.mainLayout.instanceShell.instanceLayout.instanceHide ; horizontal_after
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsTitle ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsHide ; horizontal_after
+%L dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout ; dirt.mainLayout.actionStubsShell.actionStubsLayout.actionStubsTitle ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newCreate ; dirt.mainLayout.newShell.newLayout.newDelete ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newCreate ; horizontal_after
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newHide ; vertical_below
+%L dirt.mainLayout.newShell.newLayout ; dirt.mainLayout.newShell.newLayout.newPane ; dirt.mainLayout.newShell.newLayout ; horizontal_before
+%L dirt.mainLayout.templateBuildingShell.templateBuildingLayout ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingTitle ; dirt.mainLayout.templateBuildingShell.templateBuildingLayout.templateBuildingHide ; horizontal_after

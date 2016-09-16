@@ -1,0 +1,22 @@
+/* SCCSID: @(#)AUTHOR	1.1 (UKC) 5/10/92 */
+
+The UKC Widget Set and the Dirt User Interface Builder / Editor
+was designed and implemented by Richard Hesketh (rlh2@ukc.ac.uk) at the
+University of Kent at Canterbury, United Kingdom.
+
+The Widget Creation Library was produced by David E. Smyth
+(david@devvax.jpl.nasa.gov) and has been included with his kind permission.
+
+Some of the Widgets in the UKC Widget Set were derived from similar
+widgets in the Athena Widget Set.  These have been clearly marked as such.
+
+Copyright exists in this software distribution please read ./copyright.h
+
+
+Richard Hesketh,  September 1990
+
+--
+Richard Hesketh
+Computing Officer, Computing Lab., University of Kent at Canterbury,
+Canterbury, Kent, CT2 7NF, United Kingdom.
+        Tel: +44 227 764000 ext 7620/7590      Fax: +44 227 762811

@@ -1,0 +1,35 @@
+%%ID  DIRT! 1.3 (c)1990 rlh2@ukc.ac.uk : Template Specification file
+%%ID  Template = "exampleTemplate"
+%%ID  Created by rlh2 on Tue Sep 18 15:58:49 1990
+%%%
+%T exampleTemplate
+%F
+%%%
+%N pressMe1
+%c ukcCommandWidgetClass
+%p exampleTemplate(1)
+%m true
+%o false
+%s x : 33
+%s y : 96
+%s width : 142
+%s height : 53
+%s borderWidth : 2
+%s label : Press Me
+%f
+%%%
+%N pressMe2
+%c ukcCommandWidgetClass
+%p exampleTemplate(1)
+%m true
+%o false
+%s x : 35
+%s y : 185
+%s width : 143
+%s height : 53
+%s borderWidth : 2
+%s label : Press Me
+%r background : #000000
+%r foreground : #ffffff
+%r highlightColor : #ffffff
+%f

@@ -1,0 +1,367 @@
+.\" $Xukc: UKCLayout.man,v 1.2 90/09/22 17:32:20 rlh2 Rel $
+.\"
+.\" Add simple keeps to MAN macros so .TS/.TE will work
+.\"
+.de KS	\"	Keep start
+.br
+.in 0
+.di KP
+..
+.de KE	\" 	Keep end
+.br
+.di
+.ne \\n(dnu
+.nr fI \\n(.u
+.nf
+.KP
+.if \\n(fI .fi
+.in
+..
+.TH "UKCLayout" "LOCAL X"
+.na
+.nh
+.SH NAME
+UKCLayoutWidgetClass \- An X Widget which looks after the geometry of its
+children.
+.SH SYNOPSIS
+\fB
+.B #include <X11/StringDefs.h>
+.br
+.B #include <X11/Intrinsic.h>
+.br
+.br
+\fB#include <X11/Xukc/Layout.h>
+\fR
+.SH CLASSES
+A subclass of Core, Composite and ConstraintClass.
+.P
+The widget class to use when creating a 
+.I Layout\^
+widget is \fBukcLayoutWidgetClass\fP.
+.P
+The class name of 
+.I UKCLayout\^
+is "UKCLayout".
+.SH DESCRIPTION
+\fIUKCLayout\fP provides geometry management for its children similar
+to the Form Widget class.  Children are constrained by horizontal and vertical
+connections between themselves, siblings and the enclosing Layout widget.
+Each child may have an arbitrary number of connections to it.
+Children may be fixed in their horizontal and/or vertical axes. 
+.LP
+When a \fIUKCLayout\fP widget is resized, all the unfixed (therefore resizable)
+children are resized according to their constraints;  All the unfixed child are
+resized by a proportional amount.  This amount is calculated by dividing the
+change in size, by the number of unfixed children on each connection on the
+\fILayout\fP's root connection list.  If a child is resized in the horizontal
+axis all the children to its left must be moved by the amount that this child
+has changed in size.  This means that the distance between each connected
+widget stays the same after any resize has taken place.
+.LP
+To allow children to move or resize themselves the \fIUKCLayout\fP widget
+has a geometry manager.  When requested, the geometry manager checks all
+the connections to the requesting child and decides whether it can resize
+or move this child.  The rules used by the geometry manager to decide whether
+a change in geometry can be made are detailed below (rules are checked in
+given order of priority):
+.IP i)
+The \fBXukcAllowResize\fP flag is set in \fBXtNgeomStatus\fP.
+.IP ii)
+The child is not `fixed' in any of the requested resize axes.
+.IP iii)
+The new size is smaller than the current size.  (No retraction of space between
+this child and connected siblings is done.)
+.IP iv)
+There is enough space between the requesting child and all the siblings
+to allow the child to expand in.  (This is calculated as the space between
+the child and nearest sibling on the child's connection list.)
+.IP v)
+If there is not enough space then make a geometry request to the parent
+of the Layout Widget.  The space requested is big enough to allow the resize
+and if granted also causes all unfixed siblings to be resized by a proportional
+amount.
+.IP vi)
+If the geometry request in v) failed then see if by moving surrounding
+siblings (but not causing them to become occluded) we can find enough space
+to do the resize in.  This method \fIelbows\fP connected siblings out of the
+way by just enough to make the resize possible.
+.LP
+A Move can take place in an axis if:
+.IP i)
+The new position is within the bounds of the smallest distance between
+the child and connected siblings and the move will not cause any siblings
+to be occluded.
+.IP ii)
+The \fBXukcAllowMove\fP flag is set in \fBXtNgeomStatus\fP.
+.IP iii)
+Move surrounding siblings to make enough space to allow the new position.
+.LP
+Resize requests have priority over move requests, it is therefore possible that
+the resize part of a geometry change request may deny the move part.  In this
+case the geometry handler returns \fBXtGeometryAlmost\fP.
+.LP
+Unmanaged children are temporarily removed from the connection list but the
+space they occupied when they were managed, is not available for other the
+widgets that were connected to them, to expand into. For resizing purposes
+they are treated as still being there but fixed in all axes. They can
+still be resized by the geometry manager though.
+.LP
+Also implemented by \fIUKCLayout\fP is a \fBToo Small\fP window. This is
+displayed whenever the Layout widget is resized to a size smaller than the
+\fBXtNminWidth\fP and/or \fBXtNminHeight\fP dimensions. By setting these
+dimensions to suitable values, an application can be assured that no other
+widgets will be displayed until the window has been resized to at least its
+smallest size.  This stops the current problem of windows being resized to
+negative dimensions which cause protocol errors.  This is in contrast to the
+\fIShell\fP widget which, in association with a window manager, disallows the
+user from physically drawing out a window that is too small.
+.SH "NEW RESOURCES"
+To specify any of these resources within a resource defaults file,
+simply drop the \fIXtN\fP prefix from the resource name.
+.I UKCLayout\^
+defines the following new resources:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Layout Resource Set
+Name	Class	Type	Default
+_
+XtNgeomStatus	XtCGeomStatus	XtRGeomStatus	XukcRefuseAll
+XtNhorizColor	XtCHorizColor	Pixel	XtDefaultForeground
+XtNminHeight	XtCMinHeight	Dimension	0
+XtNminWidth	XtCMinWidth	Dimension	0
+XtNresizeDone	XtCCallback	XtCallbackList	NULL
+XtNvertColor	XtCVertColor	Pixel	XtDefaultForeground
+.TE
+.KE
+.sp 1
+.IP \fBXtNgeomStatus\fP
+This resource provides a control over the geometry manager of the the
+\fILayout\fP.  There are five flags which can be set (in order of priority);
+.in +.25i
+\fBXukcTurnedOff\fP : if set, the geometry manager allows all requests =
+XtGeometryYes.
+.br
+\fBXukcRefuseAll\fP : if set, the geometry manager disallows all requests =
+XtGeometryNo.
+.br
+\fBXukcAllowMove\fP : if set, the geometry manager is allowed to perform movement
+requests.  It can change a child's position and if required by a resize can
+move children around to make space.
+.br
+\fBXukcAllowResize\fP : if set, the geometry manager is allowed to perform
+resize requests.  If the new size requested is bigger than the space
+immediately around the requesting child and \fBXukcAllowMove\fP has been set
+then surrounding children are \fIelbowed\fP out of the way to make room.
+.br
+\fBXukcOnlyAskParent\fP : this is only operable if XukcAllowResize is also set.
+When set the geometry manager keeps the space around child widgets fixed and
+makes a geometry request to its parent directly for enough space to allow
+a childs geometry request.
+.in -.25i
+.IP \fBXtNhorizColor\fP
+This is the pixel colour that the horizontal connection lines are drawn in by
+\fBdraw_connections\fP.
+.IP \fBXtNminHeight\fP
+This is the minimum height allowed for the \fILayout\fP.  This is used in
+conjunction with \fBXtNminWidth\fP to specify when a \*QToo Small\*U window should
+be displayed over the area of the \fILayout\fP.
+.IP \fBXtNminWidth\fP
+This is the minimum width allowed for the \fILayout\fP.
+.IP \fBXtNresizeDone\fP
+This callback list is called just after a resize of the layout widget has
+been made.  This helps an application to decide when to redraw itself.
+.IP \fBXtNvertColor\fP
+This is the pixel colour that the vertical connection lines are drawn in by
+\fBdraw_connections\fP.
+.SH "CONSTRAINT RESOURCES"
+The following resources are attached to every widget added to the
+\fIUKCLayout\fP:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Layout Constraint Resource Set
+Name	Class	Type	Default
+_
+XtNvertFixed	XtCVertFixed	Boolean	FALSE
+XtNhorizFixed	XtCHorizFixed	Boolean	FALSE
+.TE
+.KE
+.sp 1
+.IP \fBXtNvertFixed\fP
+If set to TRUE, the widget will not be resized in the vertical axis, whenever the
+\fILayout\fP is resized.
+.IP \fBXtNhorizFixed\fP
+If set to TRUE, the widget will not be resized in the horizontal axis, whenever the
+\fILayout\fP is resized.
+.SH "INHERITED RESOURCES"
+The following resources are inherited from the named superclasses:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Core Resource Set -- CORE(3X)
+Name	Class	Type	Default
+_
+XtNscreen	XtCScreen	XScreen *	0
+XtNcolormap	XtCColormap	Pointer	NULL
+XtNancestorSensitive	XtCAncestorSenstitive	Boolean	TRUE
+XtNx	XtCX	Position	0
+XtNy	XtCY	Position	0
+XtNwidth	XtCWidth	Dimension	parent's width
+XtNheight	XtCHeight	Dimension	parent's height
+XtNdepth	XtCDepth	int	0
+XtNbackground	XtCBackground	Pixel	White
+XtNborderWidth	XtCBorderWidth	Dimension	1
+XtNborder	XtCBorder	Pixel	Black
+XtNsensitive	XtCSensitive	Boolean	TRUE
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	TRUE
+XtNdestroyCallback	XtCCallback	Pointer	NULL
+.TE
+.KE
+.sp 1
+.SH "TRANSLATIONS"
+No default translations are set.
+.SH "ACTIONS"
+\fBdraw_connections:\fP   Draws lines between connected widgets
+.LP
+\fBclear_connections:\fP   Clears any lines drawn by \fBdraw_connections\fP.
+.LP
+\fBprint_widget_connections:\fP   Prints (to stdout) a description of the
+connections to the widget which the cursor last entered.
+.LP
+\fBprint_connections:\fP   Prints (to stdout) all connections on the layout
+widget.
+.SH "FUNCTIONAL INTERFACE"
+To add a new child to a Layout,  you can use \fBXtCreateWidget(\|)\fP and
+specify the widget ID of the previously created Layout as the parent of the
+child. You can also use a new procedure \fBXukcLayoutCreateWidget(\|)\fP defined
+by this class.
+.LP
+.KS
+.nf
+Widget \fBXukcLayoutCreateWidget(name, widget_class, args, num_args, widget2left,
+                           widget_above, x_is_fixed, y_is_fixed)\fP
+   String name;
+   WidgetClass widget_class;
+   Widget parent;
+   ArgList args;
+   Cardinal num_args;
+   Widget widget2left, widget_above;
+   Boolean x_is_fixed, y_is_fixed;
+.fi
+.KE
+.IP name
+.br
+The name of the child to create.
+.IP widget_class
+The class of the child to create.
+.IP args
+.br
+Argument list.
+.IP num_args
+Number of arguments on the argument list.
+.IP widget2left
+The widget to the left of the new child to make a connection to.
+.IP widget_above
+The widget vertically above the new child to make a connection to.
+.IP x_is_fixed
+Value for XtNhorizFixed (overrides XtNhorizFixed on argument list).
+.IP y_is_fixed
+Value for XtNvertFixed (overrides XtNvertFixed on argument list).
+.LP
+The \fIwidget2left\fP and \fIwidget_above\fP connections can be set to NULL
+or parent if you want the child connected to the UKCLayout Widget parent.
+The bottom and right-side of each child is automatically connected to the
+UKCLayout.
+Additional connections between widgets may be made using
+\fBXukcLayoutAddConnection(\|)\fP described below. The \fIx_is_fixed\fP and
+\fIy_is_fixed\fP parameters merely
+set the constraint resources \fBXtNhorizFixed\fP and \fBXtNvertFixed\fP for the
+newly created child. These constraints are used by \fILayout\fP when it has
+been resized or for geometry management. If the axis of a child is fixed it
+cannot be resized in that axis.
+.LP
+.KS
+Connections can also be added or removed using the following macros:
+.sp
+.nf
+void \fBXukcLayoutAddConnection(layout_widget, node_widget, widget2add, position)\fP
+     LayoutWidget layout_widget;
+     Widget node_widget, widget2add;
+     Positioning position;
+.fi
+.KE
+.IP layout_widget
+The parent of the children who we are going to connect.
+.IP node_widget
+The child from whom we apply the position to.
+.IP widget2add
+The child to connect the node_widget to.
+.IP node_widget
+Where the connection should be made on the node_widget. The
+Positioning structure contains:
+.nf
+	typedef enum {
+	        horizontal_before,
+	        horizontal_after,
+	        vertical_above,
+	        vertical_below
+	} Positioning;
+.fi
+.LP
+\fBXukcLayoutRemoveConnection\fP takes the same parameters as the
+previous macro and removes any currently held connection between the
+given children.
+.LP
+A macro is also defined, \fBXukcLayoutChangeConnection\fP, which removes
+a connection between a node widget and another widget and makes a new
+connection between the node widget and another widget.   Its formal parameters
+are:
+.nf
+
+void \fBXukcLayoutChangeConnection(layout_widget, node_widget, old_widget,
+				     old_position, new_widget, new_position)\fP
+     LayoutWidget layout_widget;
+     Widget old_widget, new_widget;
+     Positioning old_position, new_position;
+.fi
+.SH BUGS
+The \fIlwTooSmall(\|)\fP procedure (which displays the \*QToo Small\*U
+message) could be changed to include a Geometry Request
+to automatically resize the Layout widget. This would appear as
+a spring-back motion. A better way to disallow a window that is too small
+is to set the \fBXtNminWidth\fP and \fBXtNminHeight\fP resources for the Shell
+part of the toplevel widget.
+.LP
+\fIUKCLayout\fP was designed to be used in conjunction with some form of layout
+editor which would allow a designer to express the connectivity of widgets in
+a visual form.  Therefore it provides no form of automatic layout of
+children.  It should at the very least provide a facility to layout widgets
+using their connection lists and placing them next to each other.
+.SH AUTHOR
+Richard Hesketh.
+.br
+.ta 2i
+rlh2@ukc.ac.uk	@nsfnet-relay.ac.uk:rlh2@ukc.ac.uk
+.br
+ ..!{mcvax | mcsun}!ukc!rlh2
+.br
+Computing Lab., University of Kent at Canterbury, UK.
+.SH SEE ALSO
+\fIAthena Widget Set \- C Language X Interface\fP,
+.br
+\fIX Toolkit Intrinsics - C Language X Interface\fP,
+.br
+\fIXlib - C Language Interface, Protocol Version 11\fP.

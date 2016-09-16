@@ -1,0 +1,182 @@
+.\" $Xukc: UKCMouse.man,v 1.2 90/09/22 17:32:23 rlh2 Rel $
+.\"
+.\" Add simple keeps to MAN macros so .TS/.TE will work
+.\"
+.de KS	\"	Keep start
+.br
+.in 0
+.di KP
+..
+.de KE	\" 	Keep end
+.br
+.di
+.ne \\n(dnu
+.nr fI \\n(.u
+.nf
+.KP
+.if \\n(fI .fi
+.in
+..
+.TH "UKCMOUSE" "LOCAL X"
+.na
+.nh
+.SH NAME
+MouseWidgetClass \- An X Widget which displays a 3 button mouse hole.
+.SH SYNOPSIS
+\fB
+.B #include <X11/StringDefs.h>
+.br
+.B #include <X11/Intrinsic.h>
+.br
+.br
+\fB#include <X11/Xukc/Mouse.h>
+\fR
+.SH CLASSES
+A subclass of CoreClass.
+.P
+The widget class to use when creating a 
+.I UKCMouse\^
+widget is \fBukcMouseWidgetClass\fP.
+.P
+The class name of 
+.I Mouse\^
+is "Mouse".
+.SH DESCRIPTION
+The
+.I UKCMouse\^
+widget class provides a \fImousehole\fP which displays the current functions
+of the mouse buttons
+when the cursor is moved into different widgets.  The mousehole appears as a
+box with 3 rectangles which represent the buttons of a 3 button mouse.
+Associated with each button is a function name string.  This string describes 
+the current function assigned to the pressing of the button inside the
+widget's boundary.  To make use of the mousehole, a widget client must
+register 3 function name strings with the mousehole;  This is achieved by
+calling \fBXukcMouseAddClient()\fP.  \fBXukcMouseAddClient()\fP adds the widget
+client to its internal list of clients and adds event handlers to the widget.
+These event handlers cause the mousehole to update itself whenever the
+cursor enter or leaves the registered client.  The event handlers also track
+the pressing and releasing of mouse buttons which causes the button
+rectangles in the mousehole to be filled in or cleared.
+.LP
+After a widget client has been initially registered, subsequent
+\fBXukcMouseAddClient()\fP causes the function name strings to be updated.
+This can be used to reflect modal changes to the widget clients behaviour.
+.SH "NEW RESOURCES"
+To specify any of these resources within a resource defaults file,
+simply drop the \fIXtN\fP prefix from the resource name.
+.I Mouse\^
+defines the following new resources:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Mouse Resource Set
+Name	Class	Type	Default
+_
+XtNforeground	XtCForeground	Pixel	XtDefaultForeground
+XtNfont	XtCFont	XFontStruct *	fixed
+XtNbuttonDown	XtCButtonDown	integer	0
+XtNupdateRate	XtCUpdateRate	integer 75
+XtNcursor	XtCCursor	Cursor	"mouse"
+.TE
+.KE
+.sp 1
+.IP \fBXtNforeground\fP
+This resource is the colour of the buttons and the function names displayed
+in the mousehole.
+.IP \fBXtNfont\fP
+This resource is the font used for all text displayed in the mousehole.
+.IP \fBXtNbuttonDown\fP
+This resource defines which buttons are currently pressed.  The button names
+are defined in \fIMouse.h\fP as \fBMH_Left_Button\fP, \fBMH_Middle_Button\fP,
+and \fBMH_Right_Button\fP. By ORing these constants together specific buttons
+can be turned on.  Setting this to NULL resets all the mouse buttons.
+Clients registered with the mousehole automatically turn the mousehole buttons
+on and off whenever the mouse buttons are pressed or released in them. 
+.IP \fPXtNupdateRate\fP
+This integer resource defines the speed at which the mousehole is updated.
+This updating is done when the pointer is moved in and out of widgets
+(either registered or unregistered mousehole clients).
+.IP \fPXtNcursor\fP
+This resource defines the shape of the cursor when it is inside the mousehole
+widget.
+.SH "INHERITED RESOURCES"
+The following resources are inherited from the named superclasses:
+.sp 1
+.KS
+.TS
+center allbox;
+cB sss
+lB lB lB lB
+llll.
+Core Resource Set -- CORE(3X)
+Name	Class	Type	Default
+_
+XtNscreen	XtCScreen	XScreen *	0
+XtNcolormap	XtCColormap	Pointer	NULL
+XtNancestorSensitive	XtCAncestorSenstitive	Boolean	TRUE
+XtNx	XtCX	int	0
+XtNy	XtCY	int	0
+XtNwidth	XtCWidth	int	10
+XtNheight	XtCHeight	int	10
+XtNdepth	XtCDepth	int	0
+XtNbackground	XtCBackground	Pixel	White
+XtNborderWidth	XtCBorderWidth	int	0
+XtNborder	XtCBorder	Pixel	Black
+XtNsensitive	XtCSensitive	Boolean	TRUE
+XtNmappedWhenManaged	XtCMappedWhenManaged	Boolean	TRUE
+XtNdestroyCallback	XtCCallback	Pointer	NULL
+.TE
+.KE
+.sp 1
+.SH "TRANSLATIONS"
+There are no default translations in the \fIMouse\fP class.
+.SH "ACTIONS"
+There are no public actions added by the \fIMouse\fP class.
+.SH FUNCTIONAL INTERFACE
+Clients are registered with a mouse hole instance by the use of:
+.nf
+
+void XukcMouseAddClient(mw, w, left_name, middle_name, right_name)
+      UKCMouseWidget   mw;
+      Widget   w;
+      String   left_name;
+      String   middle_name;
+      String   right_name;
+
+.fi
+The three mouse button names are placed in the mousehole widget's client
+list.  If \fBw\fP is already a registered client of \fBmw\fP the existing name
+strings are simply overwritten by the given ones.  The name strings are
+copied into allocated memory and as such does not require an application
+to store them separately.
+.LP
+Clients are unregistered with a mouse hole instance by the use of:
+.nf
+
+void XukcMouseRemoveClient(mw, w, remove_children)
+      UKCMouseWidget   mw;
+      Widget   w;
+      Boolean   remove_children;
+
+.fi
+If \fBremove_children\fP is TRUE and \fBw\fP is a sub-class of
+\fBcompositeWidgetClass\fP, its children are checked and any registered widgets
+are also removed from the mousehole's client list.  Any memory allocated to
+hold strings is freed.
+.SH AUTHOR
+Richard Hesketh.
+.br
+rlh2@ukc.ac.uk		..!mcvax!ukc!rlh2
+.br
+Computing Lab., University of Kent at Canterbury, UK.
+.SH SEE ALSO
+\fIX Toolkit Widgets - C Language X Interface\fP,
+.br
+\fIX Toolkit Intrinsics - C Language X Interface\fP,
+.br
+\fIXlib - C Language Interface, Protocol Version 11\fP.

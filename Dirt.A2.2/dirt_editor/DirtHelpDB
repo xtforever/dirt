@@ -1,0 +1,248 @@
+! SCCSID: @(#)DirtHelpDB	1.1 (UKC) 5/10/92
+!
+! Help Database for Dirt UI Builder and Craft Resource Editor etc.
+! Accessed directly via the Xrm / X Resource Manager to provide on-line
+! context sensitive help
+!
+! Resource Types
+!
+! (each entry must be prefixed by "type")
+!
+! Xt Intrinsic Types
+!
+typeAcceleratorTable:  An Accelerator Table
+typeAtom:  An Atom
+typeBitmap:  A Bitmap is a rectangular monochrome image made up of 0 and 1's.  The 0's are drawn using a background colour and the 1's are drawn using a foreground colour.
+typeBool:  A Boolean can only have two values, TRUE or FALSE.
+typeBoolean:  A Boolean can only have two values, TRUE or FALSE.
+typeCallback:  A Callback list is a list of application routines that are called in order when this resource is called.
+typeCardinal:  An unsigned value whose minimum is 0 and maximum is 2^16 - 1
+typeColor:  A Color.
+typeCursor:  A Cursor is a Bitmap used to mark the current location of the pointing device (normally a mouse).
+typeDimension:  An unsigned value whose minimum is 0 and maximum is 2^16 - 1.  This type is normally used for an object's dimensions.
+typeFile:  An open file descriptor.
+typeFont:  A Font
+typeFontStruct:  A Screen Font
+typeGeometry:  A character string representing the geometry of a toplevel window.
+typeInitialState:  This type describes the state of a window when it is first created.  It is normally used as a hint to the window manager.  It is an enumerated type and can have the following legal settings:  Iconic
+typeInt:  An integer value (32-bits).
+typeLongBoolean:  A Boolean can only have two values, TRUE or FALSE.  (This type is stored as a "long" quantity).
+typeShort:  A short
+typeString:  A character string.
+typePixel:  A Pixel is an unsigned long denoting an entry in the current colourmap.
+typePixmap:  A Pixmap (PIXel MAP) is a rectangular colour image.
+typePosition:  A Position is an signed value whose minimum is -2^15 and maximum is 2^16 - 1.  This type is normally used for an object's position.
+typeTranslationTable:  A string representing bindings between event sequences and actions which are called when the event sequence happens.
+typeUnsignedChar:  An unsigned character.
+typeVisual:  A Visual
+typeWidget:  An id. that is a handle to a particular widget or object instance.
+typeWidgetList:  A list of Widget id's
+!
+! Xmu Types
+!
+typeBackingStore:  This type describes the type of backing store required by a window from an X Server.
+typeOrientation:  Orientation
+typeJustify:  An enumerated type that describes the type of horizontal justification required.  Its legal values are; left, center or right.
+!
+! Xaw Types
+!
+typeEdgeType:  An enumerated type that describes the binding of an objects particular edge.  Its legal values are: Rubber, 
+typeFloat:  A floating point or real number.
+!
+!
+!
+!
+! Xt Intrinsic created object classes
+!
+! Object Class resources
+!
+objectClass.FullName: Intrinsic Object Class
+objectClass.Vendor: MIT Xt Intrinsics
+objectClass.Description: This is the root of all superclasses. It contains a single resource: "destroyCallback".
+!
+objectClass.destroyCallback:  A list of callback routines that are called when an object or widget is being destroyed.  These routines would normally free any allocated resources, such as memory or temporary files.
+!
+! RectObject Class resources
+!
+rectObjClass.FullName: Intrinsic Rectangular Object Class
+rectObjClass.Vendor: MIT Xt Intrinsics
+rectObjClass.Description: This is a subclass of the Object class. It contains resources that define a rectangular area of a parent window.  RectObject classes do not have X windows associated with them and therefore must be managed by special composite parents who are prepared to do event translation for them.
+!
+rectObjClass.ancestorSensitive:  If TRUE then all the ancestor's of this object are capable of receiving events.  If FALSE then at least one of the ancestors cannot receive events.
+rectObjClass.borderWidth:  The size of the border displayed around the object or widget.
+rectObjClass.height:  The current height of the object or widget.
+rectObjClass.sensitive:  This resource sets the sensitivity of the object to receiving events from the user.  When TRUE the object is sent any events directed at it.  When FALSE the object does not receive events.
+rectObjClass.width:  The current width of the object or widget.
+rectObjClass.x:  The current X-axis position of the object or widget.  This position is relative to the object's parent.
+rectObjClass.y:  The current Y-axis position of the object or widget.  This position is relative to the object's parent.
+!
+! Core Widget Class resources
+!
+coreWidgetClass.FullName: Core Widget Class
+coreWidgetClass.Vendor: MIT Xt Intrinsics
+coreWidgetClass.Description: This is the basic Widget class and is used as the superclass of all other Widget classes.  It contains all the resources necessary for retangular on-screen objects which have an X window associated with them.
+!
+coreWidgetClass.accelerators: A list of event to action bindings to be executed by this widget, even though the event occurred in another widget.  (See the X Toolkit Intrinsics - C Language interface manual for details).
+!
+coreWidgetClass.ancestorSensitive: The sensitivity state of the ancestors of this widget.  A widget is insensitive if either it or any of its ancestors is insensitive.  This resource should not be changed with XtSetValues(), although it may be queried.
+!
+coreWidgetClass.background: A pixel value which indexs the widget's colormap to derive the background color of the widget's window.
+!
+coreWidgetClass.backgroundPixmap: The background pixmap of this widget's window.  If this resource is set to anything other than "XtUnspecifiedPixmap", the pixmap specified will be used instead of the background color.
+!
+coreWidgetClass.borderColor: A pixel value which indexs the widget's colormap to derive the border color of the widget's window.
+!
+coreWidgetClass.borderPixmap: The border pixmap of this widget's window.  If this resource is set to anything other than "XtUnspecifiedPixmap", the pixmap specified will be used instead of the border color.
+!
+coreWidgetClass.borderWidth: The width of this widget's window border.
+!
+coreWidgetClass.colormap: The colormap that this widget will use.
+!
+coreWidgetClass.depth: The depth of this widget's window.
+!
+coreWidgetClass.destroyCallback: All functions on this list are called when this widget is destroyed.
+!
+coreWidgetClass.height: The height of this widget in pixels.
+!
+coreWidgetClass.width: The width of this widget in pixels.
+!
+coreWidgetClass.mappedWhenManaged: If this resource is "True", then the widget's window will automatically be mapped by the Toolkit when it is realized and managed.
+!
+coreWidgetClass.screen: The screen on which this widget is displayed.  This is not a settable resource.
+!
+coreWidgetClass.sensitive: Whether or not the toolkit should pass user events to this widget.  The widget will not get input events if either "ancestorSensitive" or "sensitive" is "False".
+!
+coreWidgetClass.translations: The event bindings associated with this widget.
+!
+coreWidgetClass.x:  The top left position of the widget relative to its windowed
+ancestor in the X-axis.  Measured in screen pixels.
+!
+coreWidgetClass.x:  The top left position of the widget relative to its windowed
+ancestor in the Y-axis.  Measured in screen pixels.
+!
+! Composite Widget Class resources
+!
+compositeWidgetClass.FullName: Composite Widget Class
+compositeWidgetClass.Vendor: MIT Xt Intrinsics
+compositeWidgetClass.Description: This is the basic "parent" Widget class which controls the geometry of its managed children.  Subclasses of this class normally implement various forms of geometry for their children (such as row and column layout).
+!
+compositeWidgetClass.children:  A read-only list of the child Widgets in this parent.
+compositeWidgetClass.insertPosition:  A function for inserting new children in the children list resource.
+compositeWidgetClass.numChildren:  The number of children on the children list resource.
+!
+! Shell Widget Class resources
+!
+shellWidgetClass.FullName: Shell Widget Class
+shellWidgetClass.Vendor: MIT Xt Intrinsics
+shellWidgetClass.Description: This is superclass of all Shell widget classes.  It provides the basic operations of a widget class whose X window is a direct child of the root window.  This class is normally subclassed to provide various widget classes that inter-work with a window manager to provide such facilities as application, transient (for dialogue boxes) or override (for popup menus) windows.
+!
+shellWidgetClass.allowShellResize:  A boolean value
+!
+!
+!
+!
+! UKC Widget Set
+!
+! UKC Arrow Widget 
+!
+ukcArrowWidgetClass.FullName:  The UKC Arrow Widget
+ukcArrowWidgetClass.Vendor: University of Kent at Canterbury
+ukcArrowWidgetClass.Description:  The UKC Arrow Widget displays an Arrow.
+!
+ukcArrowWidgetClass.foreground: The colour of the drawn arrow.
+!
+! UKC Label Widget
+!
+ukcLabelWidgetClass.FullName:  The UKC Label Widget
+ukcLabelWidgetClass.Vendor: University of Kent at Canterbury Widget Set
+ukcLabelWidgetClass.Description:  The UKC Label Widget displays an editable label.
+!
+ukcLabelWidgetClass.foreground: The colour of the label's text.
+!
+!
+!
+!  Athena Widget Set
+!
+!
+! AsciiSink Object Class Description
+!
+asciiSinkObjectClass.FullName: Ascii Sink Object
+asciiSinkObjectClass.Vendor: Project Athena / MIT
+asciiSinkObjectClass.Description: The AsciiSink object is used by a text widget to render the text.  It will display all Latin1 Characters in an 8 bit font, Tab and Carriage Return.  The name may be a bit misleading, but is left this way for compatibility.  This object also reports the text window metrics to the text widgets.
+!
+! AsciiSrc Object Class Description
+!
+asciiSrcObjectClass.FullName: Ascii Source Object
+asciiSrcObjectClass.Vendor: Project Athena / MIT
+asciiSrcObjectClass.Description: The AsciiSrc object is used by a text widget to read the text from a file or string in memory.  It understands all Latin1 characters plus Tab and Carriage Return.  The AsciiSrc can be either of two types:\n\
+\n\
+"file") AsciiSrc objects of this type read the text from a file and store it into an internal buffer.  This buffer may then be modified (provided the text widget is in the correct edit mode) just as if it were a source of type "string".  Unlike previous versions of the AsciiSrc it is now possible to specify an editable disk source.  The file is never updated, however, until a call to XawAsciiSave() is made.  When the source is in this mode the "useStringInPlace" resource is ignored.\n\
+\n\
+"string") AsciiSrc objects of this type have the text buffer passed as a string.  This buffer normally will be copied and managed internally.  It is also possible to use the string in place, by setting the "useStringInPlace" resource, and specifying the length of the allocated buffer in the "length" resource.\n\
+\n\
+If the application chooses to allow the AsciiSrc to manage the string internally (by default "useStringInPlace" is "False") then it need not worry about running out of buffer space (subject to the total memory available to the application).  The performance does not decay linearly as the buffer grows large, as is necessarily the case when the text buffer is used in place.  If this mode is used, the string passed to the AsciiSrc at startup is not updated as the user types.  The only way to get the latest version of the text string is with XtGetValues().
+!
+!  Ascii Text Widget Class Description
+!
+asciiTextWidgetClass.FullName: Ascii Text Widget
+asciiTextWidgetClass.Vendor: Project Athena / MIT
+asciiTextWidgetClass.Description: The AsciiText widget is really a collection of smaller parts.  It includes the Text widget, an AsciiSrc, and an AsciiSink.  Some of its resources are not actually resources of the AsciiText, but belong to the AsciiSrc or AsciiSink.  This is noted in the explanation of each resource where it applies.  When specifying these resources in a resource file be sure to use "*AsciiText*resource_name" instead of "*AsciiText.resource_name", since they actually belong to the children of the AsciiText widget, and not the AsciiText widget itself.  However, these resources may be set directly on the AsciiText widget at widget creation time, or via XtSetValues().
+!
+! Box Widget Class Description
+!
+boxWidgetClass.FullName: Box Widget
+boxWidgetClass.Vendor: Project Athena / MIT
+boxWidgetClass.Description: The Box widget provides geometry management of arbitrary widgets in a box of a specified dimension.  The children are rearranged when resizing events occur either on the Box or its children, or when children are managed or unmanaged.  The Box widget always attempts to pack its children as tightly as possible within the geometry allowed by its parent.\n\
+\n\
+Box widgets are commonly used to manage a related set of buttons and are often called ButtonBox widgets, but the children are not limited to buttons.  The Box's children are arranged on a background that has its own specified dimensions and color.\n\
+\n\
+<Layout Semantics>\n\
+Each time a child is managed or unmanaged, the Box widget will attempt to reposition the remaining children to compact the box.  Children are positioned in order left to right, top to bottom.  The packing algorithm used depends on the "orientation" of the Box.\n\
+\n\
+Vertical Orientation = When the next child does not fit on the current row, a new row is started.  If a child is wider than the width of the box, the box will request a larger width from its parent and will begin the layout process from the beginning if a new width is granted.\n\
+\n\
+Horizontal Orientation = When the next child does not fit in the current column, a new column is started.  If a child is taller than the height of the box, the box will request a larger height from its parent and will begin the layout process from the beginning if a new height is granted.\n\
+\n\
+After positioning all children, the Box widget attempts to shrink its own size to the minimum dimensions required for the layout.
+!
+! Box Widget Resources
+!
+boxWidgetClass.hSpace: The amount of space, in pixels, to leave between the children.  This resource specifies the amount of space left between the outermost children and the edge of the box. 
+!
+boxWidgetClass.vSpace: The amount of space, in pixels, to leave between the children.  This resource specifies the amount of space left between the outermost children and the edge of the box. 
+!
+boxWidgetClass.orientation: Specifies whether the preferred shape of the box (i.e. the result returned by the query_geometry class method) is tall and narrow "vertical" or short and wide "horizontal".  When the Box is a child of a parent which enforces width constraints, it is usually better to specify "vertical" (the default).  When the parent enforces height constraints, it is usually better to specify "horizontal".
+!
+! Athena Command Widget Class Description
+!
+commandWidgetClass.FullName: Command Widget
+commandWidgetClass.Vendor: Project Athena / MIT
+commandWidgetClass.Description: The Command widget is an area, often rectangular, that contains a text label or bitmap image.  Those selectable areas are often referred to as "buttons".  When the pointer cursor is on a button, it becomes highlighted by drawing a rectangle around its perimeter.  This highlighting indicates that the button is ready for selection.  When pointer button 1 is pressed, the Command widget indicates that it has been selected by reversing its foreground and background colors.  When the button is released, the Command widget's "notify" action will be invoked, calling all functions on its callback list.  If the pointer is moved out of the widget before the button is released, the widget reverts to its normal foreground and background colors, and releasing the button has no effect.  This behavior allows the user to cancel an action.\n\
+\n\
+<Command Actions>\n\
+The full list of actions supported by Command is:\n\
+\n\
+"highlight('condition')" = Displays the internal highlight border in the color ("foreground" or "background" ) that contrasts with the interior color of the Command widget.  The conditions "WhenUnset" and "Always" are understood by this action procedure.  If no argument is passed, "WhenUnset" is assumed.\n\
+\n\
+"unhighlight()" = Displays the internal highlight border in the color ("foreground" or "background" ) that matches the interior color of the Command widget.\n\
+\n\
+"set()" = Enters the "set" state, in which "notify" is possible.  This action causes the button to display its interior in the "foreground" color.  The label or bitmap is displayed in the "background" color.\n\
+\n\
+"unset()" = Cancels the "set" state and displays the interior of the button in the "background" color.  The label or bitmap is displayed in the "foreground" color.\n\
+\n\
+"reset()" = Cancels any "set" or "highlight" and displays the interior of the button in the "background" color, with the label or bitmap displayed in the "foreground" color.\n\
+\n\
+"notify()" = When the button is in the "set" state this action calls all functions in the callback list named by the "callback" resource.  The value of the "call_data" argument passed to these functions is undefined.\n\
+\n\
+When a bitmap of depth greater that one (1) is specified the "set()", "unset()", and "reset()" actions have no effect, since there are no foreground and background colors used in a multi-plane pixmap.
+!
+! Command Widget Resource Definitions
+!
+commandWidgetClass.callback: A list of routines to be called when the "notify" action is invoked.
+!
+commandWidgetClass.cornerRoundPercent: When a "shapeStyle" of "roundedRectangle" is used, this resource controls the radius of the rounded corner.  The radius of the rounded corners is specified as a percentage of the length of the shortest side of the widget.
+!
+commandWidgetClass.highlightThickness: The thickness of the rectangle that is used to highlight the internal border of this widget, alerting the user that it is ready to be selected.  The default value is 2 pixels if the "shapeStyle" is "rectangle", and 0 Pixels (no highlighting) otherwise.
+!
+commandWidgetClass.shapeStyle: Nonrectangular buttons may be created using this resource.  Nonrectangular buttons are supported only on a server that supports the "Shape Extension".  If nonrectangular buttons are specified for a server lacking this extension, the shape is ignored and the widgets will be rectangular.  The following shapes are currently supported: "rectangle", "oval", "ellipse", and "roundedRectangle".
+!

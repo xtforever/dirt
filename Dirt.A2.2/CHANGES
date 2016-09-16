@@ -1,0 +1,94 @@
+# SCCSID: @(#)CHANGES	1.2 (UKC) 6/30/92
+
+Alpha Release 2.2		June 1992
+
+This patchlevel fixes numerous problems that come to light over the last
+few months.
+
+I big set of minor changes were contributed by Vincent Newsum to get Dirt
+through lint.  Thanks Vincent!
+
+Robert Withrow told me where to look for the core dumping problem many
+people have been seeing associated with text widgets.  It was all my
+fault!  I was using XawAsciiSourceFreeString() incorrectly, sorry about
+that 8-(.
+
+I have been cleaning up the Imakefiles and found better ways to build
+things (including shared libraries on Suns -- Thanks to the person
+whose name I forget who told me how to do it, let me know who you are
+and I will put your name here 8-).
+
+I've added a new function XukcAddToBitmapFilePath(), which adds a string
+the currently defined "BitmapFilePath" resource which is used by
+XmuLocateBitmap() which is inturn used by the StringTo{Pixmap/Bitmap}
+converters. This should hopefully stop all the annoying "cannot convert
+blah to bitmap" warnings which were holding people up.
+
+-------
+
+Alpha Release 2.1		Jan 26 1992
+
+This patchlevel fixes a serious bug in the code generation functions.
+The WI_*_classes[] array in *_layout.h file can be incorrectly
+generated [Timothy H Panton].
+
+In widget_classes.c "List.h" was listed as "list.h" [Oliver Beran].
+
+Imakefile.GNU does not clean up all the object files [Olaf Gerloff].
+
+The -sortByName and -sortByType command line arguments have been added to
+the manual.
+
+-------
+
+Alpha Release 2.0
+
+There has been some major internal changes between the first Alpha
+release and this second Alpha release.  More internal support for
+Motif has been added, although I cannot claim that Dirt really does
+support Motif yet 8-(.
+
+This release should build with either X11R4 (patchlevel 18) or X11R5 (I
+tested it with no patches applied).
+
+There are a couple of interface differences that people should be aware
+of:
+
+1)  "Locks" have been added to X, Y, Width and Height resources on all
+    Widget instances.  This means that the size/positions of object
+    instances can be explicitly set by "locking" them (using the little
+    graphical lock next to the position/dimension).  In the previous
+    release this was always done .. this meant that you could not create
+    interfaces that were independent of font for example.  Now, by
+    default, all sizes/positions are not output unless their associated
+    lock has been set (or they are required to stop "zero width/height
+    errors").  With no locks set Widgets like the Label widget will
+    determine its own default size based on the text and font given to
+    it.
+
+    This has some impact on previous dirt_spec files.  In order to
+    update existing dirt_spec files you should load them in and then
+    *immediately* save them (keep a backup of course!).  Dirt will save
+    them out using the new style.  Most of your existing objects in a
+    dirt_spec file will have locked size/position resources.  You should
+    edit each object interactively and toggle the resource locks to
+    unlock the size/position.  Once you have changed all the required
+    objects you can save the new dirt_spec file.
+
+2)  Due to change (for the good!) in R5, I have had to change the
+    programming interface to one routine that is output in the code
+    created by Dirt.  The routine is: XukcDirtRegisterApplicationDefaults()
+    Its new definition is:
+
+	XukcDirtRegisterApplicationDefaults(screen, defs, n_defs)
+	   Screen *screen;
+	   String defs[];
+	   Cardinal n_defs;
+
+    Therefore the first argument is now a Screen pointer rather than a
+    Display pointer.  If you use this routine you should adjust your code
+    and regenerate your interface.
+
+These two changes have been documented in the Dirt manual.  I have also
+added a de-latexed version in plain ascii, its not pretty but its the
+closest you'll get to troff 8-).

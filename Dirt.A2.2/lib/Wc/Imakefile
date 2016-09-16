@@ -1,0 +1,119 @@
+#if defined(ProjectX) && ProjectX > 4
+#include "Library.tmpl"
+#else
+/**/# Taken from  Library.tmpl
+
+/*
+ * Library imakefile info  - this contains any special redefinitions, etc.
+ * that Imakefiles in the various library subtrees will need.
+ */
+
+/**/# $XConsortium: Library.tmpl,v 1.2 89/10/20 10:19:18 jim Exp $
+
+         CC = LibraryCcCmd
+  CCOPTIONS = LibraryCCOptions
+STD_DEFINES = LibraryDefines
+CDEBUGFLAGS = LibraryCDebugFlags
+#endif
+
+#include "../../Xukc.tmpl"
+
+XCOMM# SCCSID: %W% (UKC) %G%
+XCOMM# Imakefile for Widget Creation Library as used by the Dirt Editor
+
+XCOMM# This is stuff specific to the Widget Creation Library 1.06.1
+#if PreR5
+PRE_R5_SRCS = PreR5Enum.c
+PRE_R5_OBJS = PreR5Enum.o
+PRE_R5_DEFS = -DPRE_R5
+#endif
+
+        SYSLIBS = -lm
+  INSTALLLIBDIR = $(USRLIBDIR)
+  INSTALLINCDIR = $(INCDIR)/Wc
+
+       INCLUDES = -I. -I$(TOP) -I$(INCLUDESRC) $(PRE_R5_DEFS) $(UKC_INCLUDES)
+
+ LIBWC_INSTINCS = WcCreate.h
+     LIBWC_INCS = $(LIBWC_INSTINCS) WcCreateP.h
+     LIBWC_SRCS = WcCreate.c WcCallb.c WcConvert.c WcName.c \
+		  WcReg.c WcActions.c WcRegXt.c $(PRE_R5_SRCS)
+     LIBWC_OBJS = WcCreate.o WcCallb.o WcConvert.o WcName.o \
+		  WcReg.o WcActions.o WcRegXt.o $(PRE_R5_OBJS)
+  LIBWC_DEFINES =
+
+#if !(defined(UseInstalledWcl) && UseInstalledWcl == YES)
+
+#if defined(SharedLibWcl) && SharedLibWcl == YES
+# if defined(DebugLibWcl) && DebugLibWcl == YES
+SharedAndDebuggedLibraryObjectRule()
+# else
+SharedLibraryObjectRule()
+# endif
+#else
+# if defined(DebugLibWcl) && DebugLibWcl == YES
+#  if defined(ProfileLibWcl) && ProfileLibWcl == YES
+DebuggedAndProfiledLibraryObjectRule()
+#  else
+DebuggedLibraryObjectRule()
+#  endif
+# else
+#  if defined(ProfileLibWcl) && ProfileLibWcl == YES
+ProfiledLibraryObjectRule()
+#  else
+NormalLibraryObjectRule()
+#  endif
+# endif
+#endif
+
+#ifdef defined(SharedLibWcl) && SharedLibWcl == YES
+NormalSharedLibraryTarget(Wc,$(SOWCLREV),$(LIBWC_OBJS))
+#if defined(InstallWcl) && InstallWcl == YES
+InstallSharedLibrary(Wc,$(SOWCLREV),$(USRLIBDIR))
+#endif
+#endif
+
+NormalLibraryTarget(Wc,$(LIBWC_OBJS))
+
+#if defined(InstallWcl) && InstallWcl == YES
+InstallLibrary(Wc,$(USRLIBDIR))
+#endif
+
+LintLibraryTarget(Wc,$(LIBWC_SRCS))
+
+#ifdef defined(ProfileLibWcl) && ProfileLibWcl == YES
+ProfiledLibraryTarget(Wc,$(LIBWC_OBJS))
+#if defined(InstallWcl) && InstallWcl == YES
+InstallLibrary(Wc_p,$(USRLIBDIR))
+#endif
+#endif
+
+#ifdef defined(DebugLibWcl) && DebugLibWcl == YES
+DebuggedLibraryTarget(Wc,$(LIBWC_OBJS))
+#if defined(InstallWcl) && InstallWcl == YES
+InstallLibrary(Wc_g,$(USRLIBDIR))
+#endif
+#endif
+
+#else
+
+all:
+
+#endif
+
+BuildIncludes($(LIBWC_INCS),Wc,..)
+
+#if defined(InstallWcl) && InstallWcl == YES
+
+MakeDirectories(install, $(INSTALLINCDIR))
+InstallMultipleFlags($(LIBWC_INSTINCS), $(INSTALLINCDIR), $(INSTINCFLAGS))
+
+#else
+
+install::
+	@echo "Wc library will not be installed as InstallWcl not defined"
+
+#endif
+
+depend::                                                 
+	$(DEPEND) -s "# DO NOT DELETE" -- $(ALLDEFINES) -- $(LIBWC_SRCS)

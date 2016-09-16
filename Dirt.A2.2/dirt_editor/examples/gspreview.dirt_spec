@@ -1,0 +1,1149 @@
+%%ID  DIRT! 1.4 (c)1990 rlh2@ukc.ac.uk : UI Specification file
+%%ID  Application = "gspreview"
+%%ID  Created by rlh2 on Mon Dec 16 16:08:45 1991
+%Y reread_file
+%Y previous_page
+%Y next_page
+%Y load_file
+%Y gs_quit
+%Y goto_page
+%Y goto_last
+%Y goto_first
+%Y do_count
+%Y cancel_count
+%Z quit_gsp
+%Z previous_page
+%Z next_page
+%Z load_file
+%Z goto_page
+%Z clear_output
+%Z clear_load_error
+%Z clear_errors
+%Z centre_dialog
+%%%
+%% Ghostscript previewer front-end.
+%% Connects to "gs" via pipes and performs all user control of Ghostscript
+%% engine.
+%A gspreview
+%C GSPreview
+%H Ghostscript previewer GUI
+%R borderWidth : 0
+%R title : GSPreview : A Ghostscript Previewer
+%F
+%%%
+%N mainForm
+%c formWidgetClass
+%p gspreview
+%m true
+%o false
+%s borderWidth : 0
+%f
+%%%
+%N  layoutBox
+%c  boxWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  width : 566
+%s  height : 31
+%s  borderWidth : 0
+%z  bottom : chaintop
+%z  left : chainleft
+%z  top : chaintop
+%z  vertDistance : 0
+%z  horizDistance : 0
+%z  resizable : false
+%z  right : chainright
+%r  hSpace : 4
+%f
+%%%
+%N   fileButton
+%c   ukcCommandWidgetClass
+%p   gspreview.mainForm.layoutBox
+%m   true
+%o   false
+%s   borderWidth : 2
+%s   label : File
+%r   callback : WcPopupCB(*fileDialogShell)
+%r   resize : true
+%f
+%%%
+%N   nextButton
+%c   ukcCommandWidgetClass
+%p   gspreview.mainForm.layoutBox
+%m   true
+%o   false
+%s   borderWidth : 2
+%s   label : Next Page
+%r   callback : next_page()
+%r   resize : true
+%f
+%%%
+%N   prevButton
+%c   ukcCommandWidgetClass
+%p   gspreview.mainForm.layoutBox
+%m   true
+%o   false
+%s   borderWidth : 2
+%s   label : Previous Page
+%r   callback : previous_page()
+%r   resize : true
+%f
+%%%
+%N   gotoButton
+%c   ukcCommandWidgetClass
+%p   gspreview.mainForm.layoutBox
+%m   true
+%o   false
+%s   borderWidth : 2
+%s   label : Go To Page
+%r   callback : WcPopupCB(*pageDialogShell)
+%r   resize : true
+%f
+%%%
+%N   title
+%c   ukcLabelWidgetClass
+%p   gspreview.mainForm.layoutBox
+%m   true
+%o   false
+%s   width : 205
+%s   borderWidth : 0
+%s   font : -Adobe-New Century Schoolbook-Bold-I-Normal--14-140-75-75-P-88-ISO8859-1
+%s   label : Ghostscript Previewer
+%r   overflowRight : true
+%r   justify : left
+%f
+%%%
+%N  quit
+%c  ukcCommandWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  borderWidth : 2
+%s  label : Quit
+%z  fromHoriz : *layoutBox
+%z  bottom : chaintop
+%z  resizable : false
+%z  right : chainright
+%z  top : chaintop
+%z  horizDistance : 8
+%z  left : chainright
+%r  callback : quit_gsp
+%r  resize : true
+%f
+%%%
+%N  outputView
+%c  ukcViewportWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%d  *outputView.vertical.markSize: 0
+%d  *outputView.vertical.thickness: 13
+%d  *outputView.horizontal.markSize: 0
+%d  *outputView.horizontal.thickness: 13
+%s  x : 4
+%s  y : 32
+%s  width : 612
+%s  height : 734
+%s  borderWidth : 1
+%z  fromVert : *layoutBox
+%z  left : chainleft
+%z  right : chainright
+%z  top : chaintop
+%z  vertDistance : 0
+%z  bottom : chainbottom
+%r  allowHoriz : true
+%r  allowVert : true
+%f
+%%%
+%N   psWindow
+%c   simpleWidgetClass
+%p   gspreview.mainForm.outputView
+%m   true
+%o   false
+%s   width : 765
+%s   height : 990
+%r   translations : <Btn1Down>: cancel_count() previous_page()\
+<Btn2Down>: cancel_count() next_page()\
+<KeyPress>f: next_page() cancel_count()\
+<KeyPress>n: next_page() cancel_count()\
+<KeyPress>d: next_page() cancel_count()\
+<KeyPress>space: next_page() cancel_count()\
+<KeyPress>Return: next_page() cancel_count()\
+:<KeyPress>plus: next_page() cancel_count()\
+<KeyPress>b: previous_page() cancel_count()\
+<KeyPress>p: previous_page() cancel_count()\
+<KeyPress>u: previous_page() cancel_count()\
+:<KeyPress>minus: previous_page() cancel_count()\
+:<KeyPress>g: goto_page() cancel_count()\
+:<KeyPress>equal: goto_page() cancel_count()\
+<KeyPress>l: WcPopupACT("*fileDialogShell") cancel_count()\
+<KeyPress>r: reread_file() cancel_count()\
+<KeyPress>e: WcPopupACT("*errorDialogShell") cancel_count()\
+:<KeyPress>o: WcPopupACT("*outputDialogShell") cancel_count()\
+:<KeyPress>O: WcPopupACT("*optionsDialogShell") cancel_count()\
+<KeyPress>q: gs_quit()\
+:<KeyPress>G: goto_last() cancel_count()\
+:<KeyPress>greater: goto_last() cancel_count()\
+:<KeyPress>less: goto_first() cancel_count()\
+:<KeyPress>dollar: goto_last() cancel_count()\
+:<KeyPress>asciicircum: goto_first() cancel_count()\
+:<KeyPress>0: do_count()\
+:<KeyPress>1: do_count()\
+:<KeyPress>2: do_count()\
+:<KeyPress>3: do_count()\
+:<KeyPress>4: do_count()\
+:<KeyPress>5: do_count()\
+:<KeyPress>6: do_count()\
+:<KeyPress>7: do_count()\
+:<KeyPress>8: do_count()\
+:<KeyPress>9: do_count()\
+<KeyPress>: cancel_count()\
+
+%r   borderWidth : 0
+%r   cursor : hand1
+%f
+%%%
+%N  labelForm
+%c  formWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  x : 4
+%s  y : 767
+%s  width : 500
+%s  height : 28
+%s  borderWidth : 0
+%z  fromVert : *outputView
+%z  left : chainleft
+%z  vertDistance : 0
+%z  top : chainright
+%z  right : chainright
+%z  bottom : chainbottom
+%f
+%%%
+%N   pageTitle
+%c   ukcLabelWidgetClass
+%p   gspreview.mainForm.labelForm
+%m   true
+%o   false
+%s   borderWidth : 0
+%s   justify : right
+%s   label : Page: 
+%z   resizable : true
+%z   bottom : chaintop
+%z   left : chainleft
+%z   right : chainleft
+%z   top : chaintop
+%r   resize : true
+%r   verticalJustify : center
+%r   mappedWhenManaged : true
+%f
+%%%
+%N   pageLabel
+%c   ukcLabelWidgetClass
+%p   gspreview.mainForm.labelForm
+%m   true
+%o   false
+%s   borderWidth : 0
+%s   justify : left
+%s   label : ? of ?
+%z   fromHoriz : *pageTitle
+%z   resizable : true
+%z   bottom : chaintop
+%z   right : chainleft
+%z   top : chaintop
+%z   left : chainleft
+%r   resize : true
+%f
+%%%
+%N   filenameLabel
+%c   ukcLabelWidgetClass
+%p   gspreview.mainForm.labelForm
+%m   true
+%o   false
+%s   width : 372
+%s   borderWidth : 0
+%s   label : No Current File
+%z   fromHoriz : *pageLabel
+%z   top : chaintop
+%z   right : chainright
+%z   bottom : chaintop
+%z   left : chainleft
+%z   resizable : false
+%r   justify : left
+%f
+%%%
+%N  optionsButton
+%c  ukcCommandWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  borderWidth : 2
+%s  label : Options
+%z  fromVert : *outputView
+%z  fromHoriz : *labelForm
+%z  right : chainright
+%z  left : chainright
+%z  vertDistance : 4
+%z  top : chainbottom
+%z  bottom : chainbottom
+%z  horizDistance : 20
+%r  callback : WcPopupCB(*optionsDialogShell)
+%r  sensitive : false
+%r  resize : true
+%r  mappedWhenManaged : true
+%f
+%%%
+%N  fileDialogShell
+%c  transientShellWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  borderWidth : 0
+%r  popupCallback : centre_dialog()
+%r  title : GSPreview
+%r  popdownCallback : clear_load_error()
+%f
+%%%
+%N   fileDialogLayout
+%c   formWidgetClass
+%p   gspreview.mainForm.fileDialogShell
+%m   true
+%o   false
+%s   borderWidth : 0
+%f
+%%%
+%N    fileTitle
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    width : 457
+%s    borderWidth : 0
+%s    label : Load A File
+%z    resizable : false
+%z    bottom : chaintop
+%z    right : chainright
+%z    left : chainleft
+%z    top : chaintop
+%r    editable : false
+%f
+%%%
+%N    fileDialogLabel
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    justify : right
+%s    label : Filename:
+%z    fromVert : *fileTitle
+%z    resizable : false
+%z    left : chainleft
+%z    right : chainleft
+%z    top : chaintop
+%r    resize : false
+%f
+%%%
+%N    filenameEntry
+%c    asciiTextWidgetClass
+%p    gspreview.mainForm.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%d    *filenameEntry.textSource.editType: edit
+%s    width : 375
+%s    borderWidth : 1
+%z    fromVert : *fileTitle
+%z    fromHoriz : *fileDialogLabel
+%z    vertDistance : 4
+%z    bottom : rubber
+%z    left : chainleft
+%z    right : chainright
+%z    resizable : true
+%z    top : chaintop
+%r    translations : Ctrl<Key>A: beginning-of-line()\
+Ctrl<Key>B: backward-character()\
+Ctrl<Key>D: delete-next-character()\
+Ctrl<Key>E: end-of-line()\
+Ctrl<Key>F: forward-character()\
+Ctrl<Key>H: delete-previous-character()\
+Ctrl<Key>K: kill-to-end-of-line()\
+Ctrl<Key>L: redraw-display()\
+Ctrl<Key>U: beginning-of-line() kill-to-end-of-line()\
+Ctrl<Key>W: kill-selection()\
+<Key>Right: forward-character()\
+<Key>Left: backward-character()\
+<Key>Delete: delete-previous-character()\
+<Key>BackSpace: delete-previous-character()\
+<Key>Return: WcPopdownACT("*fileDialogShell") load_file()\
+<Key>Linefeed: WcPopdownACT("*fileDialogShell") load_file()\
+<Key>: insert-char()\
+<Btn1Down>: select-start()\
+Button1<Motion>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn2Down>: insert-selection("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<Motion>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%r    resize : both
+%f
+%%%
+%N    fileErrorLabel
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    width : 461
+%s    borderWidth : 0
+%s    justify : center
+%s    label : 
+%z    fromVert : *filenameEntry
+%z    vertDistance : 4
+%z    top : rubber
+%z    right : chainright
+%z    left : chainleft
+%z    bottom : chainbottom
+%z    resizable : false
+%r    overflowRight : false
+%r    resize : false
+%f
+%%%
+%N    fileOkayButton
+%c    ukcCommandWidgetClass
+%p    gspreview.mainForm.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    borderWidth : 2
+%s    resize : false
+%z    fromHoriz : *fileDialogLabel
+%z    top : chainbottom
+%z    bottom : chainbottom
+%z    vertDistance : 4
+%z    fromVert : *fileErrorLabel
+%z    resizable : false
+%z    left : chainleft
+%z    right : chainleft
+%r    callback : WcPopdownCB(*fileDialogShell),load_file()
+%r    label : Load File
+%f
+%%%
+%N    fileCancelButton
+%c    ukcCommandWidgetClass
+%p    gspreview.mainForm.fileDialogShell.fileDialogLayout
+%m    true
+%o    false
+%s    borderWidth : 2
+%s    resize : false
+%s    label : Cancel
+%z    fromHoriz : *fileOkayButton
+%z    vertDistance : 4
+%z    fromVert : *fileErrorLabel
+%z    top : chainbottom
+%z    bottom : chainbottom
+%z    resizable : false
+%z    left : chainleft
+%z    right : chainleft
+%r    callback : WcPopdownCB(*fileDialogShell)
+%r    mappedWhenManaged : true
+%f
+%%%
+%N  pageDialogShell
+%c  transientShellWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  borderWidth : 0
+%r  popupCallback : centre_dialog()
+%r  maxHeight : 93
+%r  maxWidth : 254
+%r  minWidth : 254
+%r  minHeight : 93
+%r  title : GSPreview
+%f
+%%%
+%N   pageDialogLayout
+%c   formWidgetClass
+%p   gspreview.mainForm.pageDialogShell
+%m   true
+%o   false
+%s   borderWidth : 0
+%f
+%%%
+%N    pageDialogTitle
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.pageDialogShell.pageDialogLayout
+%m    true
+%o    false
+%s    width : 247
+%s    borderWidth : 0
+%s    label : Go To Page
+%z    bottom : chaintop
+%z    left : chainleft
+%z    right : chainright
+%z    top : chaintop
+%r    resize : false
+%f
+%%%
+%N    pageDialogLabel
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.pageDialogShell.pageDialogLayout
+%m    true
+%o    false
+%s    width : 111
+%s    borderWidth : 0
+%s    justify : right
+%s    label : Page No:
+%z    bottom : chaintop
+%z    left : chainleft
+%z    top : chaintop
+%z    horizDistance : 0
+%z    vertDistance : 4
+%z    fromVert : *pageDialogTitle
+%r    resize : false
+%r    mappedWhenManaged : true
+%f
+%%%
+%N    pageValue
+%c    ukcValueWidgetClass
+%p    gspreview.mainForm.pageDialogShell.pageDialogLayout
+%m    true
+%o    false
+%s    borderWidth : 0
+%z    bottom : chaintop
+%z    right : chainright
+%z    top : chaintop
+%z    fromHoriz : *pageDialogLabel
+%z    fromVert : *pageDialogTitle
+%z    horizDistance : 25
+%z    vertDistance : 4
+%r    max : 1000
+%r    min : 1
+%r    value : 1
+%r    noBorder : false
+%f
+%%%
+%N    pageOkayButton
+%c    ukcCommandWidgetClass
+%p    gspreview.mainForm.pageDialogShell.pageDialogLayout
+%m    true
+%o    false
+%s    borderWidth : 2
+%s    resize : true
+%z    bottom : chainbottom
+%z    left : chainleft
+%z    top : chaintop
+%z    fromVert : *pageValue
+%z    vertDistance : 10
+%z    horizDistance : 75
+%z    resizable : false
+%r    label : Okay
+%r    callback : WcPopdownCB(*pageDialogShell),goto_page()
+%f
+%%%
+%N    pageCancelButton
+%c    ukcCommandWidgetClass
+%p    gspreview.mainForm.pageDialogShell.pageDialogLayout
+%m    true
+%o    false
+%s    borderWidth : 2
+%s    resize : true
+%s    label : Cancel
+%z    fromVert : *pageValue
+%z    fromHoriz : *pageOkayButton
+%z    vertDistance : 10
+%z    resizable : false
+%z    bottom : chaintop
+%z    horizDistance : 7
+%r    callback : WcPopdownCB(*pageDialogShell)
+%f
+%%%
+%N  optionsDialogShell
+%c  transientShellWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  borderWidth : 0
+%r  popupCallback : centre_dialog()
+%f
+%%%
+%N   optionsForm
+%c   formWidgetClass
+%p   gspreview.mainForm.optionsDialogShell
+%m   true
+%o   false
+%s   borderWidth : 0
+%f
+%%%
+%N    optionsTitle
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    width : 432
+%s    borderWidth : 0
+%s    label : Page Display Options
+%z    resizable : false
+%r    resize : false
+%f
+%%%
+%N    optionsPageSizeLabel
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    label : Page Size:
+%z    fromVert : *optionsTitle
+%z    vertDistance : 10
+%f
+%%%
+%N    optionsA4Size
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : A4
+%z    fromVert : *optionsTitle
+%z    fromHoriz : *optionsPageSizeLabel
+%z    horizDistance : 10
+%z    vertDistance : 10
+%f
+%%%
+%N    optionsA3Size
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : A3
+%z    fromHoriz : *optionsA4Size
+%z    fromVert : *optionsTitle
+%z    horizDistance : 10
+%z    vertDistance : 10
+%r    radioToggle : *optionsA4Size
+%f
+%%%
+%N    optionsOrientationLabel
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    label : Orientation:
+%z    fromVert : *optionsPageSizeLabel
+%z    vertDistance : 10
+%f
+%%%
+%N    optionsPortrait
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : Portrait
+%z    fromVert : *optionsA4Size
+%z    fromHoriz : *optionsOrientationLabel
+%z    horizDistance : 10
+%z    vertDistance : 10
+%r    bitmap : portrait
+%f
+%%%
+%N    optionsLandscape
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : Landscape
+%z    fromVert : *optionsA3Size
+%z    fromHoriz : *optionsPortrait
+%z    horizDistance : 10
+%z    vertDistance : 10
+%r    bitmap : landscape
+%r    radioToggle : *optionsPortrait
+%f
+%%%
+%N    optionsNormal
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : Normal
+%z    fromVert : *optionsOrientationLabel
+%z    fromHoriz : *optionsOrientationLabel
+%z    horizDistance : 10
+%z    vertDistance : 10
+%r    bitmap : None
+%f
+%%%
+%N    optionsNormalBitmap
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    label : 
+%z    fromVert : *optionsLandscape
+%z    vertDistance : 10
+%z    fromHoriz : *optionsNormal
+%r    bitmap : normal
+%f
+%%%
+%N    optionsMirror
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : Mirror
+%z    fromVert : *optionsLandscape
+%z    fromHoriz : *optionsNormalBitmap
+%z    horizDistance : 10
+%z    vertDistance : 10
+%r    bitmap : None
+%r    radioToggle : *optionsNormal
+%f
+%%%
+%N    optionsMirrorBitmap
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    label : 
+%z    fromVert : *optionsLandscape
+%z    vertDistance : 10
+%z    fromHoriz : *optionsMirror
+%r    bitmap : mirror
+%f
+%%%
+%N    optionsFlip
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : Flip
+%z    fromVert : *optionsNormal
+%z    fromHoriz : *optionsOrientationLabel
+%z    horizDistance : 10
+%z    vertDistance : 10
+%r    bitmap : None
+%r    radioToggle : *optionsMirror
+%f
+%%%
+%N    optionsFlipBitmap
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    label : 
+%z    fromVert : *optionsNormalBitmap
+%z    vertDistance : 10
+%z    fromHoriz : *optionsNormal
+%r    bitmap : flip
+%f
+%%%
+%N    optionsRotate
+%c    ukcToggleWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    offBitmap : off_circle
+%s    onBitmap : on_circle
+%s    label : Rotate
+%z    fromVert : *optionsMirror
+%z    fromHoriz : *optionsFlipBitmap
+%z    horizDistance : 10
+%z    vertDistance : 10
+%r    bitmap : None
+%r    radioToggle : *optionsFlip
+%f
+%%%
+%N    optionsRotateBitmap
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    borderWidth : 0
+%s    label : 
+%z    fromVert : *optionsMirrorBitmap
+%z    vertDistance : 10
+%z    fromHoriz : *optionsRotate
+%r    bitmap : rotate
+%f
+%%%
+%N    optionsRCBox
+%c    ukcRowColWidgetClass
+%p    gspreview.mainForm.optionsDialogShell.optionsForm
+%m    true
+%o    false
+%s    width : 425
+%s    borderWidth : 0
+%z    bottom : chainbottom
+%z    left : chainleft
+%z    right : chainright
+%z    top : chainbottom
+%z    vertDistance : 0
+%z    fromVert : *optionsFlipBitmap
+%r    columns : 3
+%f
+%%%
+%N     optionsApplyButton
+%c     ukcCommandWidgetClass
+%p     gspreview.mainForm.optionsDialogShell.optionsForm.optionsRCBox
+%m     true
+%o     false
+%s     borderWidth : 2
+%r     label : Apply
+%r     callback : WcPopdownCB(*optionsDialogShell)
+%r     overflowRight : true
+%r     resize : true
+%f
+%%%
+%N     optionsResetButton
+%c     ukcCommandWidgetClass
+%p     gspreview.mainForm.optionsDialogShell.optionsForm.optionsRCBox
+%m     true
+%o     false
+%s     borderWidth : 2
+%r     label : Reset
+%r     callback : WcPopdownCB(*optionsDialogShell)
+%r     overflowRight : true
+%r     resize : true
+%f
+%%%
+%N     optionsDismiss
+%c     ukcCommandWidgetClass
+%p     gspreview.mainForm.optionsDialogShell.optionsForm.optionsRCBox
+%m     true
+%o     false
+%s     borderWidth : 2
+%r     label : Dismiss
+%r     callback : WcPopdownCB(*optionsDialogShell)
+%r     overflowRight : true
+%r     resize : true
+%f
+%%%
+%N  errorDialogShell
+%c  transientShellWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  borderWidth : 0
+%r  title : GSPreview Errors
+%r  popupCallback : centre_dialog()
+%f
+%%%
+%N   errorDialogLayout
+%c   formWidgetClass
+%p   gspreview.mainForm.errorDialogShell
+%m   true
+%o   false
+%s   borderWidth : 0
+%f
+%%%
+%N    errorDialogTitle
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%s    width : 506
+%s    borderWidth : 0
+%s    label : Errors from Ghostscript Interpreter
+%z    bottom : chaintop
+%z    left : chainleft
+%z    right : chainright
+%z    top : chaintop
+%z    horizDistance : 0
+%r    overflowRight : true
+%r    resize : false
+%f
+%%%
+%N    errorTextLabel
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%s    width : 502
+%s    height : 45
+%s    borderWidth : 0
+%s    label : undefined operand
+%z    fromVert : *errorDialogTitle
+%z    top : chaintop
+%z    right : chainright
+%z    left : chainleft
+%z    bottom : chaintop
+%r    overflowTop : false
+%r    font : -Adobe-New Century Schoolbook-Medium-R-Normal--14-140-75-75-P-82-ISO8859-1
+%r    overflowRight : true
+%f
+%%%
+%N    errorListLabel1
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%s    width : 162
+%s    borderWidth : 0
+%s    overflowRight : true
+%s    label : Operand Stack
+%z    fromVert : *errorTextLabel
+%z    bottom : chaintop
+%z    left : chainleft
+%z    right : rubber
+%z    top : chaintop
+%r    resize : false
+%f
+%%%
+%N    errorListLabel2
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%s    width : 166
+%s    borderWidth : 0
+%s    overflowRight : true
+%s    label : Execution Stack
+%z    fromHoriz : *errorListLabel1
+%z    fromVert : *errorTextLabel
+%z    bottom : chaintop
+%z    right : rubber
+%z    top : chaintop
+%r    resize : false
+%f
+%%%
+%N    errorListLabel3
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%s    width : 166
+%s    borderWidth : 0
+%s    overflowRight : true
+%s    label : Dictionary Stack
+%z    fromHoriz : *errorListLabel2
+%z    fromVert : *errorTextLabel
+%z    bottom : chaintop
+%z    right : chainright
+%z    top : chaintop
+%r    mappedWhenManaged : true
+%r    resize : false
+%f
+%%%
+%N    operandStackList
+%c    ukcScrListWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%d    *operandStackList.vertical.thickness: 13
+%d    *operandStackList.vertical.markSize: 0
+%s    width : 160
+%s    height : 245
+%s    borderWidth : 1
+%z    fromVert : *errorListLabel1
+%z    top : chaintop
+%z    right : rubber
+%z    left : chainleft
+%z    bottom : chainbottom
+%z    horizDistance : 6
+%z    resizable : false
+%r    listAutoScroll : false
+%f
+%%%
+%N    executionStackList
+%c    ukcScrListWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%d    *executionStackList.vertical.thickness: 13
+%d    *executionStackList.vertical.markSize: 0
+%s    width : 160
+%s    height : 245
+%s    borderWidth : 1
+%z    fromHoriz : *operandStackList
+%z    fromVert : *errorListLabel2
+%z    top : chaintop
+%z    bottom : chainbottom
+%z    horizDistance : 6
+%z    resizable : false
+%r    listAutoScroll : false
+%f
+%%%
+%N    dictionaryStackList
+%c    ukcScrListWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%d    *dictionaryStackList.vertical.markSize: 0
+%d    *dictionaryStackList.vertical.thickness: 13
+%s    width : 160
+%s    height : 245
+%s    borderWidth : 1
+%z    fromHoriz : *executionStackList
+%z    fromVert : *errorListLabel3
+%z    top : chaintop
+%z    right : chainright
+%z    bottom : chainbottom
+%z    horizDistance : 6
+%z    resizable : false
+%r    listAutoScroll : false
+%f
+%%%
+%N    errorRCBox
+%c    ukcRowColWidgetClass
+%p    gspreview.mainForm.errorDialogShell.errorDialogLayout
+%m    true
+%o    false
+%s    width : 506
+%s    borderWidth : 0
+%z    fromVert : *executionStackList
+%z    vertDistance : 0
+%z    bottom : chainbottom
+%z    left : chainleft
+%z    right : chainright
+%z    top : chainbottom
+%z    horizDistance : 2
+%z    resizable : false
+%f
+%%%
+%N     errorAcknowledgedButton
+%c     ukcCommandWidgetClass
+%p     gspreview.mainForm.errorDialogShell.errorDialogLayout.errorRCBox
+%m     true
+%o     false
+%s     borderWidth : 2
+%s     resize : false
+%r     label : Acknowledged
+%r     callback : WcPopdownCB(*errorDialogShell),clear_errors()
+%r     overflowRight : true
+%f
+%%%
+%N  outputDialogShell
+%c  transientShellWidgetClass
+%p  gspreview.mainForm
+%m  true
+%o  false
+%s  borderWidth : 0
+%r  title : GSPreview Output
+%r  popupCallback : centre_dialog()
+%f
+%%%
+%N   outputDialogLayout
+%c   formWidgetClass
+%p   gspreview.mainForm.outputDialogShell
+%m   true
+%o   false
+%s   borderWidth : 1
+%f
+%%%
+%N    outputDialogTitle
+%c    ukcLabelWidgetClass
+%p    gspreview.mainForm.outputDialogShell.outputDialogLayout
+%m    true
+%o    false
+%s    width : 509
+%s    borderWidth : 0
+%s    label : Text Output from Ghostscript Interpreter
+%z    bottom : chaintop
+%z    left : chainleft
+%z    right : chainright
+%z    top : chaintop
+%z    horizDistance : 2
+%r    overflowRight : true
+%r    resize : false
+%f
+%%%
+%N    outputViewport
+%c    ukcViewportWidgetClass
+%p    gspreview.mainForm.outputDialogShell.outputDialogLayout
+%m    true
+%o    false
+%d    *outputViewport.horizontal.thickness: 13
+%d    *outputViewport.horizontal.markSize: 0
+%d    *outputViewport.vertical.thickness: 13
+%d    *outputViewport.vertical.markSize: 0
+%s    x : 4
+%s    y : 29
+%s    width : 504
+%s    height : 185
+%s    borderWidth : 1
+%s    allowHoriz : true
+%s    allowVert : true
+%s    vertAutoScroll : true
+%z    fromVert : *outputDialogTitle
+%z    bottom : chainbottom
+%z    left : chainleft
+%z    right : chainright
+%z    top : chaintop
+%z    vertDistance : 0
+%f
+%%%
+%N     outputText
+%c     asciiTextWidgetClass
+%p     gspreview.mainForm.outputDialogShell.outputDialogLayout.outputViewport
+%m     true
+%o     false
+%d     *outputText.textSource.editType: edit
+%s     width : 504
+%s     height : 185
+%s     borderWidth : 0
+%z     vertDistance : 4
+%r     resize : both
+%r     translations : <FocusIn>: display-caret("true")\
+<FocusOut>: display-caret("false")\
+<Btn1Down>: select-start()\
+Button1<MotionNotify>: extend-adjust()\
+<Btn1Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+<Btn3Down>: extend-start()\
+Button3<MotionNotify>: extend-adjust()\
+<Btn3Up>: extend-end("PRIMARY", "CUT_BUFFER0")\
+
+%f
+%%%
+%N    outputRCBox
+%c    ukcRowColWidgetClass
+%p    gspreview.mainForm.outputDialogShell.outputDialogLayout
+%m    true
+%o    false
+%s    width : 503
+%s    borderWidth : 0
+%z    fromVert : *outputViewport
+%z    bottom : chainbottom
+%z    left : chainleft
+%z    right : chainright
+%z    top : chainbottom
+%z    vertDistance : 0
+%f
+%%%
+%N     outputAcknowledgedButton
+%c     ukcCommandWidgetClass
+%p     gspreview.mainForm.outputDialogShell.outputDialogLayout.outputRCBox
+%m     true
+%o     false
+%s     borderWidth : 2
+%r     label : Acknowledged
+%r     callback : WcPopdownCB(*outputDialogShell),clear_output()
+%r     overflowRight : true
+%r     resize : true
+%f

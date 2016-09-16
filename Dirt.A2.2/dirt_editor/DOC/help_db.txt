@@ -1,0 +1,57 @@
+
+		Adding Entries to Dirt On-line Help Database
+
+The Dirt help database is basically an X Resource Manager database that is
+looked up whenever on-line help is required from within Dirt, see
+./Dirt/dirt_editor/help.c for its use.  It contains three main areas of
+entries; Resource Type Definitions, Widget Class Definitions and Resource
+Definitions.
+
+Resource Type Definitions:
+	Are of the form "type`ResourceTypeName`" and give a brief description
+	of this resource type and what values it can be set to, e.g.:
+	  "typeBoolean:  A Boolean can only have two values, TRUE or FALSE."
+
+Widget Class Definitions:
+	Are a full description of the Widget Class itself.  This description
+	is split into three parts: "fullName", "vendor" and "description".
+	For example, the Athena AsciiSink Object Class has the following help
+	entries:
+
+	  asciiSinkObjectClass.fullName: Ascii Sink Object
+	  asciiSinkObjectClass.vendor: Project Athena / MIT
+	  asciiSinkObjectClass.description: The AsciiSink object is used by a
+	  text widget to render the text.  It will display all Latin1 Characters
+	  in an 8 bit font, Tab and Carriage Return.  The name may be a bit
+	  misleading, but is left this way for compatibility.  This object
+	  also reports the text window metrics to the text widgets.
+
+	The prefix "asciiSinkObjectClass" *must* be the same as the
+	"class_name" entry in the widget classes table in
+	./Dirt/dirt_editor/widget_classes.c
+
+	The description must be a single resource database entry therefore
+	any newline characters that you wish to include in the description
+	should be given as "\n\".
+
+Resource Definitions:
+	Are a full description of what an individual resource does in a
+	particular widget/object class.  Due to the inheritance of superclass
+	resources by subclasses only those resources defined in a particular
+	class need to be entered in this database.  The entries are given as
+	"widgetClassName"."resourceName", e.g.:
+
+	  boxWidgetClass.hSpace: The amount of space, in pixels, to leave
+	  between the children.  This resource specifies the amount of space
+	  left between the outermost children and the edge of the box.
+
+	The help system searches for resource description entries in a
+	subclass to superclass order.  Therefore it is possible to override a
+	superclasses definition of a resource using the subclass name
+	as this will be searched for first, e.g.:
+
+		"boxWidgetClass.background: a colour that represents ..."
+
+	will override:
+
+		"widgetClass.background: A pixel value which indexes ..."
